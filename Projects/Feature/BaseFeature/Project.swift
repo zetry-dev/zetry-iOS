@@ -8,7 +8,7 @@ let project = Project.module(
         .interface(module: .feature(.BaseFeature), dependencies: [
         ]),
         .implements(module: .feature(.BaseFeature), product: .framework, dependencies: [
-            //            .SPM.Lottie,
+            .SPM.TCA,
             .feature(target: .BaseFeature, type: .interface),
             .userInterface(target: .DesignSystem),
             .shared(target: .GlobalThirdPartyLibrary)

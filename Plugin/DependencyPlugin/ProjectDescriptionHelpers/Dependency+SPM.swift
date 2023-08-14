@@ -5,7 +5,7 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.SPM {
-//    static let Lottie = TargetDependency.external(name: "Lottie")
+    static let TCA = TargetDependency.external(name: "ComposableArchitecture")
 }
 
 public extension Package {
