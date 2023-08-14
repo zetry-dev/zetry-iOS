@@ -30,6 +30,9 @@ let targets: [Target] = [
         resources: ["Resources/**"],
         scripts: scripts,
         dependencies: [
+            .feature(target: .RootFeature),
+            .feature(target: .LaunchScreenFeature),
+            .feature(target: .MainTabFeature)
         ],
         settings: .settings(base: env.baseSetting)
     )
