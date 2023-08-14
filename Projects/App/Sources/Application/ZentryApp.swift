@@ -4,6 +4,10 @@ import SwiftUI
 @main
 struct ZentryApp: App {
     var body: some Scene {
-        WindowGroup {}
+        WindowGroup {
+            RootView(store: .init(initialState: RootReducer.State(), reducer: {
+                RootReducer()
+            }))
+        }
     }
 }
