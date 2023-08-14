@@ -14,11 +14,9 @@ public struct RootReducer: Reducer {
     public init() {}
 
     public struct State: Equatable {
-        var launchScreen: LaunchScreenReducer.State?
-        
-        public init() {
-            launchScreen = LaunchScreenReducer.State()
-        }
+        var launchScreen: LaunchScreenReducer.State = .init()
+
+        public init() {}
     }
 
     public enum Action: Equatable {
@@ -33,8 +31,8 @@ public struct RootReducer: Reducer {
                 return .none
             }
         }
-        .ifLet(\.launchScreen, action: /Action.launchScreen) {
+        Scope(state: \.launchScreen, action: /Action.launchScreen, child: {
             LaunchScreenReducer()
-        }
+        })
     }
 }
