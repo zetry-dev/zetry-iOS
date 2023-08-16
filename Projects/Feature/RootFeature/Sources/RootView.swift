@@ -7,6 +7,8 @@
 //
 
 import ComposableArchitecture
+import LaunchScreenFeature
+import MainTabFeature
 import SwiftUI
 
 public struct RootView: View {
@@ -17,9 +19,17 @@ public struct RootView: View {
     }
 
     public var body: some View {
-        WithViewStore(self.store, observe: { $0 }) { _ in
-            VStack {
-                Text("hi")
+        SwitchStore(self.store) { state in
+            switch state {
+            case .launchScreen:
+                CaseLet(/RootReducer.State.launchScreen,
+                        action: RootReducer.Action.launchScreen,
+                        then: LaunchScreenView.init)
+
+            case .mainTab:
+                CaseLet(/RootReducer.State.mainTab,
+                        action: RootReducer.Action.mainTab,
+                        then: MainTabView.init)
             }
         }
     }

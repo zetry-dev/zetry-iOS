@@ -1,5 +1,5 @@
 //
-//  MainTabReducerView.swift
+//  MainTabView.swift
 //  MainTabFeature
 //
 //  Created by AllieKim on 2023/08/14.
@@ -9,7 +9,7 @@
 import ComposableArchitecture
 import SwiftUI
 
-public struct MainTabReducerView: View {
+public struct MainTabView: View {
     public let store: StoreOf<MainTabReducer>
 
     public init(store: StoreOf<MainTabReducer>) {
@@ -18,7 +18,9 @@ public struct MainTabReducerView: View {
 
     public var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
-            
+            VStack {
+                Text("main tab")
+            }
         }
     }
 }

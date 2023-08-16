@@ -9,30 +9,41 @@
 import ComposableArchitecture
 import Foundation
 import LaunchScreenFeature
+import MainTabFeature
 
 public struct RootReducer: Reducer {
     public init() {}
 
-    public struct State: Equatable {
-        var launchScreen: LaunchScreenReducer.State = .init()
+    public enum State: Equatable {
+        case launchScreen(LaunchScreenReducer.State)
+        case mainTab(MainTabReducer.State)
 
-        public init() {}
+        public init() {
+            self = .launchScreen(.init())
+//            self = .mainTab(.init())
+        }
     }
 
     public enum Action: Equatable {
         case launchScreen(LaunchScreenReducer.Action)
+        case mainTab(MainTabReducer.Action)
     }
 
     public var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case .launchScreen:
-                state.launchScreen = .init()
+            case .launchScreen(.onDisappear):
+                state = .mainTab(.init())
+                return .none
+            default:
                 return .none
             }
         }
-        Scope(state: \.launchScreen, action: /Action.launchScreen, child: {
+        .ifCaseLet(/State.mainTab, action: /Action.mainTab) {
+            MainTabReducer()
+        }
+        .ifCaseLet(/State.launchScreen, action: /Action.launchScreen) {
             LaunchScreenReducer()
-        })
+        }
     }
 }

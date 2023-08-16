@@ -9,13 +9,21 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct LaunchScreenView: View {
+public struct LaunchScreenView: View {
     var store: StoreOf<LaunchScreenReducer>
+    public init(store: StoreOf<LaunchScreenReducer>) {
+        self.store = store
+    }
 
-    var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
-            Text("Zetry")
-                .foregroundColor(.green)
+    public var body: some View {
+        WithViewStore(store) { $0 } content: { viewStore in
+            VStack {
+                Text("Zetry")
+                    .foregroundColor(.green)
+            }
+            .onAppear {
+                viewStore.send(.onAppear)
+            }
         }
     }
 }
