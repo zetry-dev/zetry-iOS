@@ -32,7 +32,11 @@ let targets: [Target] = [
         dependencies: [
             .feature(target: .RootFeature),
             .feature(target: .LaunchScreenFeature),
-            .feature(target: .MainTabFeature)
+            .feature(target: .MainTabFeature),
+            .feature(target: .HomeFeature),
+            .feature(target: .CategoryFeature),
+            .feature(target: .LivingFeature),
+            .feature(target: .SearchFeature)
         ],
         settings: .settings(base: env.baseSetting)
     )
