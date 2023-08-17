@@ -31,6 +31,7 @@ public struct RootReducer: Reducer {
 
     public var body: some Reducer<State, Action> {
         Reduce { state, action in
+            // Core logic for parent feature
             switch action {
             case .launchScreen(.onDisappear):
                 state = .mainTab(.init())
