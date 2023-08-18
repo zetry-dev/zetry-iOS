@@ -21,8 +21,6 @@ public struct HomeView: View {
             VStack {
                 Text("홈")
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.blue)
         }
     }
 }

@@ -21,8 +21,6 @@ public struct CategoryView: View {
             VStack {
                 Text("카테고리")
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.yellow)
         }
     }
 }

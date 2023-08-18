@@ -21,8 +21,6 @@ public struct LivingView: View {
             VStack {
                 Text("생활정보")
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.green)
         }
     }
 }

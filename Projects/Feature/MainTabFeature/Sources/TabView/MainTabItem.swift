@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zentry. All rights reserved.
 //
 
+import DesignSystem
 import Foundation
 
 public enum MainTabItem {
