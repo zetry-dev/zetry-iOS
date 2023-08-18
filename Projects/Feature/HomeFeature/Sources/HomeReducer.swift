@@ -17,7 +17,7 @@ public struct HomeReducer: Reducer {
 
     public enum Action: Equatable {}
 
-    public var body: Reduce<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { _, action in
             switch action {
             default: return .none

@@ -31,7 +31,7 @@ public struct MainTabReducer: Reducer {
         case living(LivingReducer.Action)
     }
 
-    public var body: some Reducer<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .tabSelected(let tab):

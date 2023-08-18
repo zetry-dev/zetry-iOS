@@ -29,7 +29,7 @@ public struct LaunchScreenReducer: Reducer {
 
     enum CancelID { case onAppear }
 
-    public var body: some Reducer<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { _, action in
             switch action {
             case .onAppear:

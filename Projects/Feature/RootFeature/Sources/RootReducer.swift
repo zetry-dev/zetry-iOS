@@ -29,7 +29,7 @@ public struct RootReducer: Reducer {
         case mainTab(MainTabReducer.Action)
     }
 
-    public var body: some Reducer<State, Action> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             // Core logic for parent feature
             switch action {
