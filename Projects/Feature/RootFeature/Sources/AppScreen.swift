@@ -14,12 +14,12 @@ import TCACoordinators
 public struct AppScreen: Reducer {
     public enum State: Equatable {
         case launch(LaunchScreenStore.State)
-        case mainTab(MainTabCore.State)
+        case mainTab(MainTabStore.State)
     }
 
     public enum Action {
         case launch(LaunchScreenStore.Action)
-        case mainTab(MainTabCore.Action)
+        case mainTab(MainTabStore.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -27,7 +27,7 @@ public struct AppScreen: Reducer {
             LaunchScreenStore()
         }
         Scope(state: /State.mainTab, action: /Action.mainTab) {
-            MainTabCore()
+            MainTabStore()
         }
     }
 }

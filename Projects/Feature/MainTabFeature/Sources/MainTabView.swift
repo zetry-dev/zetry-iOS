@@ -13,9 +13,9 @@ import LivingFeature
 import SwiftUI
 
 public struct MainTabView: View {
-    public let store: StoreOf<MainTabCore>
+    public let store: StoreOf<MainTabStore>
 
-    public init(store: StoreOf<MainTabCore>) {
+    public init(store: StoreOf<MainTabStore>) {
         self.store = store
     }
 
@@ -27,33 +27,48 @@ public struct MainTabView: View {
     func tabView() -> some View {
         WithViewStore(self.store, observe: \.selectedTab) { viewStore in
             VStack {
-//                TabView(selection: viewStore.binding(send: MainTabCore.Action.tabSelected)) {
-//                    HomeView(
-//                        store: self.store.scope(
-//                            state: \.home,
-//                            action: MainTabCore.Action.home
-//                        )
-//                    )
-//                    .tag(MainTabItem.home)
-//
-//                    CategoryView(
-//                        store: self.store.scope(
-//                            state: \.category,
-//                            action: MainTabCore.Action.category
-//                        )
-//                    )
-//                    .tag(MainTabItem.category)
-//
-//                    LivingView(
-//                        store: self.store.scope(
-//                            state: \.living,
-//                            action: MainTabCore.Action.living
-//                        )
-//                    )
-//                    .tag(MainTabItem.living)
-//                }
+                TabView(selection: viewStore.binding(send: MainTabStore.Action.tabSelected)) {
+                    HomeCoordinatorView(
+                        store: self.store.scope(
+                            state: \.home,
+                            action: MainTabStore.Action.home
+                        )
+                    )
+                    .tabItem {
+                        VStack {
+                            Image(systemName: MainTabItem.home.icon)
+                        }
+                    }
+                    .tag(MainTabItem.home)
 
-                ZenTabView(viewStore: viewStore)
+                    CategoryCoordinatorView(
+                        store: self.store.scope(
+                            state: \.category,
+                            action: MainTabStore.Action.category
+                        )
+                    )
+                    .tabItem {
+                        VStack {
+                            Image(systemName: MainTabItem.category.icon)
+                        }
+                    }
+                    .tag(MainTabItem.category)
+
+                    LivingCoordinatorView(
+                        store: self.store.scope(
+                            state: \.living,
+                            action: MainTabStore.Action.living
+                        )
+                    )
+                    .tabItem {
+                        VStack {
+                            Image(systemName: MainTabItem.living.icon)
+                        }
+                    }
+                    .tag(MainTabItem.living)
+                }
+
+                ZenTabView(selectedTab: viewStore.binding(send: MainTabStore.Action.tabSelected))
             }
         }
     }

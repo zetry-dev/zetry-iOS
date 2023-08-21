@@ -10,11 +10,11 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct TabItemView: View {
-    private var selection: ViewStore<MainTabItem, MainTabCore.Action>
+    @Binding private var selection: MainTabItem
     private var tab: MainTabItem
 
-    public init(selection: ViewStore<MainTabItem, MainTabCore.Action>, tab: MainTabItem) {
-        self.selection = selection
+    public init(selection: Binding<MainTabItem>, tab: MainTabItem) {
+        self._selection = selection
         self.tab = tab
     }
 
@@ -22,12 +22,13 @@ public struct TabItemView: View {
         VStack(spacing: 4) {
             Image(systemName: tab.icon)
                 .renderingMode(.template)
-                .foregroundColor(selection.state == tab ? Color.black : Color.gray)
+                .foregroundColor(selection == tab ? Color.black : Color.gray)
             Text(tab.description)
-                .foregroundColor(selection.state == tab ? Color.black : Color.gray)
+                .foregroundColor(selection == tab ? Color.black : Color.gray)
         }
         .onTapGesture {
-            selection.send(.tabSelected(tab))
+            selection = tab
+//            selection.send(.tabSelected(tab))
         }
         .frame(maxWidth: .infinity)
     }
