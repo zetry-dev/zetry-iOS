@@ -5,6 +5,7 @@ let dependencies = Dependencies(
     carthage: nil,
     swiftPackageManager: SwiftPackageManagerDependencies(
         [
+            .remote(url: "https://github.com/johnpatrickmorgan/TCACoordinators.git", requirement: .exact("0.6.0")),
             .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .exact("1.1.0")),
         ],
         baseSettings: .settings(

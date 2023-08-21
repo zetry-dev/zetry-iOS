@@ -5,6 +5,7 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.SPM {
+    static let TCACoordinator = TargetDependency.external(name: "TCACoordinators")
     static let TCA = TargetDependency.external(name: "ComposableArchitecture")
 }
 
