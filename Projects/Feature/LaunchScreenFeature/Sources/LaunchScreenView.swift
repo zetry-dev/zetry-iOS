@@ -10,8 +10,9 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct LaunchScreenView: View {
-    var store: StoreOf<LaunchScreenReducer>
-    public init(store: StoreOf<LaunchScreenReducer>) {
+    private var store: StoreOf<LaunchScreenStore>
+
+    public init(store: StoreOf<LaunchScreenStore>) {
         self.store = store
     }
 
@@ -26,6 +27,7 @@ public struct LaunchScreenView: View {
                 viewStore.send(.onAppear)
             }
         }
+        .navigationBarHidden(true)
     }
 }
 
@@ -33,9 +35,9 @@ struct LaunchScreenView_Previews: PreviewProvider {
     static var previews: some View {
         LaunchScreenView(
             store: .init(
-                initialState: LaunchScreenReducer.State(),
+                initialState: LaunchScreenStore.State(),
                 reducer: {
-                    LaunchScreenReducer()
+                    LaunchScreenStore()
                 }))
     }
 }

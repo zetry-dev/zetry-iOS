@@ -1,5 +1,5 @@
 //
-//  HomeReducer.swift
+//  HomeStore.swift
 //  HomeFeature
 //
 //  Created by AllieKim on 2023/08/17.
@@ -8,7 +8,7 @@
 
 import ComposableArchitecture
 
-public struct HomeReducer: Reducer {
+public struct HomeStore: Reducer {
     public init() {}
 
     public struct State: Equatable {
