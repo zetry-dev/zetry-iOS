@@ -10,16 +10,18 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct LivingView: View {
-    public let store: StoreOf<LivingReducer>
+    public let store: StoreOf<LivingStore>
 
-    public init(store: StoreOf<LivingReducer>) {
+    public init(store: StoreOf<LivingStore>) {
         self.store = store
     }
 
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { _ in
-            VStack {
-                Text("생활정보")
+            ScrollView {
+                ForEach(0 ... 50, id: \.self) { _ in
+                    Text("생활정보")
+                }
             }
         }
     }

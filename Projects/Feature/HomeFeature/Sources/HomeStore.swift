@@ -15,7 +15,9 @@ public struct HomeStore: Reducer {
         public init() {}
     }
 
-    public enum Action: Equatable {}
+    public enum Action: Equatable {
+        case onAppear
+    }
 
     public var body: some ReducerOf<Self> {
         Reduce { _, action in

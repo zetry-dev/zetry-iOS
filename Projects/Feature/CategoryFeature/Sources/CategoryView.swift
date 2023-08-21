@@ -10,9 +10,9 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct CategoryView: View {
-    public let store: StoreOf<CategoryReducer>
+    public let store: StoreOf<CategoryStore>
 
-    public init(store: StoreOf<CategoryReducer>) {
+    public init(store: StoreOf<CategoryStore>) {
         self.store = store
     }
 

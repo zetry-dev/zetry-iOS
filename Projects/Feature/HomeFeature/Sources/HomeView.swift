@@ -1,32 +1,33 @@
-////
-////  HomeView.swift
-////  HomeFeature
-////
-////  Created by AllieKim on 2023/08/17.
-////  Copyright © 2023 com.zentry. All rights reserved.
-////
 //
-//import ComposableArchitecture
-//import SwiftUI
-//import TCACoordinators
+//  HomeView.swift
+//  HomeFeature
 //
-//public struct HomeView: View {
-//    public let store: StoreOf<HomeCoordinator>
+//  Created by AllieKim on 2023/08/17.
+//  Copyright © 2023 com.zentry. All rights reserved.
 //
-//    public init(store: StoreOf<HomeCoordinator>) {
-//        self.store = store
-//    }
+
+import ComposableArchitecture
+import SwiftUI
+import TCACoordinators
+
+public struct HomeView: View {
+    public let store: StoreOf<HomeStore>
+
+    public init(store: StoreOf<HomeStore>) {
+        self.store = store
+    }
+
+    public var body: some View {
+        WithViewStore(self.store) { $0 } content: { _ in
+            VStack {
+                Text("홈")
+            }
+        }
+    }
+}
+
 //
-//    public var body: some View {
-//        WithViewStore(self.store) { $0 } content: { _ in
-//            VStack {
-//                Text("홈")
-//            }
-//        }
-//    }
-//}
-//
-//public struct HomeCoordinator: Reducer {
+// public struct HomeCoordinator: Reducer {
 //    public struct State: Equatable, IndexedRouterState {
 //        public static let initialState = State(
 //            routes: [.root(.home(.init()), embedInNavigationView: true)]
@@ -73,4 +74,4 @@
 ////            AppScreen()
 //        }
 //    }
-//}
+// }
