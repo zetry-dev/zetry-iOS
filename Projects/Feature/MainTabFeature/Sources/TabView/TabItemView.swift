@@ -10,10 +10,10 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct TabItemView: View {
-    private var selection: ViewStore<MainTabItem, MainTabReducer.Action>
+    private var selection: ViewStore<MainTabItem, MainTabCore.Action>
     private var tab: MainTabItem
 
-    public init(selection: ViewStore<MainTabItem, MainTabReducer.Action>, tab: MainTabItem) {
+    public init(selection: ViewStore<MainTabItem, MainTabCore.Action>, tab: MainTabItem) {
         self.selection = selection
         self.tab = tab
     }

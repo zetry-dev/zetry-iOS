@@ -1,5 +1,5 @@
 //
-//  MainTabReducer.swift
+//  MainTabCore.swift
 //  MainTabFeature
 //
 //  Created by AllieKim on 2023/08/14.
@@ -11,13 +11,13 @@ import ComposableArchitecture
 import HomeFeature
 import LivingFeature
 
-public struct MainTabReducer: Reducer {
+public struct MainTabCore: Reducer {
     public init() {}
 
     public struct State: Equatable {
         public var selectedTab: MainTabItem = .home
 
-        public var home: HomeReducer.State = .init()
+        public var home: HomeStore.State = .init()
         public var category: CategoryReducer.State = .init()
         public var living: LivingReducer.State = .init()
 
@@ -26,7 +26,7 @@ public struct MainTabReducer: Reducer {
 
     public enum Action: Equatable {
         case tabSelected(MainTabItem)
-        case home(HomeReducer.Action)
+        case home(HomeStore.Action)
         case category(CategoryReducer.Action)
         case living(LivingReducer.Action)
     }
@@ -44,7 +44,7 @@ public struct MainTabReducer: Reducer {
         }
 
         Scope(state: \.home, action: /Action.home, child: {
-            HomeReducer()._printChanges()
+            HomeStore()._printChanges()
         })
 
         Scope(state: \.category, action: /Action.category, child: {

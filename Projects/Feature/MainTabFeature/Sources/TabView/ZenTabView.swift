@@ -10,9 +10,9 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct ZenTabView: View {
-    private var viewStore: ViewStore<MainTabItem, MainTabReducer.Action>
+    private var viewStore: ViewStore<MainTabItem, MainTabCore.Action>
 
-    public init(viewStore: ViewStore<MainTabItem, MainTabReducer.Action>) {
+    public init(viewStore: ViewStore<MainTabItem, MainTabCore.Action>) {
         self.viewStore = viewStore
     }
 
