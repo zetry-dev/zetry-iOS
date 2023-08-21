@@ -1,16 +1,26 @@
 import RootFeature
 import SwiftUI
+import TCACoordinators
 
 @main
 struct ZentryApp: App {
     var body: some Scene {
         WindowGroup {
-            RootView(
+            AppCoordinatorView(
                 store: .init(
-                    initialState: RootReducer.State(),
-                    reducer: { RootReducer()._printChanges() }
+                    initialState: AppCoordinator.State(),
+                    reducer: {
+                        AppCoordinator()
+                    }
                 )
             )
+
+//            RootView(
+//                store: .init(
+//                    initialState: RootReducer.State(),
+//                    reducer: { RootReducer()._printChanges() }
+//                )
+//            )
         }
     }
 }
