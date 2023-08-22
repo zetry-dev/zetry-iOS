@@ -22,7 +22,7 @@ public struct SearchView: View {
         WithViewStore(self.store) { $0 } content: { _ in
             VStack(spacing: 0) {
                 searchableNavigationView()
-                ScrollView(showsIndicators: false) {
+                ScrollView(.vertical, showsIndicators: false) {
                     HStack {
                         Text("추천 검색어")
                             .fontStyle(.subtitle3)
@@ -34,7 +34,18 @@ public struct SearchView: View {
                                 .fontStyle(.label2, foregroundColor: .grayScale(.gray7))
                         }
                     }
-                    .padding(.top, 14)
+                    .padding(.top, 20)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0 ..< 10, id: \.self) { _ in
+                                Button("종이컵", action: {})
+                                    .buttonStyle(.capsule)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                    }
+
                     HStack {
                         Text("이웃들이 많이 찾아봤어요")
                             .fontStyle(.subtitle3)
@@ -42,7 +53,17 @@ public struct SearchView: View {
                         Text("2023.08.08 오후 7시 업데이트")
                             .fontStyle(.label4, foregroundColor: .grayScale(.gray7))
                     }
-                    .padding(.top, 14)
+                    .padding(.top, 18)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0 ..< 10, id: \.self) { _ in
+                                Button("종이컵", action: {})
+                                    .buttonStyle(.capsule)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                    }
                 }
                 .padding(.horizontal, 18)
             }
