@@ -145,7 +145,6 @@ public extension Target {
             )
             $0.dependencies = spec.dependencies
             $0.infoPlist = spec.infoPlist ?? .extendingDefault(with: [
-                "UIMainStoryboardFile": "",
                 "UILaunchStoryboardName": "LaunchScreen",
                 "ENABLE_TESTS": .boolean(true),
             ])
@@ -156,8 +155,7 @@ public extension Target {
     static func demo(module: ModulePaths, dependencies: [TargetDependency] = []) -> Target {
         TargetSpec(
             infoPlist: .extendingDefault(with: [
-                //                "UIMainStoryboardFile": "",
-//                "UILaunchStoryboardName": "LaunchScreen",
+                "UILaunchStoryboardName": "LaunchScreen",
                 "ENABLE_TESTS": .boolean(true),
             ]),
             sources: .demoSources,
