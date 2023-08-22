@@ -1,9 +1,23 @@
+import DependencyPlugin
 import ProjectDescription
 import ProjectDescriptionHelpers
-import DependencyPlugin
 
-let project = Project.makeModule(
+let project = Project.module(
     name: ModulePaths.UserInterface.DesignSystem.rawValue,
-    product: .framework,
-    targets: [.demo]
+    targets: [
+        .implements(
+            module: .userInterface(.DesignSystem),
+            product: .framework,
+            spec: .init(
+                resources: ["Resources/**"],
+                dependencies: [
+                    .shared(target: .GlobalThirdPartyLibrary)
+                ]
+            )
+        ),
+        .demo(module: .userInterface(.DesignSystem), dependencies: [
+            .userInterface(target: .DesignSystem)
+        ])
+    ],
+    resourceSynthesizers: .default
 )
