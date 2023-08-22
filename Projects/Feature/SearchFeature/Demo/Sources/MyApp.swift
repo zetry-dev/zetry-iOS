@@ -1,3 +1,4 @@
+import SearchFeature
 import SwiftUI
 
 @main
@@ -11,13 +12,13 @@ struct MyApp: App {
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        SearchView(store: .init(
+            initialState: SearchStore.State(),
+            reducer: {
+                SearchStore()
+            }
+        )
+        )
     }
 }
 
