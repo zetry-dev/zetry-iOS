@@ -71,7 +71,7 @@ public struct SearchView: View {
                         to: self.$focusedField
                     )
                     .onSubmit {
-                        // TODO: 검색 액션
+                        viewStore.send(.search)
                     }
                 }
             }
