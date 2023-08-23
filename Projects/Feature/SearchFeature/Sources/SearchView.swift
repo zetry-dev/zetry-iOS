@@ -19,85 +19,183 @@ public struct SearchView: View {
     }
 
     public var body: some View {
-        WithViewStore(self.store) { $0 } content: { _ in
-            VStack(spacing: 0) {
-                searchableNavigationView()
-                ScrollView(.vertical, showsIndicators: false) {
-                    HStack {
-                        Text("추천 검색어")
-                            .fontStyle(.subtitle3)
-                        Spacer()
-                        Button {
-                            // TODO: 삭제 액션
-                        } label: {
-                            Text("전체삭제")
-                                .fontStyle(.label2, foregroundColor: .grayScale(.gray7))
-                        }
-                    }
-                    .padding(.top, 20)
-
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(0 ..< 10, id: \.self) { _ in
-                                Button("종이컵", action: {})
-                                    .buttonStyle(.capsule)
-                            }
-                        }
-                        .padding(.vertical, 8)
-                    }
-
-                    HStack {
-                        Text("이웃들이 많이 찾아봤어요")
-                            .fontStyle(.subtitle3)
-                        Spacer()
-                        Text("2023.08.08 오후 7시 업데이트")
-                            .fontStyle(.label4, foregroundColor: .grayScale(.gray7))
-                    }
-                    .padding(.top, 18)
-
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(0 ..< 10, id: \.self) { _ in
-                                Button("종이컵", action: {})
-                                    .buttonStyle(.capsule)
-                            }
-                        }
-                        .padding(.vertical, 8)
-                    }
+        WithViewStore(self.store) { $0 } content: { viewStore in
+            VStack(alignment: .leading, spacing: 0) {
+                searchableNavigationView(viewStore)
+                ScrollView(showsIndicators: false) {
+                    recentSearchView(viewStore)
+                    recommendSearchView(viewStore)
+                    topKeywordsView(viewStore)
                 }
-                .padding(.horizontal, 18)
             }
         }
     }
+}
 
+extension SearchView {
     @MainActor
     @ViewBuilder
-    func searchableNavigationView() -> some View {
-        WithViewStore(self.store) { $0 } content: { viewStore in
-            VStack(alignment: .leading) {
-                HStack(spacing: 2) {
-                    ZentryIcon(DesignSystemAsset.Icons.chevronLeft)
-                        .padding(9)
-                        .foregroundColor(.zentry(.grayScale(.gray12)))
-                    SearchableTextField(
-                        viewStore.$query,
-                        prompt: "분리수거 방법이 궁금한 쓰레기를 검색해보세요.",
-                        focused: $focusedField
-                    )
-                    .bind(
-                        viewStore.binding(
-                            get: \.focusedField,
-                            send: SearchStore.Action.binding(.set(\.$focusedField, focusedField))
-                        ),
-                        to: self.$focusedField
-                    )
-                    .onSubmit {
-                        viewStore.send(.search)
-                    }
+    private func searchableNavigationView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+        VStack(alignment: .leading) {
+            HStack(spacing: 2) {
+                ZentryIcon(DesignSystemAsset.Icons.chevronLeft)
+                    .padding(9)
+                    .foregroundColor(.zentry(.grayScale(.gray12)))
+                SearchableTextField(
+                    viewStore.$query,
+                    prompt: "분리수거 방법이 궁금한 쓰레기를 검색해보세요.",
+                    focused: $focusedField
+                )
+                .bind(
+                    viewStore.binding(
+                        get: \.focusedField,
+                        send: SearchStore.Action.binding(.set(\.$focusedField, focusedField))
+                    ),
+                    to: self.$focusedField
+                )
+                .onSubmit {
+                    viewStore.send(.search)
                 }
             }
-            .padding(.leading, 9)
-            .padding(.trailing, 18)
+        }
+        .padding(.leading, 9)
+        .padding(.trailing, 18)
+    }
+
+    @ViewBuilder
+    private func recentSearchView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+        if !viewStore.recentKeywords.isEmpty {
+            HStack {
+                Text("최근 검색어")
+                    .fontStyle(.subtitle3)
+                Spacer()
+                Button {
+                    viewStore.send(.removeAllQueries)
+                } label: {
+                    Text("전체삭제")
+                        .fontStyle(.label2, foregroundColor: .grayScale(.gray7))
+                }
+            }
+            .padding(.top, 20)
+            .padding(.horizontal, 18)
+
+            scrollableQueryView(viewStore, canDelete: true)
+        }
+    }
+
+    @ViewBuilder
+    private func recommendSearchView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+        HStack {
+            Text("추천 검색어")
+                .fontStyle(.subtitle3)
+            Spacer()
+        }
+        .padding(.top, 18)
+        .padding(.horizontal, 18)
+
+        scrollableQueryView(viewStore, canDelete: false)
+    }
+
+    @ViewBuilder
+    private func topKeywordsView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("이웃들이 많이 찾아봤어요")
+                    .fontStyle(.subtitle3)
+                Spacer()
+                Text(viewStore.state.updatedTimeStamp)
+                    .fontStyle(.label4, foregroundColor: .grayScale(.gray7))
+            }
+
+            let topKeywords = viewStore.state.topKeywords
+            HStack {
+                VStack(alignment: .leading) {
+                    ForEach(0 ... 4, id: \.self) { index in
+                        if 0 ... 2 ~= index {
+                            topKeywordView(topKeywords[index], index: index)
+                                .onTapGesture {
+                                    viewStore.send(.didTapQuery(topKeywords[index]))
+                                }
+                        } else {
+                            keywordView(topKeywords[index], index: index)
+                                .onTapGesture {
+                                    viewStore.send(.didTapQuery(topKeywords[index]))
+                                }
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                VStack(alignment: .leading) {
+                    ForEach(5 ... 9, id: \.self) { index in
+                        keywordView(topKeywords[index], index: index)
+                            .onTapGesture {
+                                viewStore.send(.didTapQuery(topKeywords[index]))
+                            }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.top, 16)
+        }
+        .padding(.top, 18)
+        .padding(.horizontal, 18)
+    }
+
+    @ViewBuilder
+    private func topKeywordView(_ keyword: String, index: Int) -> some View {
+        HStack(spacing: 14) {
+            Text("\(index + 1)")
+                .fontStyle(.body1, foregroundColor: .primary(.primary))
+            Text(keyword)
+                .fontStyle(.body2)
+            Spacer()
+        }
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
+    }
+
+    @ViewBuilder
+    private func keywordView(_ keyword: String, index: Int) -> some View {
+        HStack(spacing: 14) {
+            Text("\(index + 1)")
+                .fontStyle(.body1)
+            Text(keyword)
+                .fontStyle(.body2)
+            Spacer()
+        }
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
+    }
+
+    @ViewBuilder
+    private func scrollableQueryView(_ viewStore: ViewStoreOf<SearchStore>, canDelete: Bool) -> some View {
+        let keywords = canDelete ? viewStore.recentKeywords : viewStore.recommendedKeywords
+
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 7) {
+                ForEach(keywords.indices, id: \.self) { index in
+                    Button {
+                        viewStore.send(.didTapQuery(keywords[index]))
+                    } label: {
+                        HStack(spacing: 0) {
+                            Text(keywords[index])
+                            if canDelete {
+                                ZentryIcon(DesignSystemAsset.Icons.xmark, foregroundColor: .grayScale(.gray6))
+                                    .onTapGesture {
+                                        viewStore.send(.removeQuery(index))
+                                    }
+                            }
+                        }
+                        .padding(.vertical, 6)
+                        .padding(.leading, 12)
+                        .padding(.trailing, canDelete ? 5 : 12)
+                    }
+                    .buttonStyle(.capsule)
+                    .padding(.leading, index == 0 ? 16 : 0)
+                }
+            }
+            .padding(.vertical, 8)
         }
     }
 }

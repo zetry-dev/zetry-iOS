@@ -14,8 +14,14 @@ public struct SearchStore: Reducer {
     public struct State: Equatable {
         @BindingState var query: String = ""
         @BindingState var focusedField: Bool = false
-        var keywords: [String] = []
+        // TODO: - UserDefaults 적용
+        var recentKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
+        var recommendedKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
+        var topKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
+        var relatedkeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
         var searchResults: [String] = []
+
+        var updatedTimeStamp: String = "2023.08.08 오후 7시 업데이트"
 
         public init() {}
     }
@@ -23,7 +29,10 @@ public struct SearchStore: Reducer {
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case search
+        case didTapQuery(String)
         case searchKeywords
+        case removeQuery(Int)
+        case removeAllQueries
 //        case dataLoaded(TaskResult<Model>)
     }
 
@@ -47,7 +56,7 @@ public struct SearchStore: Reducer {
                     return .none
                 }
             case .search:
-                print("query :: \(state.query)")
+                debugPrint("query :: \(state.query)")
                 return .none
 //                return .run { [query = state.query] send in
 //                    let result = await TaskResult {
@@ -56,7 +65,18 @@ public struct SearchStore: Reducer {
 //                    await send(.dataLoaded(result))
 //                }
             case .searchKeywords:
-                print("keywords :: \(state.query)")
+                debugPrint("keywords :: \(state.query)")
+                return .none
+            case .didTapQuery(let query):
+                state.query = query
+                return .send(.search)
+            case .removeQuery(let index):
+                // TODO: - UserDefaults 적용
+                state.recentKeywords.remove(at: index)
+                return .none
+            case .removeAllQueries:
+                // TODO: - UserDefaults 적용
+                state.recentKeywords = []
                 return .none
             default: return .none
             }
