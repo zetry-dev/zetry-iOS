@@ -8,23 +8,22 @@
 
 import SwiftUI
 
-public struct CapsuleButtonStyle: PrimitiveButtonStyle {
+public struct CapsuleButtonStyle: ButtonStyle {
     public init() {}
 
     public func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
             .fontStyle(.label2)
             .overlay {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.zentry(.grayScale(.gray2)), lineWidth: 1)
             }
+            .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
     }
 }
 
-public extension PrimitiveButtonStyle where Self == CapsuleButtonStyle {
+public extension ButtonStyle where Self == CapsuleButtonStyle {
     static var capsule: CapsuleButtonStyle {
         self.init()
     }
