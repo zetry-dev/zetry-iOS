@@ -22,10 +22,18 @@ public struct SearchView: View {
         WithViewStore(self.store) { $0 } content: { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 searchableNavigationView(viewStore)
-                ScrollView(showsIndicators: false) {
-                    recentSearchView(viewStore)
-                    recommendSearchView(viewStore)
-                    topKeywordsView(viewStore)
+                if viewStore.state.query.isEmpty {
+                    ScrollView(showsIndicators: false) {
+                        recentSearchView(viewStore)
+                        recommendSearchView(viewStore)
+                        topKeywordsView(viewStore)
+                    }
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        relatedKeywordView(viewStore)
+                    }
+                    .padding(.leading, 15)
+                    .padding(.trailing, 20)
                 }
             }
         }
@@ -53,6 +61,11 @@ extension SearchView {
                     ),
                     to: self.$focusedField
                 )
+                .onChange(of: viewStore.query, perform: {
+                    if $0.isEmpty {
+                        viewStore.send(.removeRelatedKeywords)
+                    }
+                })
                 .onSubmit {
                     viewStore.send(.search)
                 }
@@ -151,8 +164,8 @@ extension SearchView {
                 .fontStyle(.body2)
             Spacer()
         }
-        .padding(.vertical, 10)
         .contentShape(Rectangle())
+        .padding(.vertical, 10)
     }
 
     @ViewBuilder
@@ -164,8 +177,8 @@ extension SearchView {
                 .fontStyle(.body2)
             Spacer()
         }
-        .padding(.vertical, 10)
         .contentShape(Rectangle())
+        .padding(.vertical, 10)
     }
 
     @ViewBuilder
@@ -196,6 +209,23 @@ extension SearchView {
                 }
             }
             .padding(.vertical, 8)
+        }
+    }
+
+    @ViewBuilder
+    private func relatedKeywordView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+        ForEach(viewStore.state.relatedKeywords, id: \.self) { keyword in
+            HStack(spacing: 9) {
+                ZentryIcon(DesignSystemAsset.Icons.magnifyingglassSizeSmaller, foregroundColor: .grayScale(.gray6))
+                Text(keyword)
+                    .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
+                Spacer()
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                viewStore.send(.didTapQuery(keyword))
+            }
+            .padding(.top, 14)
         }
     }
 }
