@@ -67,8 +67,6 @@ public struct MainTabView: View {
                     }
                     .tag(MainTabItem.living)
                 }
-
-                ZenTabView(selectedTab: viewStore.binding(send: MainTabStore.Action.tabSelected))
             }
         }
     }

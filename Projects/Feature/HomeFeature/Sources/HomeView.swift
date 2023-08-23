@@ -18,8 +18,11 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-        WithViewStore(self.store) { $0 } content: { _ in
+        WithViewStore(self.store) { $0 } content: { viewStore in
             VStack {
+                Button("검색하기") {
+                    viewStore.send(.routeToSearch)
+                }
                 Text("홈")
             }
         }

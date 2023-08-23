@@ -7,13 +7,14 @@
 //
 
 import ComposableArchitecture
+import SearchFeature
 import SwiftUI
 import TCACoordinators
 
 public struct HomeCoordinatorView: View {
-    private let store: Store<HomeCoordinator.State, HomeCoordinator.Action>
+    private let store: StoreOf<HomeCoordinator>
 
-    public init(store: Store<HomeCoordinator.State, HomeCoordinator.Action>) {
+    public init(store: StoreOf<HomeCoordinator>) {
         self.store = store
     }
 
@@ -25,7 +26,13 @@ public struct HomeCoordinatorView: View {
                     CaseLet(
                         /HomeScreen.State.home,
                         action: HomeScreen.Action.home,
-                         then: HomeView.init
+                        then: HomeView.init
+                    )
+                case .search:
+                    CaseLet(
+                        /HomeScreen.State.search,
+                        action: HomeScreen.Action.search,
+                        then: SearchView.init
                     )
                 }
             }

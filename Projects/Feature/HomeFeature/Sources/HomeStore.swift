@@ -17,6 +17,7 @@ public struct HomeStore: Reducer {
 
     public enum Action: Equatable {
         case onAppear
+        case routeToSearch
     }
 
     public var body: some ReducerOf<Self> {

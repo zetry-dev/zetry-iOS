@@ -6,7 +6,6 @@
 //  Copyright © 2023 com.zentry. All rights reserved.
 //
 
-import Combine
 import ComposableArchitecture
 import TCACoordinators
 
@@ -27,6 +26,16 @@ public struct HomeCoordinator: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
+        Reduce { state, action in
+            switch action {
+            case .routeAction(_, action: .home(.routeToSearch)):
+                state.routes.push(.search(.init()))
+                return .none
+            default: return .none
+            }
+        }
+        .forEachRoute {
+            HomeScreen()
+        }
     }
 }
