@@ -175,6 +175,7 @@ public extension Project {
                     bundleId: "\(env.organizationName).\(name)DemoApp",
                     deploymentTarget: env.deploymentTarget,
                     infoPlist: .extendingDefault(with: [
+                        "UIUserInterfaceStyle": "Light",
                         "UIMainStoryboardFile": "",
                         "UILaunchStoryboardName": "LaunchScreen",
                         "ENABLE_TESTS": .boolean(true)
