@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zentry. All rights reserved.
 //
 
+import BaseFeature
 import ComposableArchitecture
 
 public struct SearchStore: Reducer {
@@ -14,8 +15,7 @@ public struct SearchStore: Reducer {
     public struct State: Equatable {
         @BindingState var query: String = ""
         @BindingState var focusedField: Bool = false
-        // TODO: - UserDefaults 적용
-        var recentKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
+        var recentKeywords: [String]
         var recommendedKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
         var topKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
         var relatedKeywords: [String] = []
@@ -23,7 +23,9 @@ public struct SearchStore: Reducer {
 
         var updatedTimeStamp: String = "2023.08.08 오후 7시 업데이트"
 
-        public init() {}
+        public init() {
+            recentKeywords = UserDefaultsManager.recentKeywords
+        }
     }
 
     public enum Action: BindableAction, Equatable {
@@ -34,6 +36,7 @@ public struct SearchStore: Reducer {
         case removeQuery(Int)
         case removeAllQueries
         case removeRelatedKeywords
+        case addRecentKeyword
         case pop
 //        case dataLoaded(TaskResult<Model>)
     }
@@ -59,7 +62,11 @@ public struct SearchStore: Reducer {
                 }
             case .search:
                 debugPrint("query :: \(state.query)")
-                return .send(.removeRelatedKeywords)
+                return .run { send in
+                    await send(.removeRelatedKeywords)
+                    await send(.addRecentKeyword)
+                }
+//                return .send(.removeRelatedKeywords)
 //                return .run { [query = state.query] send in
 //                    let result = await TaskResult {
 //                        try await client.search(query)
@@ -75,18 +82,38 @@ public struct SearchStore: Reducer {
                 state.query = query
                 return .send(.search)
             case .removeQuery(let index):
-                // TODO: - UserDefaults 적용
+                UserDefaultsManager.recentKeywords.remove(at: index)
                 state.recentKeywords.remove(at: index)
                 return .none
             case .removeAllQueries:
-                // TODO: - UserDefaults 적용
+                UserDefaultsManager.recentKeywords = []
                 state.recentKeywords = []
                 return .none
             case .removeRelatedKeywords:
                 state.relatedKeywords = []
                 return .none
+            case .addRecentKeyword:
+                let trimmedQuery = state.query.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !trimmedQuery.isEmpty else {
+                    return .none
+                }
+                UserDefaultsManager.recentKeywords.prepend(trimmedQuery)
+                state.recentKeywords.prepend(trimmedQuery)
+                if UserDefaultsManager.recentKeywords.count > 20 {
+                    UserDefaultsManager.recentKeywords.removeLast()
+                    state.recentKeywords.removeLast()
+                }
+                return .none
             default: return .none
             }
+        }
+    }
+}
+
+extension Array {
+    mutating func prepend(_ newElement: some Any) {
+        if let element = newElement as? Element {
+            insert(element, at: 0)
         }
     }
 }

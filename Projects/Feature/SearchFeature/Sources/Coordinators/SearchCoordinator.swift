@@ -22,6 +22,14 @@ public struct SearchCoordinator: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
+        Reduce { _, action in
+            switch action {
+            default:
+                return .none
+            }
+        }
+        .forEachRoute {
+            SearchScreen()
+        }
     }
 }
