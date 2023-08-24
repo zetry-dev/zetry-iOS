@@ -39,24 +39,12 @@ public struct AppCoordinator: Reducer {
             case .routeAction(_, action: .launch(.onDisappear)):
                 state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
                 return .none
-//            case let .routeAction(_, action: .mainTab(.tabSelected(tab))):
-//                switch tab {
-//                case .home:
-//                    return .send(.routeAction(0, action: .mainTab(.home(.routeAction(0, action: .home(.onAppear))))))
-//                case .category:
-//                    return .send(.routeAction(0, action: .mainTab(.category(.routeAction(0, action: .category(.onAppear))))))
-//                case .living:
-//                    return .send(.routeAction(0, action: .mainTab(.living(.routeAction(0, action: .living(.onAppear))))))
-//                }
-//            case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.onAppear))))):
-//                return .none
-//            case .routeAction(_, action: .mainTab(.category(.routeAction(_, action: .category(.onAppear))))):
-//                return .none
-//            case .routeAction(_, action: .mainTab(.living(.routeAction(_, action: .living(.onAppear))))):
-//                return .none
             default:
                 return .none
             }
+        }
+        .forEachRoute {
+            AppScreen()
         }
     }
 }

@@ -11,9 +11,9 @@ import SwiftUI
 import TCACoordinators
 
 public struct CategoryCoordinatorView: View {
-    private let store: Store<CategoryCoordinator.State, CategoryCoordinator.Action>
+    private let store: StoreOf<CategoryCoordinator>
 
-    public init(store: Store<CategoryCoordinator.State, CategoryCoordinator.Action>) {
+    public init(store: StoreOf<CategoryCoordinator>) {
         self.store = store
     }
 

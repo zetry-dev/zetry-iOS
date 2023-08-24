@@ -11,9 +11,9 @@ import SwiftUI
 import TCACoordinators
 
 public struct SearchCoordinatorView: View {
-    private let store: Store<SearchCoordinator.State, SearchCoordinator.Action>
+    private let store: StoreOf<SearchCoordinator>
 
-    public init(store: Store<SearchCoordinator.State, SearchCoordinator.Action>) {
+    public init(store: StoreOf<SearchCoordinator>) {
         self.store = store
     }
 

@@ -14,13 +14,6 @@ struct ZentryApp: App {
                     }
                 )
             )
-
-//            RootView(
-//                store: .init(
-//                    initialState: RootReducer.State(),
-//                    reducer: { RootReducer()._printChanges() }
-//                )
-//            )
         }
     }
 }

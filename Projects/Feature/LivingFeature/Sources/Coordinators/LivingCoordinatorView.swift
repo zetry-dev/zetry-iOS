@@ -11,9 +11,9 @@ import SwiftUI
 import TCACoordinators
 
 public struct LivingCoordinatorView: View {
-    private let store: Store<LivingCoordinator.State, LivingCoordinator.Action>
+    private let store: StoreOf<LivingCoordinator>
 
-    public init(store: Store<LivingCoordinator.State, LivingCoordinator.Action>) {
+    public init(store: StoreOf<LivingCoordinator>) {
         self.store = store
     }
 
