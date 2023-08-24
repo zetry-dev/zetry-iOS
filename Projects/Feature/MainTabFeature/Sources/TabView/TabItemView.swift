@@ -28,7 +28,6 @@ public struct TabItemView: View {
         }
         .onTapGesture {
             selection = tab
-//            selection.send(.tabSelected(tab))
         }
         .frame(maxWidth: .infinity)
     }
