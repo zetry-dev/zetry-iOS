@@ -76,7 +76,12 @@ public struct SearchStore: Reducer {
             case .searchKeywords:
                 debugPrint("keywords :: \(state.query)")
                 // TODO: - 데이터 가져오기
-                state.relatedKeywords = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
+                state.relatedKeywords = [
+                    "종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭",
+                    "모니터", "보조배터리", "커튼", "컵라면 용기", "종이컵",
+                    "비닐", "유리컵", "우산", "의자", "종이컵", "비닐", "유리컵",
+                    "우산", "의자", "종이컵", "비닐", "유리컵", "우산", "의자"
+                ]
                 return .none
             case .didTapQuery(let query):
                 state.query = query

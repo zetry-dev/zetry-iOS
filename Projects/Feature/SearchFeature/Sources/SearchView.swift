@@ -22,18 +22,16 @@ public struct SearchView: View {
         WithViewStore(self.store) { $0 } content: { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 searchableNavigationView(viewStore)
-                if viewStore.state.query.isEmpty {
-                    ScrollView(showsIndicators: false) {
+                ScrollView {
+                    if viewStore.state.query.isEmpty {
                         recentSearchView(viewStore)
                         recommendSearchView(viewStore)
                         topKeywordsView(viewStore)
-                    }
-                } else {
-                    ScrollView {
+                    } else {
                         relatedKeywordView(viewStore)
+                            .padding(.leading, 15)
+                            .padding(.trailing, 20)
                     }
-                    .padding(.leading, 15)
-                    .padding(.trailing, 20)
                 }
             }
         }
@@ -141,7 +139,6 @@ extension SearchView {
                         }
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
 
                 VStack(alignment: .leading) {
                     ForEach(5 ... 9, id: \.self) { index in
@@ -151,7 +148,6 @@ extension SearchView {
                             }
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.top, 16)
         }
