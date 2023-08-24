@@ -14,6 +14,9 @@ struct ZentryApp: App {
                     }
                 )
             )
+            .onAppear {
+                UIApplication.shared.addTapGestureRecognizer()
+            }
         }
     }
 }
