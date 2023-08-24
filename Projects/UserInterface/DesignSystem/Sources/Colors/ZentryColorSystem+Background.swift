@@ -20,4 +20,10 @@ public extension Color.ZentryColorSystem.Background {
         default: return .white
         }
     }
+
+    var uiColor: UIColor {
+        switch self {
+        default: return .white
+        }
+    }
 }

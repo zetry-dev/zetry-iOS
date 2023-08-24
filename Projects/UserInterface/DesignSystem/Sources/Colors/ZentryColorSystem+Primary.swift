@@ -20,4 +20,10 @@ public extension Color.ZentryColorSystem.Primary {
         case .primary: return DesignSystemAsset.System.primary.swiftUIColor
         }
     }
+
+    var uiColor: UIColor {
+        switch self {
+        case .primary: return DesignSystemAsset.System.primary.color
+        }
+    }
 }

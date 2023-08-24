@@ -10,6 +10,7 @@ import SwiftUI
 
 protocol ZentryColorable {
     var color: Color { get }
+    var uiColor: UIColor { get }
 }
 
 public extension Color {
@@ -27,6 +28,16 @@ public extension Color {
              let .grayScale(colorable as ZentryColorable),
              let .background(colorable as ZentryColorable):
             return colorable.color
+        }
+    }
+
+    static func zentry(_ style: ZentryColorSystem) -> UIColor {
+        switch style {
+        case let .primary(colorable as ZentryColorable),
+             let .secondary(colorable as ZentryColorable),
+             let .grayScale(colorable as ZentryColorable),
+             let .background(colorable as ZentryColorable):
+            return colorable.uiColor
         }
     }
 }
