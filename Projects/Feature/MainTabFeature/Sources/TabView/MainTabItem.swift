@@ -21,7 +21,7 @@ public enum MainTabItem {
         case .category:
             return "카테고리"
         case .living:
-            return "생활 정보"
+            return "생활정보"
         }
     }
 

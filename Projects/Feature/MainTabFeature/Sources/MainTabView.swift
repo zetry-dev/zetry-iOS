@@ -36,6 +36,8 @@ public struct MainTabView: View {
                 .tabItem {
                     VStack {
                         Image(systemName: MainTabItem.home.icon)
+                        Text(MainTabItem.home.description)
+                            .fontStyle(.label4)
                     }
                 }
                 .tag(MainTabItem.home)
@@ -49,6 +51,8 @@ public struct MainTabView: View {
                 .tabItem {
                     VStack {
                         Image(systemName: MainTabItem.category.icon)
+                        Text(MainTabItem.category.description)
+                            .fontStyle(.label4)
                     }
                 }
                 .tag(MainTabItem.category)
@@ -62,6 +66,8 @@ public struct MainTabView: View {
                 .tabItem {
                     VStack {
                         Image(systemName: MainTabItem.living.icon)
+                        Text(MainTabItem.living.description)
+                            .fontStyle(.label4)
                     }
                 }
                 .tag(MainTabItem.living)

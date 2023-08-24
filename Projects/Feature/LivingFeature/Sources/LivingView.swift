@@ -18,11 +18,7 @@ public struct LivingView: View {
 
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { _ in
-            ScrollView {
-                ForEach(0 ... 50, id: \.self) { _ in
-                    Text("생활정보")
-                }
-            }
+            Text("생활정보")
         }
     }
 }
