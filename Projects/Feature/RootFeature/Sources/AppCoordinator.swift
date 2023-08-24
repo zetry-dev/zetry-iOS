@@ -7,6 +7,7 @@
 //
 
 import ComposableArchitecture
+import HomeFeature
 import LaunchScreenFeature
 import TCACoordinators
 
@@ -38,6 +39,12 @@ public struct AppCoordinator: Reducer {
                 .debounce(id: CancelID.onAppear, for: .seconds(2), scheduler: UIScheduler.shared)
             case .routeAction(_, action: .launch(.onDisappear)):
                 state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
+                return .none
+            case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToSearch))))):
+                state.routes.push(.search(.init()))
+                return .none
+            case .routeAction(_, action: .search(.pop)):
+                state.routes.pop()
                 return .none
             default:
                 return .none

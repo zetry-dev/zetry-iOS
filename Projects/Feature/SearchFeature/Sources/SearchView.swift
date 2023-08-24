@@ -37,7 +37,6 @@ public struct SearchView: View {
                 }
             }
         }
-        .toolbar(.hidden, for: .tabBar)
         .toolbar(.hidden, for: .navigationBar)
     }
 }
@@ -51,6 +50,9 @@ extension SearchView {
                 ZentryIcon(DesignSystemAsset.Icons.chevronLeft)
                     .padding(9)
                     .foregroundColor(.zentry(.grayScale(.gray12)))
+                    .onTapGesture {
+                        viewStore.send(.pop)
+                    }
                 SearchableTextField(
                     viewStore.$query,
                     prompt: "분리수거 방법이 궁금한 쓰레기를 검색해보세요.",

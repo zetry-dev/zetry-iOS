@@ -9,17 +9,20 @@
 import ComposableArchitecture
 import LaunchScreenFeature
 import MainTabFeature
+import SearchFeature
 import TCACoordinators
 
 public struct AppScreen: Reducer {
     public enum State: Equatable {
         case launch(LaunchScreenStore.State)
         case mainTab(MainTabStore.State)
+        case search(SearchStore.State)
     }
 
     public enum Action {
         case launch(LaunchScreenStore.Action)
         case mainTab(MainTabStore.Action)
+        case search(SearchStore.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -28,6 +31,9 @@ public struct AppScreen: Reducer {
         }
         Scope(state: /State.mainTab, action: /Action.mainTab) {
             MainTabStore()
+        }
+        Scope(state: /State.search, action: /Action.search) {
+            SearchStore()
         }
     }
 }

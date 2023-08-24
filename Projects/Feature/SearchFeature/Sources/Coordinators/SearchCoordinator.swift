@@ -14,10 +14,6 @@ public struct SearchCoordinator: Reducer {
 
     public struct State: Equatable, IndexedRouterState {
         public var routes: [Route<SearchScreen.State>]
-
-        public init(routes: [Route<SearchScreen.State>] = [.root(.search(.init()), embedInNavigationView: true)]) {
-            self.routes = routes
-        }
     }
 
     public enum Action: IndexedRouterAction {

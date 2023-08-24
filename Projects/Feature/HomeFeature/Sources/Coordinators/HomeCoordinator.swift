@@ -26,12 +26,10 @@ public struct HomeCoordinator: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
-            case .routeAction(_, action: .home(.routeToSearch)):
-                state.routes.push(.search(.init()))
+            default:
                 return .none
-            default: return .none
             }
         }
         .forEachRoute {

@@ -9,6 +9,7 @@
 import ComposableArchitecture
 import LaunchScreenFeature
 import MainTabFeature
+import SearchFeature
 import SwiftUI
 import TCACoordinators
 
@@ -34,6 +35,12 @@ public struct AppCoordinatorView: View {
                         /AppScreen.State.mainTab,
                         action: AppScreen.Action.mainTab,
                         then: MainTabView.init
+                    )
+                case .search:
+                    CaseLet(
+                        /AppScreen.State.search,
+                        action: AppScreen.Action.search,
+                        then: SearchView.init
                     )
                 }
             }

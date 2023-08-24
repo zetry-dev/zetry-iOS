@@ -34,6 +34,7 @@ public struct SearchStore: Reducer {
         case removeQuery(Int)
         case removeAllQueries
         case removeRelatedKeywords
+        case pop
 //        case dataLoaded(TaskResult<Model>)
     }
 
