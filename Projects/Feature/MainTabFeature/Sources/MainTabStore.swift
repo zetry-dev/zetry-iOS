@@ -37,13 +37,6 @@ public struct MainTabStore: Reducer {
             case .tabSelected(let tab):
                 state.selectedTab = tab
                 return .none
-//                if tab == .home {
-//                    return Effect.send(.home(.routeAction(0, action: .home(.onAppear))))
-//                } else if tab == .category {
-//                    return Effect.send(.category(.routeAction(0, action: .category(.onAppear))))
-//                } else {
-//                    return Effect.send(.living(.routeAction(0, action: .living(.onAppear))))
-//                }
             default:
                 return .none
             }

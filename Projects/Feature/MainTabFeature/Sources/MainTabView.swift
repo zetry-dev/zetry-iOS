@@ -27,7 +27,7 @@ public struct MainTabView: View {
     func tabView() -> some View {
         WithViewStore(self.store, observe: \.selectedTab) { viewStore in
             VStack {
-                TabView(selection: viewStore.binding(send: MainTabStore.Action.tabSelected)) {
+                TabView(selection: viewStore.binding(send: { MainTabStore.Action.tabSelected($0) })) {
                     HomeCoordinatorView(
                         store: self.store.scope(
                             state: \.home,
