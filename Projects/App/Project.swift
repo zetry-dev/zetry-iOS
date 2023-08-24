@@ -30,6 +30,7 @@ let targets: [Target] = [
         resources: ["Resources/**"],
         scripts: scripts,
         dependencies: [
+            .core(target: .CoreKit),
             .feature(target: .RootFeature),
             .feature(target: .LaunchScreenFeature),
             .feature(target: .MainTabFeature),

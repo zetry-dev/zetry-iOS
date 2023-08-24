@@ -2,8 +2,12 @@ import DependencyPlugin
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.makeModule(
+let project = Project.module(
     name: ModulePaths.Core.CoreKit.rawValue,
-    product: .framework,
-    targets: []
+    targets: [
+        .interface(module: .core(.CoreKit), dependencies: [
+        ]),
+        .implements(module: .core(.CoreKit), dependencies: [
+        ])
+    ]
 )

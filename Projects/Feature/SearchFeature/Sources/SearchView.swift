@@ -29,7 +29,7 @@ public struct SearchView: View {
                         topKeywordsView(viewStore)
                     }
                 } else {
-                    ScrollView(showsIndicators: false) {
+                    ScrollView {
                         relatedKeywordView(viewStore)
                     }
                     .padding(.leading, 15)

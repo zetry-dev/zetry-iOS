@@ -1,6 +1,6 @@
 //
 //  UserDefaultsManager.swift
-//  BaseFeature
+//  CoreKit
 //
 //  Created by AllieKim on 2023/08/24.
 //  Copyright © 2023 com.zentry. All rights reserved.

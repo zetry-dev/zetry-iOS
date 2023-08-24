@@ -6,8 +6,8 @@
 //  Copyright © 2023 com.zentry. All rights reserved.
 //
 
-import BaseFeature
 import ComposableArchitecture
+import CoreKit
 
 public struct SearchStore: Reducer {
     public init() {}
@@ -106,14 +106,6 @@ public struct SearchStore: Reducer {
                 return .none
             default: return .none
             }
-        }
-    }
-}
-
-extension Array {
-    mutating func prepend(_ newElement: some Any) {
-        if let element = newElement as? Element {
-            insert(element, at: 0)
         }
     }
 }
