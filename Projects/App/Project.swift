@@ -27,10 +27,13 @@ let targets: [Target] = [
         deploymentTarget: env.deploymentTarget,
         infoPlist: .file(path: "Support/Info.plist"),
         sources: ["Sources/**"],
-        resources: ["Resources/**"],
+        resources: ["Resources/**", "Support/GoogleService-Info.plist"],
         scripts: scripts,
         dependencies: [
+            .SPM.FirebaseAnalytics,
             .core(target: .CoreKit),
+            .domain(target: .BaseDomain),
+//            .domain(target: )
             .feature(target: .RootFeature),
             .feature(target: .LaunchScreenFeature),
             .feature(target: .MainTabFeature),
