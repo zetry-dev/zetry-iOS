@@ -25,14 +25,14 @@ public enum MainTabItem {
         }
     }
 
-    var icon: String {
+    var icon: DesignSystemImages {
         switch self {
         case .home:
-            return "house"
+            return DesignSystemAsset.Icons.houseFill
         case .category:
-            return "menucard"
+            return DesignSystemAsset.Icons.line3Horizontal
         case .living:
-            return "mug"
+            return DesignSystemAsset.Icons.ipad
         }
     }
 }

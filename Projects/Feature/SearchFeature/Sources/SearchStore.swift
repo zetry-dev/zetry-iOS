@@ -20,7 +20,6 @@ public struct SearchStore: Reducer {
         var topKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
         var relatedKeywords: [String] = []
         var searchResults: [String] = []
-
         var updatedTimeStamp: String = "2023.08.08 오후 7시 업데이트"
 
         public init() {

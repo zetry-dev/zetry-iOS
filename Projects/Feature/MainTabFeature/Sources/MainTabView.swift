@@ -8,6 +8,7 @@
 
 import CategoryFeature
 import ComposableArchitecture
+import DesignSystem
 import HomeFeature
 import LivingFeature
 import SwiftUI
@@ -35,7 +36,7 @@ public struct MainTabView: View {
                 )
                 .tabItem {
                     VStack {
-                        Image(systemName: MainTabItem.home.icon)
+                        ZetryIcon(MainTabItem.home.icon)
                         Text(MainTabItem.home.description)
                             .fontStyle(.label4)
                     }
@@ -50,7 +51,7 @@ public struct MainTabView: View {
                 )
                 .tabItem {
                     VStack {
-                        Image(systemName: MainTabItem.category.icon)
+                        ZetryIcon(MainTabItem.category.icon)
                         Text(MainTabItem.category.description)
                             .fontStyle(.label4)
                     }
@@ -65,7 +66,7 @@ public struct MainTabView: View {
                 )
                 .tabItem {
                     VStack {
-                        Image(systemName: MainTabItem.living.icon)
+                        ZetryIcon(MainTabItem.living.icon)
                         Text(MainTabItem.living.description)
                             .fontStyle(.label4)
                     }

@@ -9,22 +9,22 @@
 import ComposableArchitecture
 import SwiftUI
 
-public struct ZenTabView: View {
-    @Binding private var selectedTab: MainTabItem
-
-    public init(selectedTab: Binding<MainTabItem>) {
-        self._selectedTab = selectedTab
-    }
-
-    public var body: some View {
-        HStack {
-            TabItemView(selection: $selectedTab, tab: .home)
-            TabItemView(selection: $selectedTab, tab: .category)
-            TabItemView(selection: $selectedTab, tab: .living)
-        }
-        .frame(maxHeight: 64, alignment: .center)
-        .overlay(alignment: .top) {
-            Color.gray.frame(height: 1, alignment: .top)
-        }
-    }
-}
+//public struct ZenTabView: View {
+//    @Binding private var selectedTab: MainTabItem
+//
+//    public init(selectedTab: Binding<MainTabItem>) {
+//        self._selectedTab = selectedTab
+//    }
+//
+//    public var body: some View {
+//        HStack {
+//            TabItemView(selection: $selectedTab, tab: .home)
+//            TabItemView(selection: $selectedTab, tab: .category)
+//            TabItemView(selection: $selectedTab, tab: .living)
+//        }
+//        .frame(maxHeight: 64, alignment: .center)
+//        .overlay(alignment: .top) {
+//            Color.gray.frame(height: 1, alignment: .top)
+//        }
+//    }
+//}
