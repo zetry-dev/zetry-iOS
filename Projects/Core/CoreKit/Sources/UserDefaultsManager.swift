@@ -3,7 +3,7 @@
 //  CoreKit
 //
 //  Created by AllieKim on 2023/08/24.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import Foundation
@@ -22,7 +22,7 @@ public struct UserDefault<T> {
     public init(
         key: String,
         defaultValue: T,
-        storage: UserDefaults = .init(suiteName: "com.userdefaults.zentry") ?? .standard
+        storage: UserDefaults = .init(suiteName: "com.userdefaults.zetry") ?? .standard
     ) {
         self.key = key
         self.defaultValue = defaultValue

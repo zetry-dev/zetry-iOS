@@ -3,40 +3,40 @@
 //  DesignSystem
 //
 //  Created by AllieKim on 2023/08/22.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import SwiftUI
 
-protocol ZentryColorable {
+protocol ZetryColorable {
     var color: Color { get }
     var uiColor: UIColor { get }
 }
 
 public extension Color {
-    enum ZentryColorSystem {
+    enum ZetryColorSystem {
         case primary(Primary)
         case secondary(Secondary)
         case grayScale(GrayScale)
         case background(Background)
     }
 
-    static func zentry(_ style: ZentryColorSystem) -> Color {
+    static func zetry(_ style: ZetryColorSystem) -> Color {
         switch style {
-        case let .primary(colorable as ZentryColorable),
-             let .secondary(colorable as ZentryColorable),
-             let .grayScale(colorable as ZentryColorable),
-             let .background(colorable as ZentryColorable):
+        case let .primary(colorable as ZetryColorable),
+             let .secondary(colorable as ZetryColorable),
+             let .grayScale(colorable as ZetryColorable),
+             let .background(colorable as ZetryColorable):
             return colorable.color
         }
     }
 
-    static func zentry(_ style: ZentryColorSystem) -> UIColor {
+    static func zetry(_ style: ZetryColorSystem) -> UIColor {
         switch style {
-        case let .primary(colorable as ZentryColorable),
-             let .secondary(colorable as ZentryColorable),
-             let .grayScale(colorable as ZentryColorable),
-             let .background(colorable as ZentryColorable):
+        case let .primary(colorable as ZetryColorable),
+             let .secondary(colorable as ZetryColorable),
+             let .grayScale(colorable as ZetryColorable),
+             let .background(colorable as ZetryColorable):
             return colorable.uiColor
         }
     }

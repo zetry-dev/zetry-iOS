@@ -1,14 +1,15 @@
 //
 //  CALayer+.swift
-//  Zentry
+//  zetry
 //
 //  Created by Allie Kim on 2023/08/24.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import UIKit
 
 extension CALayer {
+    // swiftlint:disable identifier_name
     func applyShadow(
         color: UIColor = .black,
         alpha: Float = 0.3,

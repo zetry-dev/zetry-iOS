@@ -3,7 +3,7 @@
 //  SearchFeature
 //
 //  Created by AllieKim on 2023/08/18.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import ComposableArchitecture
@@ -45,9 +45,9 @@ extension SearchView {
     private func searchableNavigationView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
         VStack(alignment: .leading) {
             HStack(spacing: 2) {
-                ZentryIcon(DesignSystemAsset.Icons.chevronLeft)
+                ZetryIcon(DesignSystemAsset.Icons.chevronLeft)
                     .padding(9)
-                    .foregroundColor(.zentry(.grayScale(.gray12)))
+                    .foregroundColor(.zetry(.grayScale(.gray12)))
                     .onTapGesture {
                         viewStore.send(.pop)
                     }
@@ -194,7 +194,7 @@ extension SearchView {
                         HStack(spacing: 0) {
                             Text(keywords[index])
                             if canDelete {
-                                ZentryIcon(DesignSystemAsset.Icons.xmark, foregroundColor: .grayScale(.gray6))
+                                ZetryIcon(DesignSystemAsset.Icons.xmark, foregroundColor: .grayScale(.gray6))
                                     .onTapGesture {
                                         viewStore.send(.removeQuery(index))
                                     }
@@ -216,7 +216,7 @@ extension SearchView {
     private func relatedKeywordView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
         ForEach(viewStore.state.relatedKeywords, id: \.self) { keyword in
             HStack(spacing: 9) {
-                ZentryIcon(DesignSystemAsset.Icons.magnifyingglassSizeSmaller, foregroundColor: .grayScale(.gray6))
+                ZetryIcon(DesignSystemAsset.Icons.magnifyingglassSizeSmaller, foregroundColor: .grayScale(.gray6))
                 Text(keyword)
                     .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
                 Spacer()

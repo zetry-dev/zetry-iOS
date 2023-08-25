@@ -3,13 +3,13 @@
 //  DesignSystem
 //
 //  Created by AllieKim on 2023/08/22.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import SwiftUI
 
 public extension Font {
-    enum ZentryFontSystem {
+    enum ZetryFontSystem {
         case headline1
         case headline2
         case headline3
@@ -28,7 +28,7 @@ public extension Font {
         case label5
     }
 
-    static func zentry(_ style: ZentryFontSystem) -> Font {
+    static func zetry(_ style: ZetryFontSystem) -> Font {
         style.font
     }
 }

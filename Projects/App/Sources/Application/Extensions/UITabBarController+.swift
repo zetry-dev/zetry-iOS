@@ -1,9 +1,9 @@
 //
 //  UITabBarController+.swift
-//  Zentry
+//  zetry
 //
 //  Created by Allie Kim on 2023/08/24.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import DesignSystem
@@ -12,9 +12,9 @@ import SwiftUI
 extension UITabBarController {
     override open func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        tabBar.tintColor = Color.zentry(.primary(.primary))
+        tabBar.tintColor = Color.zetry(.primary(.primary))
         tabBar.barTintColor = .white
-        tabBar.unselectedItemTintColor = Color.zentry(.grayScale(.gray6))
+        tabBar.unselectedItemTintColor = Color.zetry(.grayScale(.gray6))
         tabBar.backgroundColor = .white
 
         configureTabBarCornerRadius()

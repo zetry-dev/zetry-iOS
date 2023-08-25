@@ -3,7 +3,7 @@
 //  RootFeature
 //
 //  Created by Allie Kim on 2023/08/20.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import ComposableArchitecture

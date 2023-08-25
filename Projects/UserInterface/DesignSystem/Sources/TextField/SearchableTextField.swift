@@ -3,7 +3,7 @@
 //  DesignSystem
 //
 //  Created by AllieKim on 2023/08/22.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import SwiftUI
@@ -22,14 +22,14 @@ public struct SearchableTextField: View {
 
     public var body: some View {
         HStack(spacing: 4) {
-            ZentryIcon(DesignSystemAsset.Icons.magnifyingglassSizeSmaller,
+            ZetryIcon(DesignSystemAsset.Icons.magnifyingglassSizeSmaller,
                        foregroundColor: .grayScale(.gray6))
             TextField(
                 "",
                 text: $text,
                 prompt: Text(prompt)
-                    .font(.zentry(.body2))
-                    .foregroundColor(.zentry(.grayScale(.gray6)))
+                    .font(.zetry(.body2))
+                    .foregroundColor(.zetry(.grayScale(.gray6)))
             )
             .onChange(of: text) {
                 if $0.count > maxCount {
@@ -41,7 +41,7 @@ public struct SearchableTextField: View {
             .submitLabel(.search)
 
             if !text.isEmpty {
-                ZentryIcon(DesignSystemAsset.Icons.xmarkCircleFill)
+                ZetryIcon(DesignSystemAsset.Icons.xmarkCircleFill)
                     .onTapGesture {
                         text = ""
                     }
@@ -49,7 +49,7 @@ public struct SearchableTextField: View {
         }
         .padding(.horizontal, 6)
         .padding(.vertical, 7)
-        .background(Color.zentry(.grayScale(.gray1)))
+        .background(Color.zetry(.grayScale(.gray1)))
         .cornerRadius(8)
     }
 }

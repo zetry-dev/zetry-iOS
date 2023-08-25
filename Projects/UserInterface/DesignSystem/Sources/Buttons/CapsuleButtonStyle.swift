@@ -3,7 +3,7 @@
 //  DesignSystem
 //
 //  Created by AllieKim on 2023/08/22.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import SwiftUI
@@ -17,7 +17,7 @@ public struct CapsuleButtonStyle: ButtonStyle {
             .fontStyle(.label2)
             .overlay {
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.zentry(.grayScale(.gray2)), lineWidth: 1)
+                    .stroke(Color.zetry(.grayScale(.gray2)), lineWidth: 1)
             }
             .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
     }

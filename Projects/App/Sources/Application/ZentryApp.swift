@@ -3,7 +3,7 @@ import SwiftUI
 import TCACoordinators
 
 @main
-struct ZentryApp: App {
+struct ZetryApp: App {
     var body: some Scene {
         WindowGroup {
             AppCoordinatorView(

@@ -1,14 +1,14 @@
 //
-//  ZentryFontSystem.swift
+//  ZetryFontSystem.swift
 //  DesignSystem
 //
 //  Created by AllieKim on 2023/08/22.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import SwiftUI
 
-public extension Font.ZentryFontSystem {
+public extension Font.ZetryFontSystem {
     var font: Font {
         switch self {
         case .headline1:

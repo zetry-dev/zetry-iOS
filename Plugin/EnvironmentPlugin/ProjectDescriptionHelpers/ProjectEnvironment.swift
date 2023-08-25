@@ -9,8 +9,8 @@ public struct ProjectEnvironment {
 }
 
 public let env = ProjectEnvironment(
-    name: "Zentry",
-    organizationName: "com.zentry",
+    name: "Zetry",
+    organizationName: "com.zetry",
     deploymentTarget: .iOS(targetVersion: "16.0", devices: [.iphone]),
     platform: .iOS,
     baseSetting: [:]

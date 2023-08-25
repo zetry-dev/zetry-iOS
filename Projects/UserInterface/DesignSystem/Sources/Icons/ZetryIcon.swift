@@ -1,14 +1,14 @@
 //
-//  ZentryIcon.swift
+//  ZetryIcon.swift
 //  DesignSystem
 //
 //  Created by AllieKim on 2023/08/22.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import SwiftUI
 
-public struct ZentryIcon: View {
+public struct ZetryIcon: View {
     public enum Size {
         case larger
         case smaller
@@ -16,13 +16,13 @@ public struct ZentryIcon: View {
     }
 
     private let icon: DesignSystemImages
-    private let foregroundColor: Color.ZentryColorSystem
-    private let size: ZentryIcon.Size
+    private let foregroundColor: Color.ZetryColorSystem
+    private let size: ZetryIcon.Size
 
     public init(
         _ icon: DesignSystemImages,
-        foregroundColor: Color.ZentryColorSystem = .grayScale(.gray12),
-        size: ZentryIcon.Size = .smaller
+        foregroundColor: Color.ZetryColorSystem = .grayScale(.gray12),
+        size: ZetryIcon.Size = .smaller
     ) {
         self.icon = icon
         self.foregroundColor = foregroundColor
@@ -33,11 +33,11 @@ public struct ZentryIcon: View {
         icon.swiftUIImage
             .resizable()
             .frame(width: size.width, height: size.height)
-            .foregroundColor(.zentry(foregroundColor))
+            .foregroundColor(.zetry(foregroundColor))
     }
 }
 
-extension ZentryIcon.Size {
+extension ZetryIcon.Size {
     var width: CGFloat {
         switch self {
         case .larger:

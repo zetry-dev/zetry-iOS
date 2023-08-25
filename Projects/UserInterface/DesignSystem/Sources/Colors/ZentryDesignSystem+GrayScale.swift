@@ -1,15 +1,15 @@
 //
-//  ZentryDesignSystem+GrayScale.swift
+//  ZetryColorSystem+GrayScale.swift
 //  DesignSystem
 //
 //  Created by AllieKim on 2023/08/22.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import SwiftUI
 
-public extension Color.ZentryColorSystem {
-    enum GrayScale: ZentryColorable {
+public extension Color.ZetryColorSystem {
+    enum GrayScale: ZetryColorable {
         case gray0
         case gray1
         case gray2
@@ -26,7 +26,7 @@ public extension Color.ZentryColorSystem {
     }
 }
 
-public extension Color.ZentryColorSystem.GrayScale {
+public extension Color.ZetryColorSystem.GrayScale {
     var color: Color {
         switch self {
         case .gray0: return DesignSystemAsset.Gray.gray0.swiftUIColor

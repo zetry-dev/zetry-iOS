@@ -3,7 +3,7 @@
 //  HomeFeature
 //
 //  Created by AllieKim on 2023/08/17.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import ComposableArchitecture
@@ -20,10 +20,11 @@ public struct HomeView: View {
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { viewStore in
             VStack {
-                Button("검색하기") {
-                    viewStore.send(.routeToSearch)
+                ScrollView {
+                    Button("검색하기") {
+                        viewStore.send(.routeToSearch)
+                    }
                 }
-                Text("홈")
             }
         }
     }

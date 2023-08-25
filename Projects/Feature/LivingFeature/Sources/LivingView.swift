@@ -3,7 +3,7 @@
 //  LivingFeature
 //
 //  Created by AllieKim on 2023/08/17.
-//  Copyright © 2023 com.zentry. All rights reserved.
+//  Copyright © 2023 com.zetry. All rights reserved.
 //
 
 import ComposableArchitecture
