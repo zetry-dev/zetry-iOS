@@ -10,6 +10,7 @@ import SwiftUI
 
 public extension Color.ZetryColorSystem {
     enum GrayScale: ZetryColorable {
+        case white
         case gray0
         case gray1
         case gray2
@@ -29,6 +30,7 @@ public extension Color.ZetryColorSystem {
 public extension Color.ZetryColorSystem.GrayScale {
     var color: Color {
         switch self {
+        case .white: return .white
         case .gray0: return DesignSystemAsset.Gray.gray0.swiftUIColor
         case .gray1: return DesignSystemAsset.Gray.gray1.swiftUIColor
         case .gray2: return DesignSystemAsset.Gray.gray2.swiftUIColor
@@ -47,6 +49,7 @@ public extension Color.ZetryColorSystem.GrayScale {
 
     var uiColor: UIColor {
         switch self {
+        case .white: return .white
         case .gray0: return DesignSystemAsset.Gray.gray0.color
         case .gray1: return DesignSystemAsset.Gray.gray1.color
         case .gray2: return DesignSystemAsset.Gray.gray2.color
