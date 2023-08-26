@@ -101,12 +101,18 @@ public struct SearchStore: Reducer {
                 guard !trimmedQuery.isEmpty else {
                     return .none
                 }
-                UserDefaultsManager.recentKeywords.prepend(trimmedQuery)
+
+                if let index = state.recentKeywords.firstIndex(where: { $0 == trimmedQuery }) {
+                    state.recentKeywords.remove(at: index)
+                }
+
                 state.recentKeywords.prepend(trimmedQuery)
-                if UserDefaultsManager.recentKeywords.count > 20 {
-                    UserDefaultsManager.recentKeywords.removeLast()
+
+                if state.recentKeywords.count > 20 {
                     state.recentKeywords.removeLast()
                 }
+
+                UserDefaultsManager.recentKeywords = state.recentKeywords
                 return .none
             default: return .none
             }
