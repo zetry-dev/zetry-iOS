@@ -32,9 +32,8 @@ let targets: [Target] = [
         dependencies: [
             .SPM.FirebaseAnalytics,
             .core(target: .CoreKit),
-            .domain(target: .BaseDomain),
-//            .domain(target: )
             .core(target: .Networking),
+            .domain(target: .CategoryDomain),
             .feature(target: .RootFeature),
             .feature(target: .LaunchScreenFeature),
             .feature(target: .MainTabFeature),

@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import CategoryDomain
 import ComposableArchitecture
 import CoreKit
 
@@ -40,6 +41,7 @@ public struct SearchStore: Reducer {
 //        case dataLoaded(TaskResult<Model>)
     }
 
+    @Dependency(\.testClient) var testClient
     @Dependency(\.continuousClock) var clock
 
     private enum DebounceSearchID { case debounce }
@@ -62,6 +64,12 @@ public struct SearchStore: Reducer {
             case .search:
                 debugPrint("query :: \(state.query)")
                 return .run { send in
+                    do {
+                        let test = try await testClient.fetchAll()
+                        print(test)
+                    } catch {
+                        print(error)
+                    }
                     await send(.removeRelatedKeywords)
                     await send(.addRecentKeyword)
                 }
