@@ -10,10 +10,8 @@ let project = Project.module(
             module: .domain(.BaseDomain),
             dependencies: [
                 .SPM.TCA,
-                .SPM.Firestore,
-//                .SPM.FirestoreSwift,
                 .domain(target: .BaseDomain, type: .interface),
-//                .core(target: .Networking, type: .interface),
+                .core(target: .Networking),
                 .shared(target: .GlobalThirdPartyLibrary)
 //                .shared(target: .UtilityModule)
             ]
