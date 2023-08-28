@@ -1,0 +1,17 @@
+//
+//  Dictionary+.swift
+//  BaseDomain
+//
+//  Created by AllieKim on 2023/08/28.
+//  Copyright © 2023 com.zetry. All rights reserved.
+//
+
+import Foundation
+
+public extension Dictionary {
+    func map<T: Decodable>(_ objectType: T.Type, dictionary: [String: Any]) -> T? {
+        guard let data = try? JSONSerialization.data(withJSONObject: dictionary) else { return nil }
+        guard let objects = try? JSONDecoder().decode(T.self, from: data) else { return nil }
+        return objects
+    }
+}
