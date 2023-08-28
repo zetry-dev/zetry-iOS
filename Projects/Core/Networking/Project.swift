@@ -8,8 +8,7 @@ let project = Project.module(
         .interface(module: .core(.Networking)),
         .implements(module: .core(.Networking), dependencies: [
             .SPM.Firestore,
-            .SPM.FirestoreSwift,
-            .core(target: .Networking, type: .interface),
+            .core(target: .Networking, type: .interface)
         ]),
         .tests(module: .core(.Networking), dependencies: [
             .core(target: .Networking)
