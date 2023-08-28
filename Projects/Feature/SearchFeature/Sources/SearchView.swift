@@ -34,6 +34,9 @@ public struct SearchView: View {
                     }
                 }
             }
+            .task {
+                viewStore.send(.onAppear)
+            }
         }
         .toolbar(.hidden, for: .navigationBar)
     }
