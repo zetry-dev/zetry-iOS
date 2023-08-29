@@ -7,8 +7,6 @@
 //
 
 import ComposableArchitecture
-import HomeFeature
-import LaunchScreenFeature
 import TCACoordinators
 
 public struct AppCoordinator: Reducer {
@@ -42,6 +40,9 @@ public struct AppCoordinator: Reducer {
                 return .none
             case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToSearch))))):
                 state.routes.push(.search(.init()))
+                return .none
+            case .routeAction(_, action: .search(.routeToDetail(let item))):
+                state.routes.push(.detail(.init(item: item)))
                 return .none
             case .routeAction(_, action: .search(.pop)):
                 state.routes.pop()

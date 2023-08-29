@@ -27,6 +27,7 @@ public struct SearchStore: Reducer {
         var relatedKeywords: [String] = []
         var searchResults: [String] = []
         var updatedTimeStamp: String = "2023.08.08 오후 7시 업데이트"
+        var isEmptyResult: Bool = false
 
         public init() {
             recentKeywords = UserDefaultsManager.recentKeywords
@@ -49,7 +50,7 @@ public struct SearchStore: Reducer {
 
         case pop
         case routeToDetail(item: CategoryItemEntity)
-        case routeToSearchFailure
+        case presentSearchFailure
     }
 
     @Dependency(\.categoryClient) var categoryClient
@@ -85,7 +86,7 @@ public struct SearchStore: Reducer {
                     if let item = newState.subCategories.first(where: { $0.title == newState.query }) {
                         await send(.routeToDetail(item: item))
                     } else {
-                        await send(.routeToSearchFailure)
+                        await send(.presentSearchFailure)
                     }
                     await send(.addRecentKeyword)
                     await send(.removeRelatedKeywords)
@@ -147,6 +148,10 @@ public struct SearchStore: Reducer {
 
             case .subCategoryDataLoaded(.failure):
                 state.recommendedKeywords = []
+                return .none
+
+            case .presentSearchFailure:
+                state.isEmptyResult = true
                 return .none
             default: return .none
             }

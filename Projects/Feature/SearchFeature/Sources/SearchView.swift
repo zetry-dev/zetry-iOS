@@ -22,15 +22,19 @@ public struct SearchView: View {
         WithViewStore(self.store) { $0 } content: { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 searchableNavigationView(viewStore)
-                ScrollView {
-                    if viewStore.state.query.isEmpty {
-                        recentSearchView(viewStore)
-                        recommendSearchView(viewStore)
-                        topKeywordsView(viewStore)
-                    } else {
-                        relatedKeywordView(viewStore)
-                            .padding(.leading, 15)
-                            .padding(.trailing, 20)
+                if viewStore.state.isEmptyResult {
+                    // TODO: - EmptyResult
+                } else {
+                    ScrollView {
+                        if viewStore.state.query.isEmpty {
+                            recentSearchView(viewStore)
+                            recommendSearchView(viewStore)
+                            topKeywordsView(viewStore)
+                        } else {
+                            relatedKeywordView(viewStore)
+                                .padding(.leading, 15)
+                                .padding(.trailing, 20)
+                        }
                     }
                 }
             }
