@@ -35,3 +35,9 @@ public extension CategoryEntity {
         ]
     )
 }
+
+public extension CategoryItemEntity {
+    static var mock = Self(
+        title: "종이컵"
+    )
+}

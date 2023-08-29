@@ -17,6 +17,10 @@ public struct SearchStore: Reducer {
     public struct State: Equatable {
         @BindingState var query: String = ""
         @BindingState var focusedField: Bool = false
+
+        var mainCategories: [CategoryItemEntity] = []
+        var subCategories: [CategoryItemEntity] = []
+
         var recentKeywords: [String]
         var recommendedKeywords: [String] = []
         var topKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
@@ -32,6 +36,7 @@ public struct SearchStore: Reducer {
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case onAppear
+
         case search
         case didTapQuery(String)
         case searchKeywords
@@ -39,8 +44,12 @@ public struct SearchStore: Reducer {
         case removeAllQueries
         case removeRelatedKeywords
         case addRecentKeyword
+
+        case subCategoryDataLoaded(TaskResult<CategoryEntity>)
+
         case pop
-        case recommendDataLoaded(TaskResult<CategoryEntity>)
+        case routeToDetail(item: CategoryItemEntity)
+        case routeToSearchFailure
     }
 
     @Dependency(\.categoryClient) var categoryClient
@@ -68,14 +77,20 @@ public struct SearchStore: Reducer {
                     let result = await TaskResult {
                         try await categoryClient.fetchSub()
                     }
-                    await send(.recommendDataLoaded(result))
+                    await send(.subCategoryDataLoaded(result))
                 }
             case .search:
                 debugPrint("query :: \(state.query)")
-                return .run { send in
-                    await send(.removeRelatedKeywords)
+                return .run { [newState = state] send in
+                    if let item = newState.subCategories.first(where: { $0.title == newState.query }) {
+                        await send(.routeToDetail(item: item))
+                    } else {
+                        await send(.routeToSearchFailure)
+                    }
                     await send(.addRecentKeyword)
+                    await send(.removeRelatedKeywords)
                 }
+
             case .searchKeywords:
                 debugPrint("keywords :: \(state.query)")
                 // TODO: - 데이터 가져오기
@@ -86,20 +101,26 @@ public struct SearchStore: Reducer {
                     "우산", "의자", "종이컵", "비닐", "유리컵", "우산", "의자"
                 ]
                 return .none
+
             case .didTapQuery(let query):
                 state.query = query
                 return .send(.search)
+
             case .removeQuery(let index):
                 UserDefaultsManager.recentKeywords.remove(at: index)
                 state.recentKeywords.remove(at: index)
                 return .none
+
             case .removeAllQueries:
                 UserDefaultsManager.recentKeywords = []
                 state.recentKeywords = []
                 return .none
+
             case .removeRelatedKeywords:
                 state.relatedKeywords = []
+                state.query = ""
                 return .none
+
             case .addRecentKeyword:
                 let trimmedQuery = state.query.trimmingCharacters(in: .whitespacesAndNewlines)
                 guard !trimmedQuery.isEmpty else {
@@ -119,10 +140,12 @@ public struct SearchStore: Reducer {
                 UserDefaultsManager.recentKeywords = state.recentKeywords
                 return .none
 
-            case .recommendDataLoaded(.success(let items)):
-                state.recommendedKeywords = items.items.map(\.title)
+            case .subCategoryDataLoaded(.success(let result)):
+                state.subCategories = result.items
+                state.recommendedKeywords = result.items.map(\.title)
                 return .none
-            case .recommendDataLoaded(.failure):
+
+            case .subCategoryDataLoaded(.failure):
                 state.recommendedKeywords = []
                 return .none
             default: return .none
