@@ -20,13 +20,13 @@ public extension DependencyValues {
 
 extension CategoryClient: DependencyKey {
     public static var liveValue = Self(
-        fetchMain: {
-            let data = try await FirestoreProvider.shared.fetch(CategoryAPI.fetchMain)
-            return data.map(CategoryEntity.self, dictionary: data) ?? .init()
+        fetchAllItems: {
+            let data = try await FirestoreProvider.shared.fetch(CategoryAPI.fetchAllItems)
+            return data.compactMap { $0.mapping(CategoryItemEntity.self) }
         },
-        fetchSub: {
-            let data = try await FirestoreProvider.shared.fetch(CategoryAPI.fetchSub)
-            return data.map(CategoryEntity.self, dictionary: data) ?? .init()
+        fetchItems: { category in
+            let data = try await FirestoreProvider.shared.fetch(CategoryAPI.fetchItems(category: category))
+            return data.compactMap { $0.mapping(CategoryItemEntity.self) }
         }
     )
 }

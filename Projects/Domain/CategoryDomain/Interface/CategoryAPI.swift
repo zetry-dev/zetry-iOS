@@ -9,8 +9,8 @@
 import NetworkingInterface
 
 public enum CategoryAPI {
-    case fetchMain
-    case fetchSub
+    case fetchItems(category: String)
+    case fetchAllItems
 }
 
 extension CategoryAPI: TargetType {
@@ -18,12 +18,12 @@ extension CategoryAPI: TargetType {
         .products
     }
 
-    public var document: String {
+    public var query: [String: Any]? {
         switch self {
-        case .fetchMain:
-            return "mainCategory"
-        case .fetchSub:
-            return "subCategory"
+        case .fetchItems(let category):
+            return ["category": category]
+        default:
+            return nil
         }
     }
 }

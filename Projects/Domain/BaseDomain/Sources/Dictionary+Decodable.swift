@@ -8,9 +8,9 @@
 
 import Foundation
 
-public extension Dictionary {
-    func map<T: Decodable>(_ objectType: T.Type, dictionary: [String: Any]) -> T? {
-        guard let data = try? JSONSerialization.data(withJSONObject: dictionary) else { return nil }
+public extension [String: Any] {
+    func mapping<T: Decodable>(_ objectType: T.Type) -> T? {
+        guard let data = try? JSONSerialization.data(withJSONObject: self) else { return nil }
         guard let objects = try? JSONDecoder().decode(T.self, from: data) else { return nil }
         return objects
     }
