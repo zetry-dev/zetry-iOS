@@ -120,46 +120,48 @@ extension SearchView {
 
     @ViewBuilder
     private func topKeywordsView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                Text("이웃들이 많이 찾아봤어요")
-                    .fontStyle(.subtitle3)
-                Spacer()
-                Text(viewStore.state.updatedTimeStamp)
-                    .fontStyle(.label4, foregroundColor: .grayScale(.gray7))
-            }
+        let topKeywords = viewStore.state.topKeywords
+        if topKeywords.count > 9 {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack {
+                    Text("이웃들이 많이 찾아봤어요")
+                        .fontStyle(.subtitle3)
+                    Spacer()
+                    Text(viewStore.state.updatedTimeStamp)
+                        .fontStyle(.label4, foregroundColor: .grayScale(.gray7))
+                }
 
-            let topKeywords = viewStore.state.topKeywords
-            HStack {
-                VStack(alignment: .leading) {
-                    ForEach(0 ... 4, id: \.self) { index in
-                        if 0 ... 2 ~= index {
-                            topKeywordView(topKeywords[index], index: index)
-                                .onTapGesture {
-                                    viewStore.send(.didTapQuery(topKeywords[index]))
-                                }
-                        } else {
+                HStack {
+                    VStack(alignment: .leading) {
+                        ForEach(0 ... 4, id: \.self) { index in
+                            if 0 ... 2 ~= index {
+                                topKeywordView(topKeywords[index], index: index)
+                                    .onTapGesture {
+                                        viewStore.send(.didTapQuery(topKeywords[index]))
+                                    }
+                            } else {
+                                keywordView(topKeywords[index], index: index)
+                                    .onTapGesture {
+                                        viewStore.send(.didTapQuery(topKeywords[index]))
+                                    }
+                            }
+                        }
+                    }
+
+                    VStack(alignment: .leading) {
+                        ForEach(5 ... 9, id: \.self) { index in
                             keywordView(topKeywords[index], index: index)
                                 .onTapGesture {
                                     viewStore.send(.didTapQuery(topKeywords[index]))
                                 }
                         }
                     }
-                }
-
-                VStack(alignment: .leading) {
-                    ForEach(5 ... 9, id: \.self) { index in
-                        keywordView(topKeywords[index], index: index)
-                            .onTapGesture {
-                                viewStore.send(.didTapQuery(topKeywords[index]))
-                            }
-                    }
+                    .padding(.top, 16)
                 }
             }
-            .padding(.top, 16)
+            .padding(.top, 18)
+            .padding(.horizontal, 18)
         }
-        .padding(.top, 18)
-        .padding(.horizontal, 18)
     }
 
     @ViewBuilder

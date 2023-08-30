@@ -7,6 +7,7 @@
 //
 
 import ComposableArchitecture
+import LaunchScreenFeature
 import TCACoordinators
 
 public struct AppCoordinator: Reducer {

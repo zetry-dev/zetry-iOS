@@ -19,7 +19,7 @@ public struct SearchStore: Reducer {
         @BindingState var focusedField: Bool = false
 
         var mainCategories: [CategoryItemEntity] = []
-        var subCategories: [CategoryItemEntity] = []
+        var items: [CategoryItemEntity] = []
 
         var recentKeywords: [String]
         var recommendedKeywords: [String] = []
@@ -46,7 +46,7 @@ public struct SearchStore: Reducer {
         case removeRelatedKeywords
         case addRecentKeyword
 
-        case subCategoryDataLoaded(TaskResult<CategoryEntity>)
+        case dataLoaded(TaskResult<[CategoryItemEntity]>)
 
         case pop
         case routeToDetail(item: CategoryItemEntity)
@@ -76,14 +76,14 @@ public struct SearchStore: Reducer {
             case .onAppear:
                 return .run { send in
                     let result = await TaskResult {
-                        try await categoryClient.fetchSub()
+                        try await categoryClient.fetchAllItems()
                     }
-                    await send(.subCategoryDataLoaded(result))
+                    await send(.dataLoaded(result))
                 }
             case .search:
                 debugPrint("query :: \(state.query)")
                 return .run { [newState = state] send in
-                    if let item = newState.subCategories.first(where: { $0.title == newState.query }) {
+                    if let item = newState.items.first(where: { $0.title == newState.query }) {
                         await send(.routeToDetail(item: item))
                     } else {
                         await send(.presentSearchFailure)
@@ -141,12 +141,14 @@ public struct SearchStore: Reducer {
                 UserDefaultsManager.recentKeywords = state.recentKeywords
                 return .none
 
-            case .subCategoryDataLoaded(.success(let result)):
-                state.subCategories = result.items
-                state.recommendedKeywords = result.items.map(\.title)
+            case .dataLoaded(.success(let result)):
+                state.items = result
+                let keywords = result.map(\.title)
+                state.recommendedKeywords = keywords.shuffled().prefix(10).map { String($0) }
+                state.topKeywords = keywords.shuffled().prefix(10).map { String($0) }
                 return .none
 
-            case .subCategoryDataLoaded(.failure):
+            case .dataLoaded(.failure):
                 state.recommendedKeywords = []
                 return .none
 

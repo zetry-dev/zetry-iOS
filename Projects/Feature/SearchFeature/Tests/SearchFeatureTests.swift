@@ -51,7 +51,7 @@ final class SearchFeatureTests: XCTestCase {
 
     func test_onAppear_fetchRecommendedKeywords_success() async {
         await sut.send(.onAppear)
-        await sut.receive(.subCategoryDataLoaded(.success(.mock))) { newState in
+        await sut.receive(.dataLoaded(.success(.mock))) { newState in
             newState.subCategories = CategoryEntity.mock.items
             newState.recommendedKeywords = CategoryEntity.mock.items.map(\.title)
         }
