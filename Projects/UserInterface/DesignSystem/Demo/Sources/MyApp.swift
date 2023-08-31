@@ -10,14 +10,21 @@ struct MyApp: App {
     }
 }
 
+struct TestSegment: Segments {
+    var title: String
+}
+
 struct ContentView: View {
+    @State private var selection: TestSegment = .init(title: "1번")
+
+    private var segments: [TestSegment] = [
+        .init(title: "1번"),
+        .init(title: "2번")
+    ]
+
     var body: some View {
         HStack {
-            Button("네네네네네네네네네네네네") {}
-                .buttonStyle(.secondary)
-
-            Button("네네네네네네네네네네네네") {}
-                .buttonStyle(.primary)
+            SegmentedPicker($selection, segments: segments)
         }
         .padding(.horizontal, 20)
     }
