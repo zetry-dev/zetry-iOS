@@ -7,18 +7,35 @@
 //
 
 import ComposableArchitecture
+import DesignSystem
 import SwiftUI
 
 public struct LivingView: View {
     public let store: StoreOf<LivingStore>
+    @State private var selectedSegment: LivingSegementedTab = .tips
 
     public init(store: StoreOf<LivingStore>) {
         self.store = store
     }
 
     public var body: some View {
-        WithViewStore(self.store) { $0 } content: { _ in
-            Text("생활정보")
+        WithViewStore(self.store) { $0 } content: { viewStore in
+            VStack {
+                SegmentedPicker(
+                    viewStore.binding(
+                        get: { $0.selectedSegment },
+                        send: LivingStore.Action.selectedSegment
+                    ),
+                    segments: LivingSegementedTab.allCases
+                )
+                ScrollView {
+                    if selectedSegment == .tips {
+                        Text("팁")
+                    } else {
+                        Text("상점")
+                    }
+                }
+            }
         }
     }
 }

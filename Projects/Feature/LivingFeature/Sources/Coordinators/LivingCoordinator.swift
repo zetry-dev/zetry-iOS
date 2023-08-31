@@ -27,6 +27,13 @@ public struct LivingCoordinator: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
+        Reduce { state, action in
+            switch action {
+            case .routeAction(_, action: .living(.selectedSegment(let segment))):
+                return .none
+            default:
+                return .none
+            }
+        }
     }
 }
