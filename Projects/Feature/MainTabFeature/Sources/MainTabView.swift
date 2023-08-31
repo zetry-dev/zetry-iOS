@@ -11,6 +11,7 @@ import ComposableArchitecture
 import DesignSystem
 import HomeFeature
 import LivingFeature
+import SettingsFeature
 import SwiftUI
 
 public struct MainTabView: View {
@@ -72,6 +73,21 @@ public struct MainTabView: View {
                     }
                 }
                 .tag(MainTabItem.living)
+
+                SettingsCoordinatorView(
+                    store: self.store.scope(
+                        state: \.settings,
+                        action: MainTabStore.Action.settings
+                    )
+                )
+                .tabItem {
+                    VStack {
+                        ZetryIcon(MainTabItem.settings.icon)
+                        Text(MainTabItem.settings.description)
+                            .fontStyle(.label4)
+                    }
+                }
+                .tag(MainTabItem.settings)
             }
         }
     }

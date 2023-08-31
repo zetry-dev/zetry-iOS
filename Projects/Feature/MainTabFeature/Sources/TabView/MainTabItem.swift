@@ -13,6 +13,7 @@ public enum MainTabItem {
     case home
     case category
     case living
+    case settings
 
     var description: String {
         switch self {
@@ -22,17 +23,21 @@ public enum MainTabItem {
             return "카테고리"
         case .living:
             return "생활정보"
+        case .settings:
+            return "설정"
         }
     }
 
     var icon: DesignSystemImages {
         switch self {
         case .home:
-            return DesignSystemAsset.Icons.houseFill
+            return DesignSystemAsset.Icons.house
         case .category:
-            return DesignSystemAsset.Icons.line3Horizontal
+            return DesignSystemAsset.Icons.line3Magnifyingglass
         case .living:
-            return DesignSystemAsset.Icons.ipad
+            return DesignSystemAsset.Icons.magazine
+        case .settings:
+            return DesignSystemAsset.Icons.gearshape
         }
     }
 }

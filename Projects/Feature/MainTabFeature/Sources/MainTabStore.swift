@@ -10,6 +10,7 @@ import CategoryFeature
 import ComposableArchitecture
 import HomeFeature
 import LivingFeature
+import SettingsFeature
 
 public struct MainTabStore: Reducer {
     public init() {}
@@ -20,6 +21,7 @@ public struct MainTabStore: Reducer {
         public var home: HomeCoordinator.State = .init()
         public var category: CategoryCoordinator.State = .init()
         public var living: LivingCoordinator.State = .init()
+        public var settings: SettingsCoordinator.State = .init()
 
         public init() {}
     }
@@ -29,6 +31,7 @@ public struct MainTabStore: Reducer {
         case home(HomeCoordinator.Action)
         case category(CategoryCoordinator.Action)
         case living(LivingCoordinator.Action)
+        case settings(SettingsCoordinator.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -52,6 +55,10 @@ public struct MainTabStore: Reducer {
 
         Scope(state: \.living, action: /Action.living, child: {
             LivingCoordinator()._printChanges()
+        })
+        
+        Scope(state: \.settings, action: /Action.settings, child: {
+            SettingsCoordinator()._printChanges()
         })
     }
 }

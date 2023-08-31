@@ -9,19 +9,22 @@ let project = Project.module(
             .feature(target: .BaseFeature),
             .feature(target: .HomeFeature),
             .feature(target: .CategoryFeature),
-            .feature(target: .LivingFeature)
+            .feature(target: .LivingFeature),
+            .feature(target: .SettingsFeature)
         ]),
         .tests(module: .feature(.MainTabFeature), dependencies: [
             .feature(target: .MainTabFeature),
             .feature(target: .HomeFeature),
             .feature(target: .CategoryFeature),
-            .feature(target: .LivingFeature)
+            .feature(target: .LivingFeature),
+            .feature(target: .SettingsFeature)
         ]),
         .demo(module: .feature(.MainTabFeature), dependencies: [
             .feature(target: .MainTabFeature),
             .feature(target: .HomeFeature),
             .feature(target: .CategoryFeature),
-            .feature(target: .LivingFeature)
+            .feature(target: .LivingFeature),
+            .feature(target: .SettingsFeature)
         ])
     ]
 )
