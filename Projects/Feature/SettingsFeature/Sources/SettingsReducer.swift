@@ -1,5 +1,5 @@
 //
-//  SettingsReducer.swift
+//  SettingsStore.swift
 //  SettingsFeature
 //
 //  Created by AllieKim on 2023/08/31.
@@ -8,7 +8,7 @@
 
 import ComposableArchitecture
 
-public struct SettingsReducer: Reducer {
+public struct SettingsStore: Reducer {
     public init() {}
 
     public struct State: Equatable {

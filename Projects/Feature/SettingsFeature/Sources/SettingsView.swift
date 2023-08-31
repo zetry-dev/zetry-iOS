@@ -10,14 +10,15 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct SettingsView: View {
-    public let store: StoreOf<SettingsReducer>
+    public let store: StoreOf<SettingsStore>
 
-    public init(store: StoreOf<SettingsReducer>) {
+    public init(store: StoreOf<SettingsStore>) {
         self.store = store
     }
 
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { _ in
+            Text("settings")
         }
     }
 }
