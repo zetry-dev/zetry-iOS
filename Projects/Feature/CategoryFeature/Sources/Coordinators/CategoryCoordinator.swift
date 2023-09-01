@@ -7,7 +7,6 @@
 //
 
 import BaseFeatureInterface
-import Combine
 
 public struct CategoryCoordinator: Reducer {
     public init() {}
@@ -20,18 +19,21 @@ public struct CategoryCoordinator: Reducer {
         }
     }
 
-    public enum Action: IndexedRouterAction {
+    public enum Action: BindableAction, IndexedRouterAction {
+        case binding(BindingAction<State>)
         case updateRoutes([Route<CategoryScreen.State>])
         case routeAction(Int, action: CategoryScreen.Action)
     }
 
     public var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { _, action in
             switch action {
             default:
                 return .none
             }
-        }.forEachRoute {
+        }
+        .forEachRoute {
             CategoryScreen()
         }
     }
