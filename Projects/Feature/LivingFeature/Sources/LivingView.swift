@@ -12,7 +12,6 @@ import SwiftUI
 
 public struct LivingView: View {
     public let store: StoreOf<LivingStore>
-    @State private var selectedSegment: LivingSegementedTab = .tips
 
     public init(store: StoreOf<LivingStore>) {
         self.store = store
@@ -29,7 +28,7 @@ public struct LivingView: View {
                     segments: LivingSegementedTab.allCases
                 )
                 ScrollView {
-                    if selectedSegment == .tips {
+                    if viewStore.selectedSegment == .tips {
                         Text("팁")
                     } else {
                         Text("상점")

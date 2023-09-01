@@ -20,5 +20,8 @@ public struct LivingScreen: Reducer {
 
     public var body: some ReducerOf<Self> {
         EmptyReducer()
+        Scope(state: /State.living, action: /Action.living, child: {
+            LivingStore()._printChanges()
+        })
     }
 }

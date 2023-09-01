@@ -46,19 +46,19 @@ public struct MainTabStore: Reducer {
         }
 
         Scope(state: \.home, action: /Action.home, child: {
-            HomeCoordinator()._printChanges()
+            HomeCoordinator()
         })
 
         Scope(state: \.category, action: /Action.category, child: {
-            CategoryCoordinator()._printChanges()
+            CategoryCoordinator()
         })
 
         Scope(state: \.living, action: /Action.living, child: {
-            LivingCoordinator()._printChanges()
+            LivingCoordinator()
         })
 
         Scope(state: \.settings, action: /Action.settings, child: {
-            SettingsCoordinator()._printChanges()
+            SettingsCoordinator()
         })
     }
 }

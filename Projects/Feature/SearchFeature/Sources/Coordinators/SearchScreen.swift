@@ -20,5 +20,8 @@ public struct SearchScreen: Reducer {
 
     public var body: some ReducerOf<Self> {
         EmptyReducer()
+        Scope(state: /State.search, action: /Action.search, child: {
+            SearchStore()._printChanges()
+        })
     }
 }

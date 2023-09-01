@@ -27,13 +27,14 @@ public struct LivingCoordinator: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
-            case .routeAction(_, action: .living(.selectedSegment(let segment))):
-                return .none
             default:
                 return .none
             }
+        }
+        .forEachRoute {
+            LivingScreen()
         }
     }
 }

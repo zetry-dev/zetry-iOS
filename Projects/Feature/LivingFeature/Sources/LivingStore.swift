@@ -45,6 +45,5 @@ public struct LivingStore: Reducer {
             default: return .none
             }
         }
-        ._printChanges()
     }
 }
