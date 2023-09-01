@@ -6,7 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
+import BaseFeatureInterface
 import SwiftUI
 
 public struct ProductDetailView: View {

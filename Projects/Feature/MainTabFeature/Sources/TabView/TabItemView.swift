@@ -6,10 +6,9 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
-import SwiftUI
+import BaseFeatureInterface
 
-//public struct TabItemView: View {
+// public struct TabItemView: View {
 //    @Binding private var selection: MainTabItem
 //    private var tab: MainTabItem
 //
@@ -31,4 +30,4 @@ import SwiftUI
 //        }
 //        .frame(maxWidth: .infinity)
 //    }
-//}
+// }

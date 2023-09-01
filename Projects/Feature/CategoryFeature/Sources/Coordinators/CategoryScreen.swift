@@ -6,8 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
-import TCACoordinators
+import BaseFeatureInterface
 
 public struct CategoryScreen: Reducer {
     public enum State: Equatable {
@@ -20,5 +19,8 @@ public struct CategoryScreen: Reducer {
 
     public var body: some ReducerOf<Self> {
         EmptyReducer()
+        Scope(state: /State.category, action: /Action.category, child: {
+            CategoryStore()._printChanges()
+        })
     }
 }

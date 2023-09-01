@@ -6,8 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
-import Foundation
+import BaseFeatureInterface
 
 public struct LaunchScreenStore: Reducer {
     public init() {}

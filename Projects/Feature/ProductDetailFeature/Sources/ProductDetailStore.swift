@@ -6,9 +6,9 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeatureInterface
 import CategoryDomain
 import CategoryDomainInterface
-import ComposableArchitecture
 
 public struct ProductDetailStore: Reducer {
     public init() {}
@@ -29,7 +29,7 @@ public struct ProductDetailStore: Reducer {
     @Dependency(\.categoryClient) var categoryClient
 
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
             case .onAppear:
 //                dump(state.item)

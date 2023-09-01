@@ -6,8 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeatureInterface
 import CategoryDomainInterface
-import ComposableArchitecture
 @testable import SearchFeature
 import XCTest
 

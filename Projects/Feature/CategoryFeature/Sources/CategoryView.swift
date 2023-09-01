@@ -6,7 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
+import BaseFeatureInterface
+import DesignSystem
 import SwiftUI
 
 public struct CategoryView: View {
@@ -19,7 +20,13 @@ public struct CategoryView: View {
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { _ in
             VStack {
-                Text("카테고리")
+//                SegmentedPicker(
+//                    viewStore.binding(
+//                        get: { $0.selectedSegment },
+//                        send: CategoryStore.Action.selectedSegment
+//                    ),
+//                    segments: CategorySegementedTab.allCases
+//                )
             }
         }
     }

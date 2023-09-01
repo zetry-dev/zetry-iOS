@@ -6,7 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import NetworkingInterface
+import BaseDomainInterface
 
 public enum CategoryAPI {
     case fetchItems(category: String)

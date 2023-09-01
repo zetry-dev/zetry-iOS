@@ -6,13 +6,12 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
+import BaseFeatureInterface
 import LaunchScreenFeature
 import MainTabFeature
 import ProductDetailFeature
 import SearchFeature
 import SwiftUI
-import TCACoordinators
 
 public struct AppCoordinatorView: View {
     private let store: StoreOf<AppCoordinator>

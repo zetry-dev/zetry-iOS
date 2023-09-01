@@ -6,9 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeatureInterface
 import Combine
-import ComposableArchitecture
-import TCACoordinators
 
 public struct CategoryCoordinator: Reducer {
     public init() {}
@@ -27,6 +26,13 @@ public struct CategoryCoordinator: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        EmptyReducer()
+        Reduce { _, action in
+            switch action {
+            default:
+                return .none
+            }
+        }.forEachRoute {
+            CategoryScreen()
+        }
     }
 }

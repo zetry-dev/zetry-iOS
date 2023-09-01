@@ -6,8 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
-import TCACoordinators
+import BaseFeatureInterface
 
 public struct HomeCoordinator: Reducer {
     public init() {}

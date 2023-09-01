@@ -6,10 +6,9 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
-import SwiftUI
+import BaseFeatureInterface
 
-//public struct ZenTabView: View {
+// public struct ZenTabView: View {
 //    @Binding private var selectedTab: MainTabItem
 //
 //    public init(selectedTab: Binding<MainTabItem>) {
@@ -27,4 +26,4 @@ import SwiftUI
 //            Color.gray.frame(height: 1, alignment: .top)
 //        }
 //    }
-//}
+// }

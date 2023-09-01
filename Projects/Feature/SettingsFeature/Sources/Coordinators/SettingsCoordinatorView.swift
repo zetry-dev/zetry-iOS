@@ -6,9 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
+import BaseFeatureInterface
 import SwiftUI
-import TCACoordinators
 
 public struct SettingsCoordinatorView: View {
     private let store: StoreOf<SettingsCoordinator>

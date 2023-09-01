@@ -6,7 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import ComposableArchitecture
+import BaseDomainInterface
 
 public struct CategoryClient {
     public var fetchAllItems: @Sendable () async throws -> [CategoryItemEntity]

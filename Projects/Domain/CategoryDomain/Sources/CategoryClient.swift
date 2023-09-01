@@ -6,10 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseDomain
+import BaseDomainInterface
 import CategoryDomainInterface
-import ComposableArchitecture
-import Networking
 
 public extension DependencyValues {
     var categoryClient: CategoryClient {
