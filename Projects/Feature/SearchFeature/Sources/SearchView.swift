@@ -225,7 +225,7 @@ extension SearchView {
     private func relatedKeywordView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
         ForEach(viewStore.state.relatedKeywords, id: \.self) { keyword in
             HStack(spacing: 9) {
-                ZetryIcon(DesignSystemAsset.Icons.magnifyingglassSizeSmaller, foregroundColor: .grayScale(.gray6))
+                ZetryIcon(DesignSystemAsset.Icons.magnifyingglass, foregroundColor: .grayScale(.gray6))
                 Text(keyword)
                     .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
                 Spacer()
