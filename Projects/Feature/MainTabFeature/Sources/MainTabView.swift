@@ -35,14 +35,7 @@ public struct MainTabView: View {
                         action: MainTabStore.Action.home
                     )
                 )
-                .tabItem {
-                    VStack {
-                        ZetryIcon(MainTabItem.home.icon)
-                        Text(MainTabItem.home.description)
-                            .fontStyle(.label4)
-                    }
-                }
-                .tag(MainTabItem.home)
+                .tabItem(.home)
 
                 CategoryCoordinatorView(
                     store: self.store.scope(
@@ -50,14 +43,7 @@ public struct MainTabView: View {
                         action: MainTabStore.Action.category
                     )
                 )
-                .tabItem {
-                    VStack {
-                        ZetryIcon(MainTabItem.category.icon)
-                        Text(MainTabItem.category.description)
-                            .fontStyle(.label4)
-                    }
-                }
-                .tag(MainTabItem.category)
+                .tabItem(.category)
 
                 LivingCoordinatorView(
                     store: self.store.scope(
@@ -65,14 +51,7 @@ public struct MainTabView: View {
                         action: MainTabStore.Action.living
                     )
                 )
-                .tabItem {
-                    VStack {
-                        ZetryIcon(MainTabItem.living.icon)
-                        Text(MainTabItem.living.description)
-                            .fontStyle(.label4)
-                    }
-                }
-                .tag(MainTabItem.living)
+                .tabItem(.living)
 
                 SettingsCoordinatorView(
                     store: self.store.scope(
@@ -80,15 +59,22 @@ public struct MainTabView: View {
                         action: MainTabStore.Action.settings
                     )
                 )
-                .tabItem {
-                    VStack {
-                        ZetryIcon(MainTabItem.settings.icon)
-                        Text(MainTabItem.settings.description)
-                            .fontStyle(.label4)
-                    }
-                }
-                .tag(MainTabItem.settings)
+                .tabItem(.settings)
             }
         }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func tabItem(_ tab: MainTabItem) -> some View {
+        self.tabItem {
+            VStack {
+                ZetryIcon(tab.icon)
+                Text(tab.description)
+                    .fontStyle(.label4)
+            }
+        }
+        .tag(tab)
     }
 }
