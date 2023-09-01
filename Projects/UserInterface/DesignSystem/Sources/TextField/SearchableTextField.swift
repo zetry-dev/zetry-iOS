@@ -22,8 +22,8 @@ public struct SearchableTextField: View {
 
     public var body: some View {
         HStack(spacing: 4) {
-            ZetryIcon(DesignSystemAsset.Icons.magnifyingglassSizeSmaller,
-                       foregroundColor: .grayScale(.gray6))
+            ZetryIcon(DesignSystemAsset.Icons.magnifyingglass,
+                      foregroundColor: .grayScale(.gray6))
             TextField(
                 "",
                 text: $text,

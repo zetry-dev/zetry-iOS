@@ -6,30 +6,30 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import CoreKitInterface
 import SwiftUI
-
-public protocol Segments: Hashable {
-    var title: String { get }
-}
 
 public struct SegmentedPicker<T: Segments>: View {
     @Namespace private var animation
     @Binding private var selection: T
+
     private let segments: [T]
     private let fontSize: Font.ZetryFontSystem
     private let selectedColor: Color.ZetryColorSystem
     private let unselectedColor: Color.ZetryColorSystem
     private let lineColor: Color.ZetryColorSystem
-
-    @State private var scrollViewContentSize: CGSize = .init()
+    private let hasDivider: Bool
+    private let horizontalPadding: CGFloat
 
     public init(
         _ selection: Binding<T>,
         segments: [T],
         fontSize: Font.ZetryFontSystem = .body1,
-        selectedColor: Color.ZetryColorSystem = .primary(.primary),
+        selectedColor: Color.ZetryColorSystem = .grayScale(.gray12),
         unselectedColor: Color.ZetryColorSystem = .grayScale(.gray6),
-        lineColor: Color.ZetryColorSystem = .primary(.primary)
+        lineColor: Color.ZetryColorSystem = .primary(.primary),
+        hasDivider: Bool = true,
+        paddingHorizontal: CGFloat = 0.0
     ) {
         self._selection = selection
         self.segments = segments
@@ -37,12 +37,22 @@ public struct SegmentedPicker<T: Segments>: View {
         self.selectedColor = selectedColor
         self.unselectedColor = unselectedColor
         self.lineColor = lineColor
+        self.hasDivider = hasDivider
+        self.horizontalPadding = paddingHorizontal
     }
 
     public var body: some View {
-        HStack {
-            ForEach(segments.indices, id: \.self) { index in
-                segement(index: index)
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                ForEach(segments.indices, id: \.self) { index in
+                    segement(index: index)
+                }
+            }
+            .padding(.horizontal, horizontalPadding)
+
+            if hasDivider {
+                Color.zetry(.grayScale(.gray2))
+                    .frame(height: 1)
             }
         }
     }
@@ -51,17 +61,21 @@ public struct SegmentedPicker<T: Segments>: View {
     private func segement(index: Int) -> some View {
         let selected: Bool = selection.hashValue == segments[index].hashValue
 
-        VStack {
+        VStack(spacing: 0) {
             Button {
                 withAnimation(.easeInOut) {
                     self.selection = segments[index]
                 }
             } label: {
                 Text(segments[index].title)
-                    .fontStyle(.body1)
-                    .foregroundColor(.zetry(selected ? selectedColor : unselectedColor))
+                    .fontStyle(
+                        selected ? .subtitle3 : .body1,
+                        foregroundColor: selected ? selectedColor : unselectedColor
+                    )
             }
             .id(segments[index].hashValue)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
 
             if selected {
                 Color.zetry(lineColor)
