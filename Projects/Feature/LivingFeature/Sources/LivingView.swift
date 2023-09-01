@@ -25,7 +25,7 @@ public struct LivingView: View {
                         get: { $0.selectedSegment },
                         send: LivingStore.Action.selectedSegment
                     ),
-                    segments: LivingSegementedTab.allCases
+                    segments: LivingStore.LivingSegementedTab.allCases
                 )
                 ScrollView {
                     if viewStore.selectedSegment == .tips {

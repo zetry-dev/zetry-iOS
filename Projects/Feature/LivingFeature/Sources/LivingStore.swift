@@ -7,22 +7,22 @@
 //
 
 import BaseFeatureInterface
-import DesignSystem
-
-public enum LivingSegementedTab: Segments, CaseIterable, Equatable {
-    case tips
-    case today
-
-    public var title: String {
-        switch self {
-        case .tips: return "알면 좋은 꿀팁"
-        case .today: return "오늘의 상점"
-        }
-    }
-}
+import CoreKitInterface
 
 public struct LivingStore: Reducer {
     public init() {}
+
+    public enum LivingSegementedTab: Segments, CaseIterable, Equatable {
+        case tips
+        case today
+
+        public var title: String {
+            switch self {
+            case .tips: return "알면 좋은 꿀팁"
+            case .today: return "오늘의 상점"
+            }
+        }
+    }
 
     public struct State: Equatable {
         var selectedSegment: LivingSegementedTab = .tips

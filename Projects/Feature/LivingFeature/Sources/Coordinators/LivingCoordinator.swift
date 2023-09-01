@@ -7,7 +7,6 @@
 //
 
 import BaseFeatureInterface
-import Combine
 
 public struct LivingCoordinator: Reducer {
     public init() {}
