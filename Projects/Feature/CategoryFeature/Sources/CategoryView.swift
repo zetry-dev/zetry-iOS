@@ -20,43 +20,26 @@ public struct CategoryView: View {
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { viewStore in
             VStack(spacing: 0) {
-                HStack {
-                    Text("카테고리")
-                        .fontStyle(.subtitle2)
-                }
-                .frame(maxWidth: .infinity, maxHeight: 38)
-                .overlay(alignment: .trailing) {
-                    Button {
-                        viewStore.send(.didTapSearchButton)
-                    } label: {
-                        ZetryIcon(DesignSystemAsset.Icons.magnifyingglass, size: .larger)
-                            .padding(.trailing, 16)
-                    }
-                }
+                navigationView(viewStore: viewStore)
 
                 SegmentedPicker(
                     viewStore.$selectedSegment,
                     segments: CategoryStore.CategorySegementedTab.allCases,
                     paddingHorizontal: 23.5
                 )
-//                SegmentedPicker(
-//                    viewStore.binding(
-//                        get: { $0.selectedSegment },
-//                        send: CategoryStore.Action.selectedSegment
-//                    ),
-//                    segments: CategoryStore.CategorySegementedTab.allCases,
-//                    paddingHorizontal: 23.5
-//                )
 
                 GeometryReader { proxy in
                     HStack(spacing: 0) {
                         ScrollView {
                             VStack(alignment: .leading, spacing: 0) {
-                                ForEach(Category.allCases, id: \.self) {
-                                    categoryView($0, selected: $0 == viewStore.selectedCategory)
-                                        .onTapGesture {
-                                            viewStore.selectedCategory = $0
-                                        }
+                                ForEach(Category.allCases, id: \.self) { category in
+                                    categoryView(
+                                        category,
+                                        selected: category == viewStore.selectedCategory
+                                    )
+                                    .onTapGesture {
+                                        viewStore.send(.didTapCategory(category))
+                                    }
                                 }
                             }
                         }
@@ -79,6 +62,23 @@ public struct CategoryView: View {
     }
 
     @ViewBuilder
+    private func navigationView(viewStore: ViewStoreOf<CategoryStore>) -> some View {
+        HStack {
+            Text("카테고리")
+                .fontStyle(.subtitle2)
+        }
+        .frame(maxWidth: .infinity, maxHeight: 38)
+        .overlay(alignment: .trailing) {
+            Button {
+                viewStore.send(.routeToSearch)
+            } label: {
+                ZetryIcon(DesignSystemAsset.Icons.magnifyingglass, size: .larger)
+                    .padding(.trailing, 16)
+            }
+        }
+    }
+
+    @ViewBuilder
     private func categoryView(_ category: Category, selected: Bool) -> some View {
         Text(category.rawValue)
             .fontStyle(
@@ -89,6 +89,6 @@ public struct CategoryView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .frame(height: 56)
             .contentShape(Rectangle())
-            .background(Color.white)
+            .background(selected ? Color.zetry(.grayScale(.gray0)) : Color.white)
     }
 }

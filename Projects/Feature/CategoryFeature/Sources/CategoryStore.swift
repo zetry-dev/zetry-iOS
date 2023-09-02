@@ -35,12 +35,16 @@ public struct CategoryStore: Reducer {
         case binding(BindingAction<State>)
         case onAppear
         case didTapSearchButton
+        case didTapCategory(Category)
     }
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
+            case .didTapCategory(let category):
+                state.selectedCategory = category
+                return .none
             default: return .none
             }
         }
