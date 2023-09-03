@@ -38,7 +38,8 @@ public struct AppCoordinator: Reducer {
             case .routeAction(_, action: .launch(.onDisappear)):
                 state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
                 return .none
-            case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToSearch))))):
+            case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToSearch))))),
+                 .routeAction(_, action: .mainTab(.category(.routeAction(_, action: .category(.routeToSearch))))):
                 state.routes.push(.search(.init()))
                 return .none
             case .routeAction(_, action: .search(.routeToDetail(let item))):

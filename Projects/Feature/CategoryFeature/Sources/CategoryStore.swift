@@ -34,8 +34,8 @@ public struct CategoryStore: Reducer {
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case onAppear
-        case didTapSearchButton
         case didTapCategory(Category)
+        case routeToSearch
     }
 
     public var body: some ReducerOf<Self> {
