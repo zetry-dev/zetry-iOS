@@ -12,6 +12,7 @@ import SwiftUI
 
 public struct CategoryView: View {
     public let store: StoreOf<CategoryStore>
+    private var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
 
     public init(store: StoreOf<CategoryStore>) {
         self.store = store
@@ -47,9 +48,21 @@ public struct CategoryView: View {
 
                         ScrollView {
                             if viewStore.selectedSegment == .recyclable {
-                                Text("recycle")
+                                LazyVGrid(columns: columns) {
+                                    ForEach(0 ... 19, id: \.self) { _ in
+                                        CategoryCell("재활용", imageUrl: "")
+                                    }
+                                }
+                                .padding(.vertical, 18)
+                                .padding(.horizontal, 13)
                             } else {
-                                Text("non-recycle")
+                                LazyVGrid(columns: columns) {
+                                    ForEach(0 ... 19, id: \.self) { _ in
+                                        CategoryCell("일반", imageUrl: "")
+                                    }
+                                }
+                                .padding(.vertical, 18)
+                                .padding(.horizontal, 13)
                             }
                         }
                         .frame(maxWidth: .infinity)
