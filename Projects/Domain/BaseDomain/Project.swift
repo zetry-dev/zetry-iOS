@@ -14,7 +14,6 @@ let project = Project.module(
         .implements(
             module: .domain(.BaseDomain),
             dependencies: [
-                .SPM.TCA,
                 .domain(target: .BaseDomain, type: .interface),
                 .core(target: .Networking),
                 .shared(target: .GlobalThirdPartyLibrary)
