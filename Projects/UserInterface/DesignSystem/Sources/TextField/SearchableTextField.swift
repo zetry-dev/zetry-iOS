@@ -48,7 +48,7 @@ public struct SearchableTextField: View {
             }
         }
         .padding(.horizontal, 6)
-        .padding(.vertical, 7)
+        .padding(.vertical, 10)
         .background(Color.zetry(.grayScale(.gray1)))
         .cornerRadius(8)
     }
