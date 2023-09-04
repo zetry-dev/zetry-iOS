@@ -7,6 +7,7 @@
 //
 
 import BaseFeatureInterface
+import LivingFeature
 import SearchFeature
 
 public struct HomeScreen: Reducer {
@@ -22,10 +23,10 @@ public struct HomeScreen: Reducer {
 
     public var body: some ReducerOf<Self> {
         Scope(state: /State.home, action: /Action.home) {
-            HomeStore()
+            HomeStore()._printChanges()
         }
         Scope(state: /State.search, action: /Action.search) {
-            SearchStore()
+            SearchStore()._printChanges()
         }
     }
 }

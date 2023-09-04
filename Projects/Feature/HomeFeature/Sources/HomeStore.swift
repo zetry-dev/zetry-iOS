@@ -6,23 +6,34 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import BaseFeatureInterface
 
 public struct HomeStore: Reducer {
     public init() {}
 
     public struct State: Equatable {
-        public init() {}
+        var categories: [ZetryCategory]
+        
+        public init() {
+            categories = Array(ZetryCategory.allCases.prefix(9))
+            categories.append(.empty)
+        }
     }
 
     public enum Action: Equatable {
         case onAppear
         case routeToSearch
+        case routeToLiving
+        case unfoldCategories
     }
 
     public var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
+            case .unfoldCategories:
+                state.categories = ZetryCategory.allCases
+                return .none
             default: return .none
             }
         }
