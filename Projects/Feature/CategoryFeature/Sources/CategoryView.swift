@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import BaseFeatureInterface
 import DesignSystem
 import SwiftUI
@@ -33,7 +34,7 @@ public struct CategoryView: View {
                     HStack(spacing: 0) {
                         ScrollView {
                             VStack(alignment: .leading, spacing: 0) {
-                                ForEach(Category.allCases, id: \.self) { category in
+                                ForEach(ZetryCategory.allCases, id: \.self) { category in
                                     categoryView(
                                         category,
                                         selected: category == viewStore.selectedCategory
@@ -50,7 +51,11 @@ public struct CategoryView: View {
                             if viewStore.selectedSegment == .recyclable {
                                 LazyVGrid(columns: columns) {
                                     ForEach(0 ... 19, id: \.self) { _ in
-                                        CategoryCell("재활용", imageUrl: "")
+                                        CategoryItemCell(
+                                            "재활용",
+                                            size: 62,
+                                            imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                                        )
                                     }
                                 }
                                 .padding(.vertical, 18)
@@ -58,7 +63,11 @@ public struct CategoryView: View {
                             } else {
                                 LazyVGrid(columns: columns) {
                                     ForEach(0 ... 19, id: \.self) { _ in
-                                        CategoryCell("일반", imageUrl: "")
+                                        CategoryItemCell(
+                                            "일반",
+                                            size: 62,
+                                            imageUrl: "https://p7.hiclipart.com/preview/180/516/952/apple-logo-computer-icons-clip-art-iphone-apple.jpg"
+                                        )
                                     }
                                 }
                                 .padding(.vertical, 18)
@@ -92,7 +101,7 @@ public struct CategoryView: View {
     }
 
     @ViewBuilder
-    private func categoryView(_ category: Category, selected: Bool) -> some View {
+    private func categoryView(_ category: ZetryCategory, selected: Bool) -> some View {
         Text(category.rawValue)
             .fontStyle(
                 selected ? .subtitle3 : .body2,

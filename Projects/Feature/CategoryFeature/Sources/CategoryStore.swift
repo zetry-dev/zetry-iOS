@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import BaseFeatureInterface
 import CoreKitInterface
 
@@ -26,7 +27,7 @@ public struct CategoryStore: Reducer {
 
     public struct State: Equatable {
         @BindingState var selectedSegment: CategorySegementedTab = .recyclable
-        @BindingState var selectedCategory: Category = .paper
+        @BindingState var selectedCategory: ZetryCategory = .paper
 
         public init() {}
     }
@@ -34,7 +35,7 @@ public struct CategoryStore: Reducer {
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case onAppear
-        case didTapCategory(Category)
+        case didTapCategory(ZetryCategory)
         case routeToSearch
     }
 
@@ -49,14 +50,4 @@ public struct CategoryStore: Reducer {
             }
         }
     }
-}
-
-public enum Category: String, CaseIterable {
-    case paper = "종이류"
-    case can = "캔/고철류"
-    case glass = "유리병류"
-    case plastic = "플라스틱류"
-    case styrofoam = "스티로폼류"
-    case plasticWrapper = "비닐류"
-    case clothes = "의류"
 }
