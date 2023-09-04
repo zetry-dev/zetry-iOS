@@ -11,7 +11,6 @@ let project = Project.module(
             spec: .init(
                 resources: ["Resources/**"],
                 dependencies: [
-                    .SPM.Kingfisher,
                     .core(target: .CoreKit, type: .interface)
                 ]
             )

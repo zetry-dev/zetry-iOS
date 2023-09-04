@@ -5,7 +5,6 @@ public extension TargetDependency {
 }
 
 public extension TargetDependency.SPM {
-    static let Kingfisher = TargetDependency.external(name: "Kingfisher")
     static let Firestore = TargetDependency.external(name: "FirebaseFirestore")
     static let FirebaseAnalytics = TargetDependency.external(name: "FirebaseAnalyticsWithoutAdIdSupport")
     static let TCACoordinator = TargetDependency.external(name: "TCACoordinators")
