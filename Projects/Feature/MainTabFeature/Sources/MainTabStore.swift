@@ -16,14 +16,16 @@ public struct MainTabStore: Reducer {
     public init() {}
 
     public struct State: Equatable {
-        public var selectedTab: MainTabItem = .home
+        public var selectedTab: MainTabItem
 
         public var home: HomeCoordinator.State = .init()
         public var category: CategoryCoordinator.State = .init()
         public var living: LivingCoordinator.State = .init()
         public var settings: SettingsCoordinator.State = .init()
 
-        public init() {}
+        public init(selectedTab: MainTabItem = .home) {
+            self.selectedTab = selectedTab
+        }
     }
 
     public enum Action {
