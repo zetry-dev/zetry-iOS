@@ -13,7 +13,7 @@ import SwiftUI
 public struct HomeView: View {
     public let store: StoreOf<HomeStore>
     private let livingColumns: [GridItem] = [.init(.flexible(), spacing: 12), .init(.flexible(), spacing: 12)]
-    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible()), count: 5)
+    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .top), count: 5)
 
     public init(store: StoreOf<HomeStore>) {
         self.store = store
@@ -29,15 +29,9 @@ public struct HomeView: View {
 
                 ScrollView {
                     LazyVGrid(columns: categoryColumns) {
-                        ForEach(0 ..< viewStore.state.categories.count, id: \.self) { index in
-                            CategoryItemCell(viewStore.state.categories[index].rawValue, size: 54, imageUrl: "")
-                                .onTapGesture {
-                                    withAnimation {
-                                        if viewStore.state.categories[index] == .empty {
-                                            viewStore.send(.unfoldCategories)
-                                        }
-                                    }
-                                }
+                        ForEach(viewStore.categories.indices, id: \.self) { index in
+                            CategoryItemCell(viewStore.categories[index].rawValue, size: 54, imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg")
+                                .animatedList(viewStore.isAnimated, index: index)
                         }
                     }
 
@@ -47,6 +41,9 @@ public struct HomeView: View {
 
                     livingSectionView(viewStore: viewStore)
                 }
+            }
+            .onAppear {
+                viewStore.send(.animatingList)
             }
         }
     }
@@ -61,8 +58,9 @@ public struct HomeView: View {
                 columns: livingColumns,
                 spacing: 28
             ) {
-                ForEach(0 ... 9, id: \.self) { _ in
-                    LivingItemCell("쓰레기 잘 버리는 법", imageUrl: "", height: 150)
+                ForEach(0 ... 9, id: \.self) { index in
+                    LivingItemCell("쓰레기 잘 버리는 법", imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg", height: 150)
+                        .animatedList(viewStore.isAnimated, index: index)
                         .onTapGesture {
                             viewStore.send(.routeToLiving)
                         }

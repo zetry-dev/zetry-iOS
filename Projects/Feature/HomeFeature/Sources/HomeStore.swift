@@ -13,26 +13,24 @@ public struct HomeStore: Reducer {
     public init() {}
 
     public struct State: Equatable {
-        var categories: [ZetryCategory]
-        
-        public init() {
-            categories = Array(ZetryCategory.allCases.prefix(9))
-            categories.append(.empty)
-        }
+        var categories: [ZetryCategory] = ZetryCategory.allCases
+        var isAnimated: Bool = false
+
+        public init() {}
     }
 
     public enum Action: Equatable {
         case onAppear
         case routeToSearch
         case routeToLiving
-        case unfoldCategories
+        case animatingList
     }
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .unfoldCategories:
-                state.categories = ZetryCategory.allCases
+            case .animatingList:
+                state.isAnimated = true
                 return .none
             default: return .none
             }
