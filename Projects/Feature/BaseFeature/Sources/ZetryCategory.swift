@@ -16,10 +16,7 @@ public enum ZetryCategory: String, CaseIterable {
     case styrofoam = "스티로폼류"
     case plasticWrapper = "비닐류"
     case clothes = "의류"
-    case test1
-    case test2
-    case test3
-    case test4
-    case test5
-    case empty = "더보기"
+    case lampAndBattery = "형광등/폐전지류"
+    case electronics = "폐전자제품류"
+    case foodWaste = "음식물류"
 }
