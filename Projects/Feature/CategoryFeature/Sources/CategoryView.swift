@@ -104,7 +104,7 @@ public struct CategoryView: View {
     private func categoryView(_ category: ZetryCategory, selected: Bool) -> some View {
         Text(category.rawValue)
             .fontStyle(
-                selected ? .subtitle3 : .body2,
+                selected ? .subtitle4 : .body2,
                 foregroundColor: selected ? .grayScale(.gray12) : .grayScale(.gray5)
             )
             .padding(.leading, 20)
