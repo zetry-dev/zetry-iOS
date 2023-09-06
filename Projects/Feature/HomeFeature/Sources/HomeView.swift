@@ -6,7 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
+import ComposableArchitecture
 import DesignSystem
 import SwiftUI
 
@@ -21,24 +21,24 @@ public struct HomeView: View {
 
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { viewStore in
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
+                // TODO: -로고 반영
+                Text("zetry")
+                    .fontStyle(
+                        .subtitle1,
+                        foregroundColor: .primary(.primary)
+                    )
+                    .padding(.leading, 17)
+                    .padding(.bottom, 12)
+
                 serachNavigationView()
                     .onTapGesture {
                         viewStore.send(.routeToSearch)
                     }
 
                 ScrollView {
-                    LazyVGrid(columns: categoryColumns) {
-                        ForEach(viewStore.categories.indices, id: \.self) { index in
-                            CategoryItemCell(viewStore.categories[index].rawValue, size: 54, imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg")
-                                .animatedList(viewStore.isAnimated, index: index)
-                        }
-                    }
-
-                    Color
-                        .zetry(.grayScale(.gray0))
-                        .frame(height: 7)
-
+                    categorySectionView(viewStore: viewStore)
+                    divider
                     livingSectionView(viewStore: viewStore)
                 }
             }
@@ -46,6 +46,27 @@ public struct HomeView: View {
                 viewStore.send(.animatingList)
             }
         }
+    }
+
+    var divider: some View {
+        Color
+            .zetry(.grayScale(.gray0))
+            .frame(height: 7)
+    }
+
+    @ViewBuilder
+    private func categorySectionView(viewStore: ViewStoreOf<HomeStore>) -> some View {
+        LazyVGrid(columns: categoryColumns) {
+            ForEach(viewStore.categories.indices, id: \.self) { index in
+                CategoryItemCell(
+                    viewStore.categories[index].rawValue,
+                    size: 54,
+                    imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                )
+                .animatedList(viewStore.isAnimated, index: index)
+            }
+        }
+        .padding(.top, 26)
     }
 
     @ViewBuilder
@@ -59,11 +80,14 @@ public struct HomeView: View {
                 spacing: 28
             ) {
                 ForEach(0 ... 9, id: \.self) { index in
-                    LivingItemCell("쓰레기 잘 버리는 법", imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg", height: 150)
-                        .animatedList(viewStore.isAnimated, index: index)
-                        .onTapGesture {
-                            viewStore.send(.routeToLiving)
-                        }
+                    LivingItemCell(
+                        "쓰레기 잘 버리는 법",
+                        imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                    )
+                    .animatedList(viewStore.isAnimated, index: index)
+                    .onTapGesture {
+                        viewStore.send(.routeToLiving)
+                    }
                 }
             }
         }
@@ -95,8 +119,7 @@ public struct HomeView: View {
         }
         .frame(height: 46)
         .background {
-            // TODO: - Change color
-            Color.zetry(.grayScale(.gray1))
+            Color.zetry(.primary(.primary0))
         }
         .cornerRadius(10)
         .padding(.horizontal, 15)
