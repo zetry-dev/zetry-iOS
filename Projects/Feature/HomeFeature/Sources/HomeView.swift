@@ -31,7 +31,7 @@ public struct HomeView: View {
                     .padding(.leading, 17)
                     .padding(.bottom, 12)
 
-                serachNavigationView()
+                searchNavigationView()
                     .onTapGesture {
                         viewStore.send(.routeToSearch)
                     }
@@ -96,7 +96,7 @@ public struct HomeView: View {
     }
 
     @ViewBuilder
-    private func serachNavigationView() -> some View {
+    private func searchNavigationView() -> some View {
         HStack(spacing: 0) {
             ZetryIcon(
                 DesignSystemAsset.Icons.magnifyingglass,
