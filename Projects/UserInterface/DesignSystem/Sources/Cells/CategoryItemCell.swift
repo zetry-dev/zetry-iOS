@@ -26,12 +26,13 @@ public struct CategoryItemCell: View {
             ) { phase in
                 switch phase {
                 case .success(let image):
-                    image.resizable()
+                    image
+                        .resizable()
+                        .scaledToFit()
                 default:
                     Color.zetry(.grayScale(.gray3))
                 }
             }
-            .frame(width: size, height: size)
             .background(Color.zetry(.grayScale(.gray2)))
             .cornerRadius(20)
 

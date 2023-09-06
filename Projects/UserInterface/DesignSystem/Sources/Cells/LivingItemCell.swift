@@ -11,12 +11,10 @@ import SwiftUI
 public struct LivingItemCell: View {
     private let imageUrl: String
     private let title: String
-    private let height: CGFloat
 
-    public init(_ title: String, imageUrl: String, height: CGFloat) {
+    public init(_ title: String, imageUrl: String) {
         self.title = title
         self.imageUrl = imageUrl
-        self.height = height
     }
 
     public var body: some View {
@@ -27,11 +25,13 @@ public struct LivingItemCell: View {
                 switch phase {
                 case .success(let image):
                     image
+                        .resizable()
+                        .scaledToFill()
                 default:
                     Color.zetry(.grayScale(.gray3))
+                        .frame(height: 50)
                 }
             }
-            .frame(height: height)
             .background(Color.zetry(.grayScale(.gray2)))
             .cornerRadius(20)
 
