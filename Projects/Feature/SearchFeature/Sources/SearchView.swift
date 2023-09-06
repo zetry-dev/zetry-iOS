@@ -76,7 +76,7 @@ extension SearchView {
                     }
                 })
                 .onSubmit {
-                    viewStore.send(.search)
+                    viewStore.send(.didTapSearch)
                 }
             }
         }
@@ -92,7 +92,7 @@ extension SearchView {
                     .fontStyle(.subtitle3)
                 Spacer()
                 Button {
-                    viewStore.send(.removeAllQueries)
+                    viewStore.send(.didTapRemoveAllQueries)
                 } label: {
                     Text("전체삭제")
                         .fontStyle(.label2, foregroundColor: .grayScale(.gray7))
@@ -131,7 +131,7 @@ extension SearchView {
                         .fontStyle(.label4, foregroundColor: .grayScale(.gray7))
                 }
 
-                HStack {
+                HStack(alignment: .lastTextBaseline) {
                     VStack(alignment: .leading) {
                         ForEach(0 ... 4, id: \.self) { index in
                             if 0 ... 2 ~= index {
@@ -205,7 +205,7 @@ extension SearchView {
                             if canDelete {
                                 ZetryIcon(DesignSystemAsset.Icons.xmark, foregroundColor: .grayScale(.gray6))
                                     .onTapGesture {
-                                        viewStore.send(.removeQuery(index))
+                                        viewStore.send(.didTapRemoveQuery(index))
                                     }
                             }
                         }

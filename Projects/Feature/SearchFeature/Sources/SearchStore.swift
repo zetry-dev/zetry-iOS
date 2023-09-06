@@ -10,6 +10,7 @@ import CategoryDomain
 import CategoryDomainInterface
 import ComposableArchitecture
 import CoreKit
+import Foundation
 
 public struct SearchStore: Reducer {
     public init() {}
@@ -23,10 +24,10 @@ public struct SearchStore: Reducer {
 
         var recentKeywords: [String]
         var recommendedKeywords: [String] = []
-        var topKeywords: [String] = ["종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭", "모니터", "보조배터리", "커튼", "컵라면 용기"]
+        var topKeywords: [String] = []
         var relatedKeywords: [String] = []
         var searchResults: [String] = []
-        var updatedTimeStamp: String = "2023.08.08 오후 7시 업데이트"
+        var updatedTimeStamp: String = "2023.08.08 업데이트"
         var isEmptyResult: Bool = false
 
         public init() {
@@ -38,15 +39,19 @@ public struct SearchStore: Reducer {
         case binding(BindingAction<State>)
         case onAppear
 
-        case search
+        case didTapSearch
         case didTapQuery(String)
-        case searchKeywords
-        case removeQuery(Int)
-        case removeAllQueries
+        case didTapRemoveQuery(Int)
+        case didTapRemoveAllQueries
+
+        case fetchSearchKeywords
         case removeRelatedKeywords
         case addRecentKeyword
+        case storeKeywords([CategoryItemEntity])
+        case updateTimeStamp
 
-        case dataLoaded(TaskResult<[CategoryItemEntity]>)
+        case itemDataLoaded(TaskResult<[CategoryItemEntity]>)
+        case relatedQueryDataLoaded(TaskResult<[CategoryItemEntity]>)
 
         case pop
         case routeToDetail(item: CategoryItemEntity)
@@ -56,7 +61,10 @@ public struct SearchStore: Reducer {
     @Dependency(\.categoryClient) var categoryClient
     @Dependency(\.continuousClock) var clock
 
-    private enum DebounceSearchID { case debounce }
+    private enum CancellableID {
+        case debounce
+        case fetchKeywords
+    }
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -67,9 +75,9 @@ public struct SearchStore: Reducer {
                 if !state.query.isEmpty {
                     return .run { send in
                         try await clock.sleep(for: .seconds(1))
-                        await send(.searchKeywords)
+                        await send(.fetchSearchKeywords)
                     }
-                    .cancellable(id: DebounceSearchID.debounce, cancelInFlight: true)
+                    .cancellable(id: CancellableID.debounce, cancelInFlight: true)
                 } else {
                     return .none
                 }
@@ -78,9 +86,9 @@ public struct SearchStore: Reducer {
                     let result = await TaskResult {
                         try await categoryClient.fetchAllItems()
                     }
-                    await send(.dataLoaded(result))
+                    await send(.itemDataLoaded(result))
                 }
-            case .search:
+            case .didTapSearch:
                 debugPrint("query :: \(state.query)")
                 return .run { [newState = state] send in
                     if let item = newState.items.first(where: { $0.title == newState.query }) {
@@ -92,27 +100,27 @@ public struct SearchStore: Reducer {
                     await send(.removeRelatedKeywords)
                 }
 
-            case .searchKeywords:
+            case .fetchSearchKeywords:
+                // FIXME: didTapSearch 이후에 발생하지 않도록
                 debugPrint("keywords :: \(state.query)")
-                // TODO: - 데이터 가져오기
-                state.relatedKeywords = [
-                    "종이컵", "비닐", "유리컵", "우산", "의자", "멀티탭",
-                    "모니터", "보조배터리", "커튼", "컵라면 용기", "종이컵",
-                    "비닐", "유리컵", "우산", "의자", "종이컵", "비닐", "유리컵",
-                    "우산", "의자", "종이컵", "비닐", "유리컵", "우산", "의자"
-                ]
-                return .none
+                return .run { [newState = state] send in
+                    let result = await TaskResult {
+                        try await categoryClient.fetchItems(newState.query)
+                    }
+                    await send(.relatedQueryDataLoaded(result))
+                }
+                .cancellable(id: CancellableID.fetchKeywords, cancelInFlight: true)
 
             case .didTapQuery(let query):
                 state.query = query
-                return .send(.search)
+                return .send(.didTapSearch)
 
-            case .removeQuery(let index):
+            case .didTapRemoveQuery(let index):
                 UserDefaultsManager.recentKeywords.remove(at: index)
                 state.recentKeywords.remove(at: index)
                 return .none
 
-            case .removeAllQueries:
+            case .didTapRemoveAllQueries:
                 UserDefaultsManager.recentKeywords = []
                 state.recentKeywords = []
                 return .none
@@ -141,22 +149,51 @@ public struct SearchStore: Reducer {
                 UserDefaultsManager.recentKeywords = state.recentKeywords
                 return .none
 
-            case .dataLoaded(.success(let result)):
+            case .itemDataLoaded(.success(let result)):
                 state.items = result
-                let keywords = result.map(\.title)
-                state.recommendedKeywords = keywords.shuffled().prefix(10).map { String($0) }
-                state.topKeywords = keywords.shuffled().prefix(10).map { String($0) }
-                return .none
 
-            case .dataLoaded(.failure):
+                return .run { send in
+                    await send(.storeKeywords(result))
+                    await send(.updateTimeStamp)
+                }
+
+            case .itemDataLoaded(.failure):
                 state.recommendedKeywords = []
                 return .none
 
+            case .relatedQueryDataLoaded(.success(let result)):
+                if !result.isEmpty {
+                    state.relatedKeywords = result.map(\.title)
+                }
+                return .none
             case .presentSearchFailure:
                 state.isEmptyResult = true
                 return .none
+
+            case .storeKeywords(let data):
+                storeRandomKeywordIfNeeded(&UserDefaultsManager.recommendedKeywords, data: data)
+                storeRandomKeywordIfNeeded(&UserDefaultsManager.topKeywords, data: data)
+
+                state.recommendedKeywords = UserDefaultsManager.recommendedKeywords
+                state.topKeywords = UserDefaultsManager.topKeywords
+                return .none
+
+            case .updateTimeStamp:
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy.MM.dd 업데이트"
+                state.updatedTimeStamp = formatter.string(from: Date.now)
+                return .none
             default: return .none
             }
+        }
+    }
+
+    private func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [CategoryItemEntity]) {
+        if storedKeywords.isEmpty ||
+            !(Calendar.current.isDateInToday(UserDefaultsManager.keywordsDate)) {
+            let keywords = data.map(\.title)
+            let newKeywords = keywords.shuffled().prefix(10).map { String($0) }
+            storedKeywords = newKeywords
         }
     }
 }

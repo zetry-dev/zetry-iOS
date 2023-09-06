@@ -31,7 +31,15 @@ public struct UserDefault<T> {
 }
 
 public enum UserDefaultsManager {
-    /// recent keywords
     @UserDefault(key: "recent_keywords", defaultValue: [])
     public static var recentKeywords: [String]
+
+    @UserDefault(key: "recommend_keywords", defaultValue: [])
+    public static var recommendedKeywords: [String]
+    
+    @UserDefault(key: "top_keywords", defaultValue: [])
+    public static var topKeywords: [String]
+
+    @UserDefault(key: "keywords_date", defaultValue: .now)
+    public static var keywordsDate: Date
 }
