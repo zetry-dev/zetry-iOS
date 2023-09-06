@@ -33,7 +33,6 @@ public struct LivingItemCell: View {
                 }
             }
             .background(Color.zetry(.grayScale(.gray2)))
-            .cornerRadius(20)
 
             Text(title)
                 .fontStyle(.body2)

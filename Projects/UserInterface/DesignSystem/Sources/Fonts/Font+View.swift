@@ -11,8 +11,8 @@ import SwiftUI
 public extension View {
     func fontStyle(
         _ font: Font.ZetryFontSystem,
-        foregroundColor: Color.ZetryColorSystem = .grayScale(.gray12)) -> some View
-    {
+        foregroundColor: Color.ZetryColorSystem = .grayScale(.gray12)
+    ) -> some View {
         self.modifier(FontModifier(font, foregroundColor: foregroundColor))
     }
 }
