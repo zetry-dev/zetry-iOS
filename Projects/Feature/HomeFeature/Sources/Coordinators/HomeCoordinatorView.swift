@@ -6,9 +6,10 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
+import ComposableArchitecture
 import SearchFeature
 import SwiftUI
+import TCACoordinators
 
 public struct HomeCoordinatorView: View {
     private let store: StoreOf<HomeCoordinator>

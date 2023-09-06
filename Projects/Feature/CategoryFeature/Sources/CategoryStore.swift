@@ -7,7 +7,7 @@
 //
 
 import BaseFeature
-import BaseFeatureInterface
+import ComposableArchitecture
 import CoreKitInterface
 
 public struct CategoryStore: Reducer {

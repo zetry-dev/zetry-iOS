@@ -8,6 +8,8 @@
 
 import BaseDomainInterface
 import CategoryDomainInterface
+import ComposableArchitecture
+import Networking
 
 public extension DependencyValues {
     var categoryClient: CategoryClient {

@@ -6,9 +6,9 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
 import CategoryDomain
 import CategoryDomainInterface
+import ComposableArchitecture
 import CoreKit
 
 public struct SearchStore: Reducer {

@@ -6,8 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
 import CategoryFeature
+import ComposableArchitecture
 import HomeFeature
 import LivingFeature
 import SettingsFeature

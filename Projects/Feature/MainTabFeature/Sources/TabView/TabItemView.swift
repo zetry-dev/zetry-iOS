@@ -6,7 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
+import ComposableArchitecture
 
 // public struct TabItemView: View {
 //    @Binding private var selection: MainTabItem

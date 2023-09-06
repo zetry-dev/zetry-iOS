@@ -7,7 +7,8 @@
 //
 
 import BaseFeature
-import BaseFeatureInterface
+import ComposableArchitecture
+import TCACoordinators
 
 public struct HomeStore: Reducer {
     public init() {}

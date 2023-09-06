@@ -6,8 +6,9 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
+import ComposableArchitecture
 import LaunchScreenFeature
+import TCACoordinators
 
 public struct AppCoordinator: Reducer {
     public init() {}

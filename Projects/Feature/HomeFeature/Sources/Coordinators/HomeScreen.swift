@@ -6,9 +6,10 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
+import ComposableArchitecture
 import LivingFeature
 import SearchFeature
+import TCACoordinators
 
 public struct HomeScreen: Reducer {
     public enum State: Equatable {

@@ -6,11 +6,12 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
+import ComposableArchitecture
 import LaunchScreenFeature
 import MainTabFeature
 import ProductDetailFeature
 import SearchFeature
+import TCACoordinators
 
 public struct AppScreen: Reducer {
     public enum State: Equatable {

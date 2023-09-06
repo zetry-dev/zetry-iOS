@@ -6,7 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseFeatureInterface
+import TCACoordinators
+import ComposableArchitecture
 
 public struct CategoryScreen: Reducer {
     public enum State: Equatable {
