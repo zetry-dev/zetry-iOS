@@ -29,7 +29,7 @@ public struct LivingItemCell: View {
                         .scaledToFill()
                 default:
                     Color.zetry(.grayScale(.gray3))
-                        .frame(height: 50)
+                        .frame(height: 150)
                 }
             }
             .background(Color.zetry(.grayScale(.gray2)))
