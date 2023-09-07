@@ -34,13 +34,14 @@ public struct CategoryView: View {
                     HStack(spacing: 0) {
                         ScrollView {
                             VStack(alignment: .leading, spacing: 0) {
-                                ForEach(ZetryCategory.allCases, id: \.self) { category in
+                                ForEach(viewStore.categories.indices, id: \.self) { index in
+                                    let category = viewStore.categories[index]
                                     categoryView(
-                                        category,
-                                        selected: category == viewStore.selectedCategory
+                                        category.title,
+                                        selected: index == viewStore.selectedCategory
                                     )
                                     .onTapGesture {
-                                        viewStore.send(.didTapCategory(category))
+                                        viewStore.send(.didTapCategory(index))
                                     }
                                 }
                             }
@@ -80,6 +81,9 @@ public struct CategoryView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.zetry(.grayScale(.gray0)))
             }
+            .onAppear {
+                viewStore.send(.onAppear)
+            }
         }
     }
 
@@ -101,8 +105,8 @@ public struct CategoryView: View {
     }
 
     @ViewBuilder
-    private func categoryView(_ category: ZetryCategory, selected: Bool) -> some View {
-        Text(category.rawValue)
+    private func categoryView(_ category: String, selected: Bool) -> some View {
+        Text(category)
             .fontStyle(
                 selected ? .subtitle4 : .body2,
                 foregroundColor: selected ? .grayScale(.gray12) : .grayScale(.gray5)

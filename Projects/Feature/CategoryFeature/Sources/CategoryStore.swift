@@ -7,6 +7,8 @@
 //
 
 import BaseFeature
+import CategoryDomain
+import CategoryDomainInterface
 import ComposableArchitecture
 import CoreKitInterface
 
@@ -26,8 +28,9 @@ public struct CategoryStore: Reducer {
     }
 
     public struct State: Equatable {
+        var categories: [CategoryEntity] = []
         @BindingState var selectedSegment: CategorySegementedTab = .recyclable
-        @BindingState var selectedCategory: ZetryCategory = .paper
+        @BindingState var selectedCategory: Int = 0
 
         public init() {}
     }
@@ -35,16 +38,31 @@ public struct CategoryStore: Reducer {
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case onAppear
-        case didTapCategory(ZetryCategory)
+        case didTapCategory(Int)
+
+        case categoryDataLoaded(TaskResult<[CategoryEntity]>)
+
         case routeToSearch
     }
+
+    @Dependency(\.categoryClient) private var categoryClient
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .didTapCategory(let category):
+            case .onAppear:
+                return .run { send in
+                    let result = await TaskResult {
+                        try await categoryClient.fetchCategories()
+                    }
+                    await send(.categoryDataLoaded(result))
+                }
+            case let .didTapCategory(category):
                 state.selectedCategory = category
+                return .none
+            case let .categoryDataLoaded(.success(result)):
+                state.categories = result.sorted(by: <)
                 return .none
             default: return .none
             }

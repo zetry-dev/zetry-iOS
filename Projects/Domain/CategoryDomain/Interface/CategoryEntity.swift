@@ -14,6 +14,12 @@ public struct CategoryEntity: Decodable, Equatable {
     public var priority: Int
 }
 
+extension CategoryEntity: Comparable {
+    public static func < (lhs: CategoryEntity, rhs: CategoryEntity) -> Bool {
+        lhs.priority < rhs.priority
+    }
+}
+
 public extension [CategoryEntity] {
     static var mock = [
         CategoryEntity(title: "종이류", image: "imageURL", priority: 0),
