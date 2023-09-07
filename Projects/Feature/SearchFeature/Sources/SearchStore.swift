@@ -59,9 +59,9 @@ public struct SearchStore: Reducer {
         case presentSearchFailure
     }
 
-    @Dependency(\.categoryClient) var categoryClient
-    @Dependency(\.productClient) var productClient
-    @Dependency(\.continuousClock) var clock
+    @Dependency(\.categoryClient) private var categoryClient
+    @Dependency(\.productClient) private var productClient
+    @Dependency(\.continuousClock) private var clock
 
     private enum CancellableID {
         case debounce
@@ -92,15 +92,19 @@ public struct SearchStore: Reducer {
                 }
             case .didTapSearch:
                 debugPrint("query :: \(state.query)")
-                return .run { [newState = state] send in
-                    if let item = newState.items.first(where: { $0.title == newState.query }) {
-                        await send(.routeToDetail(item: item))
-                    } else {
-                        await send(.presentSearchFailure)
-                    }
-                    await send(.addRecentKeyword)
-                    await send(.removeRelatedKeywords)
-                }
+                return .concatenate([
+                    .run { [newState = state] send in
+                        if let item = newState.items.first(where: { $0.title == newState.query }) {
+                            await send(.routeToDetail(item: item))
+                        } else {
+                            await send(.presentSearchFailure)
+                        }
+                    },
+                    .merge([
+                        .send(.addRecentKeyword),
+                        .send(.removeRelatedKeywords)
+                    ])
+                ])
 
             case .fetchSearchKeywords:
                 // FIXME: didTapSearch 이후에 발생하지 않도록
