@@ -11,6 +11,8 @@ import CategoryDomainInterface
 import ComposableArchitecture
 import CoreKit
 import Foundation
+import ProductDomain
+import ProductDomainInterface
 
 public struct SearchStore: Reducer {
     public init() {}
@@ -19,8 +21,7 @@ public struct SearchStore: Reducer {
         @BindingState var query: String = ""
         @BindingState var focusedField: Bool = false
 
-        var mainCategories: [CategoryItemEntity] = []
-        var items: [CategoryItemEntity] = []
+        var items: [ProductEntity] = []
 
         var recentKeywords: [String]
         var recommendedKeywords: [String] = []
@@ -47,18 +48,19 @@ public struct SearchStore: Reducer {
         case fetchSearchKeywords
         case removeRelatedKeywords
         case addRecentKeyword
-        case storeKeywords([CategoryItemEntity])
+        case storeKeywords([ProductEntity])
         case updateTimeStamp
 
-        case itemDataLoaded(TaskResult<[CategoryItemEntity]>)
-        case relatedQueryDataLoaded(TaskResult<[CategoryItemEntity]>)
+        case itemDataLoaded(TaskResult<[ProductEntity]>)
+        case relatedQueryDataLoaded(TaskResult<[ProductEntity]>)
 
         case pop
-        case routeToDetail(item: CategoryItemEntity)
+        case routeToDetail(item: ProductEntity)
         case presentSearchFailure
     }
 
     @Dependency(\.categoryClient) var categoryClient
+    @Dependency(\.productClient) var productClient
     @Dependency(\.continuousClock) var clock
 
     private enum CancellableID {
@@ -84,7 +86,7 @@ public struct SearchStore: Reducer {
             case .onAppear:
                 return .run { send in
                     let result = await TaskResult {
-                        try await categoryClient.fetchAllItems()
+                        try await productClient.fetchAllItems()
                     }
                     await send(.itemDataLoaded(result))
                 }
@@ -105,7 +107,7 @@ public struct SearchStore: Reducer {
                 debugPrint("keywords :: \(state.query)")
                 return .run { [newState = state] send in
                     let result = await TaskResult {
-                        try await categoryClient.fetchItems(newState.query)
+                        try await productClient.fetchItems(newState.query)
                     }
                     await send(.relatedQueryDataLoaded(result))
                 }
@@ -188,7 +190,7 @@ public struct SearchStore: Reducer {
         }
     }
 
-    private func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [CategoryItemEntity]) {
+    private func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [ProductEntity]) {
         if storedKeywords.isEmpty ||
             !(Calendar.current.isDateInToday(UserDefaultsManager.keywordsDate)) {
             let keywords = data.map(\.title)

@@ -11,6 +11,8 @@ let project = Project.module(
                 .feature(target: .BaseFeature),
                 .domain(target: .CategoryDomain),
                 .domain(target: .CategoryDomain, type: .interface),
+                .domain(target: .ProductDomain),
+                .domain(target: .ProductDomain, type: .interface),
             ]
         ),
         .tests(
