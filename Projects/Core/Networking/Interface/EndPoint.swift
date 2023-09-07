@@ -10,4 +10,5 @@ import Foundation
 
 public enum EndPoint: String {
     case products
+    case categories
 }

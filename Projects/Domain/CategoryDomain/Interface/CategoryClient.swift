@@ -9,26 +9,21 @@
 import ComposableArchitecture
 
 public struct CategoryClient {
-    public var fetchAllItems: @Sendable () async throws -> [CategoryItemEntity]
-    public var fetchItems: @Sendable (_ category: String) async throws -> [CategoryItemEntity]
+    public var fetchCategories: @Sendable () async throws -> [CategoryEntity]
 
     public init(
-        fetchAllItems: @Sendable @escaping () async throws -> [CategoryItemEntity],
-        fetchItems: @Sendable @escaping (_ category: String) async throws -> [CategoryItemEntity]
+        fetchCategories: @Sendable @escaping () async throws -> [CategoryEntity]
     ) {
-        self.fetchAllItems = fetchAllItems
-        self.fetchItems = fetchItems
+        self.fetchCategories = fetchCategories
     }
 }
 
 extension CategoryClient: TestDependencyKey {
     public static let previewValue = Self(
-        fetchAllItems: { .mock },
-        fetchItems: { _ in .mock }
+        fetchCategories: { .mock }
     )
 
     public static let testValue = Self(
-        fetchAllItems: unimplemented("\(Self.self).category.main"),
-        fetchItems: unimplemented("\(Self.self).category.sub")
+        fetchCategories: unimplemented("\(Self.self).category.fetchCategories")
     )
 }

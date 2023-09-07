@@ -9,21 +9,15 @@
 import NetworkingInterface
 
 public enum CategoryAPI {
-    case fetchItems(category: String)
-    case fetchAllItems
+    case fetchCategories
 }
 
 extension CategoryAPI: TargetType {
     public var endPoint: EndPoint {
-        .products
+        .categories
     }
 
     public var query: [String: Any]? {
-        switch self {
-        case .fetchItems(let category):
-            return ["category": category]
-        default:
-            return nil
-        }
+        nil
     }
 }

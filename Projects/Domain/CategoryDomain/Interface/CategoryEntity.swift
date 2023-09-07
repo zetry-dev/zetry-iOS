@@ -8,19 +8,18 @@
 
 import Foundation
 
-public struct CategoryItemEntity: Decodable, Equatable {
+public struct CategoryEntity: Decodable, Equatable {
     public var title: String
-    public var category: String
-    public var image: String?
-    public var recyclable: Bool?
+    public var image: String
+    public var priority: Int
 }
 
-public extension [CategoryItemEntity] {
+public extension [CategoryEntity] {
     static var mock = [
-        CategoryItemEntity(title: "종이컵", category: "종이", image: "imageURL", recyclable: true),
-        CategoryItemEntity(title: "우산", category: "비닐", image: "imageURL", recyclable: true),
-        CategoryItemEntity(title: "선풍기", category: "플라스틱", image: "imageURL", recyclable: true),
-        CategoryItemEntity(title: "유리컵", category: "유리", image: "imageURL", recyclable: true),
-        CategoryItemEntity(title: "뽁뽁이", category: "비닐", image: "imageURL", recyclable: true)
+        CategoryEntity(title: "종이류", image: "imageURL", priority: 0),
+        CategoryEntity(title: "비닐류", image: "imageURL", priority: 1),
+        CategoryEntity(title: "의류", image: "imageURL", priority: 2),
+        CategoryEntity(title: "캔/고철류", image: "imageURL", priority: 3),
+        CategoryEntity(title: "스티로폼류", image: "imageURL", priority: 4)
     ]
 }
