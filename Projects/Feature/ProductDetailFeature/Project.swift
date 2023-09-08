@@ -9,8 +9,7 @@ let project = Project.module(
             module: .feature(.ProductDetailFeature),
             dependencies: [
                 .feature(target: .BaseFeature),
-                .domain(target: .ProductDomain),
-                .domain(target: .ProductDomain, type: .interface)
+                .domain(target: .ProductDomain)
             ]
         ),
         .tests(

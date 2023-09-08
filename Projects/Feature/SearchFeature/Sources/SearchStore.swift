@@ -6,8 +6,6 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import CategoryDomain
-import CategoryDomainInterface
 import ComposableArchitecture
 import CoreKit
 import Foundation
@@ -59,7 +57,6 @@ public struct SearchStore: Reducer {
         case presentSearchFailure
     }
 
-    @Dependency(\.categoryClient) private var categoryClient
     @Dependency(\.productClient) private var productClient
     @Dependency(\.continuousClock) private var clock
 
@@ -194,7 +191,7 @@ public struct SearchStore: Reducer {
         }
     }
 
-    private func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [ProductEntity]) {
+    func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [ProductEntity]) {
         if storedKeywords.isEmpty ||
             !(Calendar.current.isDateInToday(UserDefaultsManager.keywordsDate)) {
             let keywords = data.map(\.title)

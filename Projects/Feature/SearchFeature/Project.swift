@@ -10,21 +10,19 @@ let project = Project.module(
             dependencies: [
                 .feature(target: .BaseFeature),
                 .domain(target: .CategoryDomain),
-                .domain(target: .CategoryDomain, type: .interface),
                 .domain(target: .ProductDomain),
-                .domain(target: .ProductDomain, type: .interface),
             ]
         ),
         .tests(
             module: .feature(.SearchFeature),
             dependencies: [
-                .feature(target: .SearchFeature)
+                .feature(target: .SearchFeature),
             ]
         ),
         .demo(
             module: .feature(.SearchFeature),
             dependencies: [
-                .feature(target: .SearchFeature)
+                .feature(target: .SearchFeature),
             ]
         ),
     ]

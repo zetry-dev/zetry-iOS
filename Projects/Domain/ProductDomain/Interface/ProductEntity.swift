@@ -15,12 +15,16 @@ public struct ProductEntity: Decodable, Equatable {
     public var recyclable: Bool?
 }
 
+public extension ProductEntity {
+    static var mock = ProductEntity(title: "종이컵", category: "종이", image: "imageURL", recyclable: true)
+}
+
 public extension [ProductEntity] {
     static var mock = [
         ProductEntity(title: "종이컵", category: "종이", image: "imageURL", recyclable: true),
-        ProductEntity(title: "우산", category: "비닐", image: "imageURL", recyclable: true),
-        ProductEntity(title: "선풍기", category: "플라스틱", image: "imageURL", recyclable: true),
-        ProductEntity(title: "유리컵", category: "유리", image: "imageURL", recyclable: true),
-        ProductEntity(title: "뽁뽁이", category: "비닐", image: "imageURL", recyclable: true)
+        ProductEntity(title: "박스", category: "종이", image: "imageURL", recyclable: true),
+        ProductEntity(title: "신문지", category: "종이", image: "imageURL", recyclable: true),
+        ProductEntity(title: "한지", category: "종이", image: "imageURL", recyclable: true),
+        ProductEntity(title: "포장지", category: "종이", image: "imageURL", recyclable: true)
     ]
 }
