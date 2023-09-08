@@ -17,7 +17,7 @@ public struct SearchStore: Reducer {
 
     public struct State: Equatable {
         @BindingState var query: String = ""
-        @BindingState var focusedField: Bool = false
+        @BindingState var focusedField: Bool = true
 
         var items: [ProductEntity] = []
 
@@ -34,17 +34,10 @@ public struct SearchStore: Reducer {
         }
     }
 
-    public enum Action: BindableAction, Equatable {
-        case binding(BindingAction<State>)
-        case onAppear
-
-        case didTapSearch
-        case didTapQuery(String)
-        case didTapRemoveQuery(Int)
-        case didTapRemoveAllQueries
+    public enum Action: Equatable {
+        case view(View)
 
         case fetchSearchKeywords
-        case removeRelatedKeywords
         case addRecentKeyword
         case storeKeywords([ProductEntity])
         case updateTimeStamp
@@ -52,9 +45,21 @@ public struct SearchStore: Reducer {
         case itemDataLoaded(TaskResult<[ProductEntity]>)
         case relatedQueryDataLoaded(TaskResult<[ProductEntity]>)
 
-        case pop
         case routeToDetail(item: ProductEntity)
         case presentSearchFailure
+
+        public enum View: BindableAction, Equatable, Sendable {
+            case binding(BindingAction<State>)
+            case onAppear
+
+            case didTapSearch
+            case didTapQuery(String)
+            case didTapRemoveQuery(Int)
+            case didTapRemoveAllQueries
+
+            case removeRelatedKeywords
+            case pop
+        }
     }
 
     @Dependency(\.productClient) private var productClient
@@ -66,43 +71,10 @@ public struct SearchStore: Reducer {
     }
 
     public var body: some ReducerOf<Self> {
-        BindingReducer()
+        BindingReducer(action: /Action.view)
 
         Reduce { state, action in
             switch action {
-            case .binding(\.$query):
-                if !state.query.isEmpty {
-                    return .run { send in
-                        try await clock.sleep(for: .seconds(1))
-                        await send(.fetchSearchKeywords)
-                    }
-                    .cancellable(id: CancellableID.debounce, cancelInFlight: true)
-                } else {
-                    return .none
-                }
-            case .onAppear:
-                return .run { send in
-                    let result = await TaskResult {
-                        try await productClient.fetchAllItems()
-                    }
-                    await send(.itemDataLoaded(result))
-                }
-            case .didTapSearch:
-                debugPrint("query :: \(state.query)")
-                return .concatenate([
-                    .run { [newState = state] send in
-                        if let item = newState.items.first(where: { $0.title == newState.query }) {
-                            await send(.routeToDetail(item: item))
-                        } else {
-                            await send(.presentSearchFailure)
-                        }
-                    },
-                    .merge([
-                        .send(.addRecentKeyword),
-                        .send(.removeRelatedKeywords)
-                    ])
-                ])
-
             case .fetchSearchKeywords:
                 // FIXME: didTapSearch 이후에 발생하지 않도록
                 debugPrint("keywords :: \(state.query)")
@@ -114,21 +86,7 @@ public struct SearchStore: Reducer {
                 }
                 .cancellable(id: CancellableID.fetchKeywords, cancelInFlight: true)
 
-            case .didTapQuery(let query):
-                state.query = query
-                return .send(.didTapSearch)
-
-            case .didTapRemoveQuery(let index):
-                UserDefaultsManager.recentKeywords.remove(at: index)
-                state.recentKeywords.remove(at: index)
-                return .none
-
-            case .didTapRemoveAllQueries:
-                UserDefaultsManager.recentKeywords = []
-                state.recentKeywords = []
-                return .none
-
-            case .removeRelatedKeywords:
+            case .view(.removeRelatedKeywords):
                 state.relatedKeywords = []
                 state.query = ""
                 return .none
@@ -186,6 +144,56 @@ public struct SearchStore: Reducer {
                 formatter.dateFormat = "yyyy.MM.dd 업데이트"
                 state.updatedTimeStamp = formatter.string(from: Date.now)
                 return .none
+
+            case .view(.binding(\.$query)):
+                if !state.query.isEmpty {
+                    return .run { send in
+                        try await clock.sleep(for: .seconds(1))
+                        await send(.fetchSearchKeywords)
+                    }
+                    .cancellable(id: CancellableID.debounce, cancelInFlight: true)
+                } else {
+                    return .none
+                }
+
+            case .view(.onAppear):
+                return .run { send in
+                    let result = await TaskResult {
+                        try await productClient.fetchAllItems()
+                    }
+                    await send(.itemDataLoaded(result))
+                }
+
+            case .view(.didTapSearch):
+                debugPrint("query :: \(state.query)")
+                return .concatenate([
+                    .run { [newState = state] send in
+                        if let item = newState.items.first(where: { $0.title == newState.query }) {
+                            await send(.routeToDetail(item: item))
+                        } else {
+                            await send(.presentSearchFailure)
+                        }
+                    },
+                    .merge([
+                        .send(.addRecentKeyword),
+                        .send(.view(.removeRelatedKeywords))
+                    ])
+                ])
+
+            case .view(.didTapQuery(let query)):
+                state.query = query
+                return .send(.view(.didTapSearch))
+
+            case .view(.didTapRemoveQuery(let index)):
+                UserDefaultsManager.recentKeywords.remove(at: index)
+                state.recentKeywords.remove(at: index)
+                return .none
+
+            case .view(.didTapRemoveAllQueries):
+                UserDefaultsManager.recentKeywords = []
+                state.recentKeywords = []
+                return .none
+
             default: return .none
             }
         }

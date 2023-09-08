@@ -46,7 +46,7 @@ public struct AppCoordinator: Reducer {
             case .routeAction(_, action: .search(.routeToDetail(let item))):
                 state.routes.push(.detail(.init(item: item)))
                 return .none
-            case .routeAction(_, action: .search(.pop)):
+            case .routeAction(_, action: .search(.view(.pop))):
                 state.routes.pop()
                 return .none
             case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToLiving))))):

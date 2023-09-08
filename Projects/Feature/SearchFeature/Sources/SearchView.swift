@@ -19,14 +19,14 @@ public struct SearchView: View {
     }
 
     public var body: some View {
-        WithViewStore(self.store) { $0 } content: { viewStore in
+        WithViewStore(self.store, observe: \.view, send: SearchStore.Action.view) { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 searchableNavigationView(viewStore)
-                if viewStore.state.isEmptyResult {
-                    // TODO: - EmptyResult
+                if viewStore.isEmptyResult {
+//                    // TODO: - EmptyResult
                 } else {
                     ScrollView {
-                        if viewStore.state.query.isEmpty {
+                        if viewStore.query.isEmpty {
                             recentSearchView(viewStore)
                             recommendSearchView(viewStore)
                             topKeywordsView(viewStore)
@@ -47,9 +47,39 @@ public struct SearchView: View {
 }
 
 extension SearchView {
+    struct ViewState: Equatable {
+        @BindingViewState var query: String
+        @BindingViewState var focusedField: Bool
+        let topKeywords: [String]
+        var recentKeywords: [String]
+        let updatedTimeStamp: String
+        let recommendedKeywords: [String]
+        var relatedKeywords: [String]
+        var isEmptyResult: Bool
+    }
+}
+
+extension BindingViewStore<SearchStore.State> {
+    var view: SearchView.ViewState {
+        SearchView.ViewState(
+            query: self.$query,
+            focusedField: self.$focusedField,
+            topKeywords: self.topKeywords,
+            recentKeywords: self.recentKeywords,
+            updatedTimeStamp: self.updatedTimeStamp,
+            recommendedKeywords: self.recommendedKeywords,
+            relatedKeywords: self.relatedKeywords,
+            isEmptyResult: self.isEmptyResult
+        )
+    }
+}
+
+extension SearchView {
     @MainActor
     @ViewBuilder
-    private func searchableNavigationView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+    private func searchableNavigationView(
+        _ viewStore: ViewStore<SearchView.ViewState, SearchStore.Action.View>
+    ) -> some View {
         VStack(alignment: .leading) {
             HStack(spacing: 2) {
                 ZetryIcon(DesignSystemAsset.Icons.chevronLeft)
@@ -66,7 +96,7 @@ extension SearchView {
                 .bind(
                     viewStore.binding(
                         get: \.focusedField,
-                        send: SearchStore.Action.binding(.set(\.$focusedField, focusedField))
+                        send: SearchStore.Action.View.binding(.set(\.$focusedField, focusedField))
                     ),
                     to: self.$focusedField
                 )
@@ -85,7 +115,7 @@ extension SearchView {
     }
 
     @ViewBuilder
-    private func recentSearchView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+    private func recentSearchView(_ viewStore: ViewStore<SearchView.ViewState, SearchStore.Action.View>) -> some View {
         if !viewStore.recentKeywords.isEmpty {
             HStack {
                 Text("최근 검색어")
@@ -106,7 +136,9 @@ extension SearchView {
     }
 
     @ViewBuilder
-    private func recommendSearchView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
+    private func recommendSearchView(
+        _ viewStore: ViewStore<SearchView.ViewState, SearchStore.Action.View>
+    ) -> some View {
         HStack {
             Text("추천 검색어")
                 .fontStyle(.subtitle3)
@@ -119,15 +151,15 @@ extension SearchView {
     }
 
     @ViewBuilder
-    private func topKeywordsView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
-        let topKeywords = viewStore.state.topKeywords
+    private func topKeywordsView(_ viewStore: ViewStore<SearchView.ViewState, SearchStore.Action.View>) -> some View {
+        let topKeywords = viewStore.topKeywords
         if topKeywords.count > 9 {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Text("이웃들이 많이 찾아봤어요")
                         .fontStyle(.subtitle3)
                     Spacer()
-                    Text(viewStore.state.updatedTimeStamp)
+                    Text(viewStore.updatedTimeStamp)
                         .fontStyle(.label4, foregroundColor: .grayScale(.gray7))
                 }
 
@@ -191,7 +223,10 @@ extension SearchView {
     }
 
     @ViewBuilder
-    private func scrollableQueryView(_ viewStore: ViewStoreOf<SearchStore>, canDelete: Bool) -> some View {
+    private func scrollableQueryView(
+        _ viewStore: ViewStore<SearchView.ViewState, SearchStore.Action.View>,
+        canDelete: Bool
+    ) -> some View {
         let keywords = canDelete ? viewStore.recentKeywords : viewStore.recommendedKeywords
 
         ScrollView(.horizontal, showsIndicators: false) {
@@ -222,8 +257,10 @@ extension SearchView {
     }
 
     @ViewBuilder
-    private func relatedKeywordView(_ viewStore: ViewStoreOf<SearchStore>) -> some View {
-        ForEach(viewStore.state.relatedKeywords, id: \.self) { keyword in
+    private func relatedKeywordView(
+        _ viewStore: ViewStore<SearchView.ViewState, SearchStore.Action.View>
+    ) -> some View {
+        ForEach(viewStore.relatedKeywords, id: \.self) { keyword in
             HStack(spacing: 9) {
                 ZetryIcon(DesignSystemAsset.Icons.magnifyingglass, foregroundColor: .grayScale(.gray6))
                 Text(keyword)
