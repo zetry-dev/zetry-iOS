@@ -47,19 +47,6 @@ public struct SearchStore: Reducer {
 
         case routeToDetail(item: ProductEntity)
         case presentSearchFailure
-
-        public enum View: BindableAction, Equatable, Sendable {
-            case binding(BindingAction<State>)
-            case onAppear
-
-            case didTapSearch
-            case didTapQuery(String)
-            case didTapRemoveQuery(Int)
-            case didTapRemoveAllQueries
-
-            case removeRelatedKeywords
-            case pop
-        }
     }
 
     @Dependency(\.productClient) private var productClient
@@ -76,19 +63,21 @@ public struct SearchStore: Reducer {
         Reduce { state, action in
             switch action {
             case .fetchSearchKeywords:
-                // FIXME: didTapSearch 이후에 발생하지 않도록
-                debugPrint("keywords :: \(state.query)")
-                return .run { [newState = state] send in
-                    let result = await TaskResult {
-                        try await productClient.fetchItems(newState.query)
+                if !state.query.isEmpty {
+                    debugPrint("keywords :: \(state.query)")
+                    return .run { [newState = state] send in
+                        let result = await TaskResult {
+                            try await productClient.fetchItems(newState.query)
+                        }
+                        await send(.relatedQueryDataLoaded(result))
                     }
-                    await send(.relatedQueryDataLoaded(result))
+                    .cancellable(id: CancellableID.fetchKeywords, cancelInFlight: true)
+                } else {
+                    return .none
                 }
-                .cancellable(id: CancellableID.fetchKeywords, cancelInFlight: true)
 
             case .view(.removeRelatedKeywords):
                 state.relatedKeywords = []
-                state.query = ""
                 return .none
 
             case .addRecentKeyword:
@@ -145,7 +134,12 @@ public struct SearchStore: Reducer {
                 state.updatedTimeStamp = formatter.string(from: Date.now)
                 return .none
 
+            case .routeToDetail:
+                state.query = ""
+                return .none
+
             case .view(.binding(\.$query)):
+                state.isEmptyResult = false
                 if !state.query.isEmpty {
                     return .run { send in
                         try await clock.sleep(for: .seconds(1))
@@ -153,7 +147,7 @@ public struct SearchStore: Reducer {
                     }
                     .cancellable(id: CancellableID.debounce, cancelInFlight: true)
                 } else {
-                    return .none
+                    return .cancel(id: CancellableID.debounce)
                 }
 
             case .view(.onAppear):
@@ -206,5 +200,20 @@ public struct SearchStore: Reducer {
             let newKeywords = keywords.shuffled().prefix(10).map { String($0) }
             storedKeywords = newKeywords
         }
+    }
+}
+
+public extension SearchStore.Action {
+    enum View: BindableAction, Equatable, Sendable {
+        case binding(BindingAction<SearchStore.State>)
+        case onAppear
+
+        case didTapSearch
+        case didTapQuery(String)
+        case didTapRemoveQuery(Int)
+        case didTapRemoveAllQueries
+
+        case removeRelatedKeywords
+        case pop
     }
 }

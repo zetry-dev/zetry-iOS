@@ -22,10 +22,16 @@ public struct SearchView: View {
         WithViewStore(self.store, observe: \.view, send: SearchStore.Action.view) { viewStore in
             VStack(alignment: .leading, spacing: 0) {
                 searchableNavigationView(viewStore)
-                if viewStore.isEmptyResult {
-//                    // TODO: - EmptyResult
-                } else {
-                    ScrollView {
+                ScrollView {
+                    if viewStore.isEmptyResult {
+                        // TODO: - EmptyResult
+                        VStack(spacing: 35) {
+                            Text("\"\(viewStore.query)\"에 대한 검색 결과가 없습니다.\n다시 한번 확인해 주세요.")
+                                .fontStyle(.body2)
+                                .padding(.top, 35)
+                            Divider(color: .gray1, height: 3)
+                        }
+                    } else {
                         if viewStore.query.isEmpty {
                             recentSearchView(viewStore)
                             recommendSearchView(viewStore)
