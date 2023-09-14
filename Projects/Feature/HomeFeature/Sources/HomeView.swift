@@ -14,6 +14,11 @@ public struct HomeView: View {
     public let store: StoreOf<HomeStore>
     private let livingColumns: [GridItem] = [.init(.flexible(), spacing: 12), .init(.flexible(), spacing: 12)]
     private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .top), count: 5)
+    private let gradientHeight: CGFloat = UIScreen.main.bounds.height * 0.55
+
+    @State var cards: [Card] = [.init(title: "카드1", color: .red), .init(title: "카드2", color: .blue), .init(title: "카드3", color: .green), .init(title: "카드4", color: .pink)]
+
+    @State var currentIndex: Int = 0
 
     public init(store: StoreOf<HomeStore>) {
         self.store = store
@@ -26,10 +31,10 @@ public struct HomeView: View {
                 Text("zetry")
                     .fontStyle(
                         .subtitle1,
-                        foregroundColor: .primary(.primary)
+                        foregroundColor: .grayScale(.white)
                     )
-                    .padding(.leading, 17)
-                    .padding(.bottom, 12)
+                    .padding(.leading, 16)
+                    .padding(.bottom, 16)
 
                 searchNavigationView()
                     .onTapGesture {
@@ -37,21 +42,33 @@ public struct HomeView: View {
                     }
 
                 ScrollView {
-                    categorySectionView(viewStore: viewStore)
-                    divider
-                    livingSectionView(viewStore: viewStore)
+                    CarouselView(index: $currentIndex, items: $cards, spacing: 16, cardPadding: 64) { _, cardSize in
+                        CachedAsyncImage(
+                            url: URL(string: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg")
+                        ) { phase in
+                            switch phase {
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: cardSize.width)
+                            default:
+                                Color
+                                    .zetry(.grayScale(.gray3))
+                                    .frame(width: cardSize.width, height: 333)
+                            }
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    }
+                    .frame(height: 333)
                 }
+                .padding(.top, 15)
             }
+            .gradientBackground(height: gradientHeight)
             .onAppear {
                 viewStore.send(.animatingList)
             }
         }
-    }
-
-    var divider: some View {
-        Color
-            .zetry(.grayScale(.gray0))
-            .frame(height: 7)
     }
 
     @ViewBuilder
@@ -96,32 +113,34 @@ public struct HomeView: View {
     }
 
     @ViewBuilder
+    private func gradientBackground() -> some View {}
+
+    @ViewBuilder
     private func searchNavigationView() -> some View {
-        HStack(spacing: 0) {
-            ZetryIcon(
-                DesignSystemAsset.Icons.magnifyingglass,
-                foregroundColor: .grayScale(.gray8),
-                size: .larger
+        HStack {
+            HStack(spacing: 10) {
+                ZetryIcon(
+                    DesignSystemAsset.Icons.magnifyingglass,
+                    foregroundColor: .grayScale(.white),
+                    size: .larger
+                )
+
+                Text("분리수거 방법이 궁금한 쓰레기를 검색해보세요.")
+                    .fontStyle(.label1, foregroundColor: .grayScale(.white))
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 6)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .inset(by: 0.5)
+                    .stroke(.white.opacity(0.7), lineWidth: 1)
+                    .background(
+                        .ultraThinMaterial.opacity(0.15),
+                        in: RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    )
             )
-            .padding(.leading, 8)
-            .padding(.trailing, 4)
-
-            Color
-                .zetry(.grayScale(.gray2))
-                .padding(.vertical, 11)
-                .frame(width: 1, height: 40)
-
-            Text("분리수거 방법이 궁금한 쓰레기를 검색해보세요")
-                .fontStyle(.body2, foregroundColor: .grayScale(.gray7))
-                .padding(.leading, 8)
-
             Spacer()
         }
-        .frame(height: 46)
-        .background {
-            Color.zetry(.primary(.primary0))
-        }
-        .cornerRadius(10)
-        .padding(.horizontal, 15)
+        .padding(.leading, 16)
     }
 }
