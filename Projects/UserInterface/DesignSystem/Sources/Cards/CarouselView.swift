@@ -8,6 +8,20 @@
 
 import SwiftUI
 
+public struct Card: Identifiable, Equatable, Hashable {
+    public var id: String
+    public var title: String
+    public var color: Color
+    public var imageURL: String
+
+    public init(title: String, color: Color, imageURL: String) {
+        self.id = UUID().uuidString
+        self.title = title
+        self.color = color
+        self.imageURL = imageURL
+    }
+}
+
 public struct CarouselView<Content: View>: View {
     var content: (Card, CGSize) -> Content
     var spacing: CGFloat
@@ -48,7 +62,6 @@ public struct CarouselView<Content: View>: View {
                 }
             }
             .animation(.easeInOut, value: UUID())
-//            .transition(.scale(scale: 0.9))
             .padding(.horizontal, spacing)
             .contentShape(Rectangle())
             .offset(x: limitScroll())

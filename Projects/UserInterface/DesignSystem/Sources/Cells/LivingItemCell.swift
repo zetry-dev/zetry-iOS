@@ -9,18 +9,18 @@
 import SwiftUI
 
 public struct LivingItemCell: View {
-    private let imageUrl: String
+    private let imageURL: String
     private let title: String
 
-    public init(_ title: String, imageUrl: String) {
+    public init(_ title: String, imageURL: String) {
         self.title = title
-        self.imageUrl = imageUrl
+        self.imageURL = imageURL
     }
 
     public var body: some View {
         VStack(alignment: .leading) {
             CachedAsyncImage(
-                url: URL(string: imageUrl)
+                url: URL(string: imageURL)
             ) { phase in
                 switch phase {
                 case .success(let image):
