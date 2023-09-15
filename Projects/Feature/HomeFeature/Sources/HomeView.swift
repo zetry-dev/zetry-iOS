@@ -113,9 +113,6 @@ public struct HomeView: View {
     }
 
     @ViewBuilder
-    private func gradientBackground() -> some View {}
-
-    @ViewBuilder
     private func searchNavigationView() -> some View {
         HStack {
             HStack(spacing: 10) {
@@ -127,6 +124,8 @@ public struct HomeView: View {
 
                 Text("분리수거 방법이 궁금한 쓰레기를 검색해보세요.")
                     .fontStyle(.label1, foregroundColor: .grayScale(.white))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 6)
