@@ -14,11 +14,8 @@ public struct HomeView: View {
     public let store: StoreOf<HomeStore>
     private let livingColumns: [GridItem] = [.init(.flexible(), spacing: 12), .init(.flexible(), spacing: 12)]
     private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .top), count: 5)
-    private let gradientHeight: CGFloat = UIScreen.main.bounds.height * 0.55
-
-    @State var cards: [Card] = [.init(title: "카드1", color: .red), .init(title: "카드2", color: .blue), .init(title: "카드3", color: .green), .init(title: "카드4", color: .pink)]
-
-    @State var currentIndex: Int = 0
+    private let blurWiodth: CGFloat = UIScreen.main.bounds.width
+    private let blurHeight: CGFloat = UIScreen.main.bounds.height * 0.55
 
     public init(store: StoreOf<HomeStore>) {
         self.store = store
@@ -42,9 +39,14 @@ public struct HomeView: View {
                     }
 
                 ScrollView {
-                    CarouselView(index: $currentIndex, items: $cards, spacing: 16, cardPadding: 64) { _, cardSize in
+                    CarouselView(
+                        index: viewStore.binding(get: \.carouselCurrentIndex, send: HomeStore.Action.indexChanged),
+                        items: viewStore.binding(get: \.cards, send: HomeStore.Action.cardChanged),
+                        spacing: 16,
+                        cardPadding: 64
+                    ) { card, cardSize in
                         CachedAsyncImage(
-                            url: URL(string: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg")
+                            url: URL(string: card.imageURL)
                         ) { phase in
                             switch phase {
                             case .success(let image):
@@ -64,7 +66,10 @@ public struct HomeView: View {
                 }
                 .padding(.top, 15)
             }
-            .gradientBackground(height: gradientHeight)
+            .blurImageBackground(
+                imageURL: viewStore.cards[viewStore.carouselCurrentIndex].imageURL,
+                size: .init(width: blurWiodth, height: blurHeight)
+            )
             .onAppear {
                 viewStore.send(.animatingList)
             }
@@ -99,7 +104,7 @@ public struct HomeView: View {
                 ForEach(0 ... 9, id: \.self) { index in
                     LivingItemCell(
                         "쓰레기 잘 버리는 법",
-                        imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                        imageURL: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
                     )
                     .animatedList(viewStore.isAnimated, index: index)
                     .onTapGesture {
