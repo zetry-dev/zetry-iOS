@@ -28,53 +28,48 @@ public struct MainTabView: View {
     @ViewBuilder
     func tabView() -> some View {
         WithViewStore(self.store, observe: \.selectedTab) { viewStore in
-            TabView(selection: viewStore.binding(send: { MainTabStore.Action.tabSelected($0) })) {
-                HomeCoordinatorView(
-                    store: self.store.scope(
-                        state: \.home,
-                        action: MainTabStore.Action.home
-                    )
-                )
-                .tabItem(.home)
 
-                CategoryCoordinatorView(
-                    store: self.store.scope(
-                        state: \.category,
-                        action: MainTabStore.Action.category
-                    )
-                )
-                .tabItem(.category)
+            let selection: Binding<MainTabItem> = viewStore.binding(send: { MainTabStore.Action.tabSelected($0) })
 
-                LivingCoordinatorView(
-                    store: self.store.scope(
-                        state: \.living,
-                        action: MainTabStore.Action.living
+            GeometryReader { proxy in
+                TabView(selection: selection) {
+                    HomeCoordinatorView(
+                        store: self.store.scope(
+                            state: \.home,
+                            action: MainTabStore.Action.home
+                        )
                     )
-                )
-                .tabItem(.living)
+                    .tag(MainTabItem.home)
 
-                SettingsCoordinatorView(
-                    store: self.store.scope(
-                        state: \.settings,
-                        action: MainTabStore.Action.settings
+                    CategoryCoordinatorView(
+                        store: self.store.scope(
+                            state: \.category,
+                            action: MainTabStore.Action.category
+                        )
                     )
-                )
-                .tabItem(.settings)
+                    .tag(MainTabItem.category)
+
+                    LivingCoordinatorView(
+                        store: self.store.scope(
+                            state: \.living,
+                            action: MainTabStore.Action.living
+                        )
+                    )
+                    .tag(MainTabItem.living)
+
+                    SettingsCoordinatorView(
+                        store: self.store.scope(
+                            state: \.settings,
+                            action: MainTabStore.Action.settings
+                        )
+                    )
+                    .tag(MainTabItem.settings)
+                }
+                .safeAreaInset(edge: .bottom) {
+                    ZenTabView(selectedTab: selection, height: proxy.safeAreaInsets.bottom)
+                }
+                .edgesIgnoringSafeArea(.bottom)
             }
         }
-    }
-}
-
-extension View {
-    @ViewBuilder
-    func tabItem(_ tab: MainTabItem) -> some View {
-        self.tabItem {
-            VStack {
-                ZetryIcon(tab.icon)
-                Text(tab.description)
-                    .fontStyle(.label4)
-            }
-        }
-        .tag(tab)
     }
 }
