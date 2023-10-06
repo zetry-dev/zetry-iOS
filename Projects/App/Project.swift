@@ -35,6 +35,7 @@ let targets: [Target] = [
             .core(target: .Networking),
             .domain(target: .CategoryDomain),
             .domain(target: .ProductDomain),
+            .domain(target: .SettingsDomain),
             .feature(target: .RootFeature),
             .feature(target: .LaunchScreenFeature),
             .feature(target: .MainTabFeature),
