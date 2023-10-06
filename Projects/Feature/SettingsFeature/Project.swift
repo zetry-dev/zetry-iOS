@@ -8,6 +8,7 @@ let project = Project.module(
         .implements(
             module: .feature(.SettingsFeature),
             dependencies: [
+                .domain(target: .ProductDomain),
                 .feature(target: .BaseFeature)
             ]
         ),
