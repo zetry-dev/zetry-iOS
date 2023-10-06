@@ -66,7 +66,7 @@ public struct MainTabView: View {
                     .tag(MainTabItem.settings)
                 }
                 .safeAreaInset(edge: .bottom) {
-                    ZenTabView(selectedTab: selection, height: proxy.safeAreaInsets.bottom)
+                    ZetryTabView(selectedTab: selection, height: proxy.safeAreaInsets.bottom)
                 }
                 .edgesIgnoringSafeArea(.bottom)
             }
