@@ -18,15 +18,13 @@ public extension Color {
         case primary(Primary)
         case secondary(Secondary)
         case grayScale(GrayScale)
-        case background(Background)
     }
 
     static func zetry(_ style: ZetryColorSystem) -> Color {
         switch style {
         case let .primary(colorable as ZetryColorable),
              let .secondary(colorable as ZetryColorable),
-             let .grayScale(colorable as ZetryColorable),
-             let .background(colorable as ZetryColorable):
+             let .grayScale(colorable as ZetryColorable):
             return colorable.color
         }
     }
@@ -35,8 +33,7 @@ public extension Color {
         switch style {
         case let .primary(colorable as ZetryColorable),
              let .secondary(colorable as ZetryColorable),
-             let .grayScale(colorable as ZetryColorable),
-             let .background(colorable as ZetryColorable):
+             let .grayScale(colorable as ZetryColorable):
             return colorable.uiColor
         }
     }

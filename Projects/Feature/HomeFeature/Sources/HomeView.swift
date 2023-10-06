@@ -28,7 +28,7 @@ public struct HomeView: View {
                 Text("zetry")
                     .fontStyle(
                         .subtitle1,
-                        foregroundColor: .grayScale(.white)
+                        foregroundColor: .primary(.white)
                     )
                     .padding(.leading, 16)
                     .padding(.bottom, 16)
@@ -123,12 +123,12 @@ public struct HomeView: View {
             HStack(spacing: 10) {
                 ZetryIcon(
                     DesignSystemAsset.Icons.magnifyingglass,
-                    foregroundColor: .grayScale(.white),
+                    foregroundColor: .primary(.white),
                     size: .larger
                 )
 
                 Text("분리수거 방법이 궁금한 쓰레기를 검색해보세요.")
-                    .fontStyle(.label1, foregroundColor: .grayScale(.white))
+                    .fontStyle(.label1, foregroundColor: .primary(.white))
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
             }

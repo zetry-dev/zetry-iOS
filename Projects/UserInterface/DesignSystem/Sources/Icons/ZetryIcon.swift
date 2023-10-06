@@ -32,6 +32,7 @@ public struct ZetryIcon: View {
     public var body: some View {
         icon.swiftUIImage
             .resizable()
+            .renderingMode(.template)
             .frame(width: size.width, height: size.height)
             .foregroundColor(.zetry(foregroundColor))
     }
