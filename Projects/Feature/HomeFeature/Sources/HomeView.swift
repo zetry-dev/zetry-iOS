@@ -39,30 +39,8 @@ public struct HomeView: View {
                     }
 
                 ScrollView {
-                    CarouselView(
-                        index: viewStore.binding(get: \.carouselCurrentIndex, send: HomeStore.Action.indexChanged),
-                        items: viewStore.binding(get: \.cards, send: HomeStore.Action.cardChanged),
-                        spacing: 16,
-                        cardPadding: 64
-                    ) { card, cardSize in
-                        CachedAsyncImage(
-                            url: URL(string: card.imageURL)
-                        ) { phase in
-                            switch phase {
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: cardSize.width)
-                            default:
-                                Color
-                                    .zetry(.grayScale(.gray3))
-                                    .frame(width: cardSize.width, height: 333)
-                            }
-                        }
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
-                    .frame(height: 333)
+                    carouselView(viewStore: viewStore)
+                    categorySectionView(viewStore: viewStore)
                 }
                 .padding(.top, 15)
             }
@@ -77,15 +55,62 @@ public struct HomeView: View {
     }
 
     @ViewBuilder
+    private func carouselView(viewStore: ViewStoreOf<HomeStore>) -> some View {
+        CarouselView(
+            index: viewStore.binding(get: \.carouselCurrentIndex, send: HomeStore.Action.indexChanged),
+            items: viewStore.binding(get: \.cards, send: HomeStore.Action.cardChanged),
+            spacing: 16,
+            cardPadding: 64
+        ) { card, cardSize in
+            CachedAsyncImage(
+                url: URL(string: card.imageURL)
+            ) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: cardSize.width)
+                default:
+                    Color
+                        .zetry(.grayScale(.gray3))
+                        .frame(width: cardSize.width, height: 333)
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .frame(height: 333)
+    }
+
+    @ViewBuilder
     private func categorySectionView(viewStore: ViewStoreOf<HomeStore>) -> some View {
         LazyVGrid(columns: categoryColumns) {
-            ForEach(viewStore.categories.indices, id: \.self) { index in
+            ForEach(0 ..< 5, id: \.self) { index in
+                let itemTitle = viewStore.categories[index].rawValue
                 CategoryItemCell(
-                    viewStore.categories[index].rawValue,
+                    index == 4 ? viewStore.categoryToggleTitle : itemTitle,
                     size: 54,
                     imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
                 )
                 .animatedList(viewStore.isAnimated, index: index)
+                .onTapGesture {
+                    if index == 4 {
+                        _ = withAnimation(.linear) {
+                            viewStore.send(.toggleCategory)
+                        }
+                    }
+                }
+            }
+
+            if viewStore.isCateogryExpandend {
+                ForEach(5 ..< viewStore.categories.count, id: \.self) { index in
+                    let itemTitle = viewStore.categories[index].rawValue
+                    CategoryItemCell(
+                        itemTitle,
+                        size: 54,
+                        imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                    )
+                }
             }
         }
         .padding(.top, 26)

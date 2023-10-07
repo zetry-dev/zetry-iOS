@@ -16,6 +16,9 @@ public struct HomeStore: Reducer {
 
     public struct State: Equatable {
         var categories: [ZetryCategory] = ZetryCategory.allCases
+        var isCateogryExpandend: Bool = false
+        var categoryToggleTitle: String { isCateogryExpandend ? "접기" : "더보기" }
+
         var isAnimated: Bool = false
         var carouselCurrentIndex: Int = 0
         // test
@@ -31,11 +34,13 @@ public struct HomeStore: Reducer {
 
     public enum Action: Equatable {
         case onAppear
-        case routeToSearch
-        case routeToLiving
         case animatingList
         case indexChanged(Int)
         case cardChanged([Card])
+        case toggleCategory
+
+        case routeToSearch
+        case routeToLiving
     }
 
     public var body: some ReducerOf<Self> {
@@ -46,6 +51,9 @@ public struct HomeStore: Reducer {
                 return .none
             case .indexChanged(let index):
                 state.carouselCurrentIndex = index
+                return .none
+            case .toggleCategory:
+                state.isCateogryExpandend.toggle()
                 return .none
             default: return .none
             }
