@@ -23,7 +23,7 @@ public struct Card: Identifiable, Equatable, Hashable {
 }
 
 public struct CarouselView<Content: View>: View {
-    var content: (Card, CGSize) -> Content
+    var content: (Card, CGSize, Int) -> Content
     var spacing: CGFloat
     var cardPadding: CGFloat
     @Binding var items: [Card]
@@ -39,7 +39,7 @@ public struct CarouselView<Content: View>: View {
         items: Binding<[Card]>,
         spacing: CGFloat = 30,
         cardPadding: CGFloat = 80,
-        @ViewBuilder content: @escaping (Card, CGSize) -> Content
+        @ViewBuilder content: @escaping (Card, CGSize, Int) -> Content
     ) {
         self.content = content
         self._index = index
@@ -53,10 +53,10 @@ public struct CarouselView<Content: View>: View {
             let size = proxy.size
             let cardWidth = size.width - (cardPadding - spacing)
             LazyHStack(spacing: spacing) {
-                ForEach(items) {
-                    let height = getHeight(size, index: indexOf(item: $0))
+                ForEach(items.indices, id: \.self) { index in
+                    let height = getHeight(size, index: indexOf(item: items[index]))
 
-                    content($0, CGSize(width: size.width - cardPadding, height: height))
+                    content(items[index], CGSize(width: size.width - cardPadding, height: height), index)
                         .frame(width: size.width - cardPadding, height: height)
                         .contentShape(Rectangle())
                 }
@@ -90,9 +90,9 @@ public struct CarouselView<Content: View>: View {
     }
 
     private func getHeight(_ size: CGSize, index: Int) -> CGFloat {
-        var height = size.height
+        var height = size.width
         if self.index != index {
-            height = size.height - 40
+            height = size.width - 40
         }
         return height
     }
