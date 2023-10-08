@@ -12,6 +12,12 @@ public struct CategoryEntity: Decodable, Equatable {
     public var title: String
     public var image: String
     public var priority: Int
+
+    public init(title: String, image: String, priority: Int) {
+        self.title = title
+        self.image = image
+        self.priority = priority
+    }
 }
 
 extension CategoryEntity: Comparable {
