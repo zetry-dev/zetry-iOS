@@ -11,14 +11,16 @@ import SwiftUI
 public struct LivingItemCell: View {
     private let imageURL: String
     private let title: String
+    private let subtitle: String
 
-    public init(_ title: String, imageURL: String) {
+    public init(_ title: String, subtitle: String, imageURL: String) {
         self.title = title
+        self.subtitle = subtitle
         self.imageURL = imageURL
     }
 
     public var body: some View {
-        VStack(alignment: .leading) {
+        HStack {
             CachedAsyncImage(
                 url: URL(string: imageURL)
             ) { phase in
@@ -34,8 +36,12 @@ public struct LivingItemCell: View {
             }
             .background(Color.zetry(.grayScale(.gray2)))
 
-            Text(title)
-                .fontStyle(.body2)
+            VStack {
+                Text(title)
+                    .fontStyle(.subtitle2)
+                Text(subtitle)
+                    .fontStyle(.label2)
+            }
         }
     }
 }
