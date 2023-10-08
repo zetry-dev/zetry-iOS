@@ -37,7 +37,7 @@ public struct CategoryStore: Reducer {
 
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
-        case onAppear
+        case onLoad
         case didTapCategory(Int)
 
         case categoryDataLoaded(TaskResult<[CategoryEntity]>)
@@ -51,7 +51,7 @@ public struct CategoryStore: Reducer {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .onAppear:
+            case .onLoad:
                 return .run { send in
                     let result = await TaskResult {
                         try await categoryClient.fetchCategories()

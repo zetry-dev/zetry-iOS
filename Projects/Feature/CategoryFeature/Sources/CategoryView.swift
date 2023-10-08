@@ -81,8 +81,8 @@ public struct CategoryView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.zetry(.grayScale(.gray0)))
             }
-            .onAppear {
-                viewStore.send(.onAppear)
+            .onLoad {
+                viewStore.send(.onLoad)
             }
         }
     }
