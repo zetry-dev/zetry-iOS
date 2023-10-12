@@ -56,17 +56,17 @@ public struct SettingsView: View {
                     )
                     .padding(.trailing, 16)
                 } else {
-                    if viewStore.updateNeeded {
-                        Button("업데이트") {
-                            //
-                        }
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .buttonStyle(.capsule)
+//                    if viewStore.updateNeeded {
+                    Button("업데이트") {
+                        //
                     }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .buttonStyle(.capsule)
+//                    }
                 }
             }
-            Divider()
+            Divider(color: .gray0)
         }
         .listRowInsets(.init())
         .listRowSeparator(.hidden)

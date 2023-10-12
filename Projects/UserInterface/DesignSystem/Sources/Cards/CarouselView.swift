@@ -52,12 +52,12 @@ public struct CarouselView<Content: View>: View {
         GeometryReader { proxy in
             let size = proxy.size
             let cardWidth = size.width - (cardPadding - spacing)
-            LazyHStack(spacing: spacing) {
+            HStack(spacing: spacing) {
                 ForEach(items.indices, id: \.self) { index in
                     let height = getHeight(size, index: indexOf(item: items[index]))
 
-                    content(items[index], CGSize(width: size.width - cardPadding, height: height), index)
-                        .frame(width: size.width - cardPadding, height: height)
+                    content(items[index], CGSize(width: size.width - cardPadding, height: height - cardPadding), index)
+                        .frame(height: height - cardPadding)
                         .contentShape(Rectangle())
                 }
             }
@@ -67,6 +67,12 @@ public struct CarouselView<Content: View>: View {
             .offset(x: limitScroll())
             .gesture(
                 DragGesture(minimumDistance: 5)
+                    .updating(
+                        $translation,
+                        body: { value, out, _ in
+                            out = value.translation.width
+                        }
+                    )
                     .onChanged { onChanged(value: $0, cardWidth: cardWidth) }
                     .onEnded {
                         onEnded(value: $0, cardWidth: cardWidth)
@@ -74,11 +80,11 @@ public struct CarouselView<Content: View>: View {
                     }
             )
         }
-//        .onAppear {
-//            let extraSpace = (cardPadding / 2) - spacing
-//            offset = extraSpace
-//            lastStoredOffset = extraSpace
-//        }
+        .onAppear {
+            let extraSpace = (cardPadding / 2) - spacing
+            offset = extraSpace
+            lastStoredOffset = extraSpace
+        }
     }
 
     private func indexOf(item: Card) -> Int {
@@ -90,11 +96,10 @@ public struct CarouselView<Content: View>: View {
     }
 
     private func getHeight(_ size: CGSize, index: Int) -> CGFloat {
-        var height = size.width
         if self.index != index {
-            height = size.width - 40
+            return size.width - 40 + abs(translation) * 0.1
         }
-        return height
+        return size.width - abs(translation) * 0.1
     }
 
     private func limitScroll() -> CGFloat {
@@ -120,11 +125,11 @@ public struct CarouselView<Content: View>: View {
 
         currentIndex = Int(index)
         self.index = -currentIndex
-        let extraSpace = (cardPadding / 2) - spacing
-        offset = (cardWidth * index) + extraSpace
-        withAnimation {
-            lastStoredOffset = offset
+        withAnimation(.easeInOut) {
+            let extraSpace = (cardPadding / 2) - spacing
+            offset = (cardWidth * index) + extraSpace
         }
+        lastStoredOffset = offset
     }
 
     private func fetchMore() {

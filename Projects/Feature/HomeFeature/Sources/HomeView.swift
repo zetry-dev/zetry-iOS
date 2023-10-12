@@ -23,62 +23,60 @@ public struct HomeView: View {
 
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { viewStore in
-            ZStack(alignment: .bottom) {
-                ObservableScrollView(
-                    scrollOffset: viewStore.binding(
-                        get: \.scrollViewOffsetY,
-                        send: HomeStore.Action.scrollOffsetYChanged
-                    )) { _ in
-                        LazyVStack(
-                            alignment: .leading,
-                            spacing: 0,
-                            pinnedViews: [.sectionHeaders],
-                            content: {
-                                Section {
+            ObservableScrollView(
+                scrollOffset: viewStore.binding(
+                    get: \.scrollViewOffsetY,
+                    send: HomeStore.Action.scrollOffsetYChanged
+                )) { _ in
+                    LazyVStack(
+                        alignment: .leading,
+                        spacing: 0,
+                        pinnedViews: [.sectionHeaders],
+                        content: {
+                            Section {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    carouselView(viewStore: viewStore)
+                                        .padding(.top, 15)
+                                        .blurImageBackground(
+                                            imageURL: viewStore.cards[viewStore.carouselCurrentIndex].imageURL,
+                                            size: .init(width: blurWiodth, height: blurHeight)
+                                        )
                                     VStack(alignment: .leading, spacing: 0) {
-                                        carouselView(viewStore: viewStore)
-                                            .padding(.top, 15)
-                                            .blurImageBackground(
-                                                imageURL: viewStore.cards[viewStore.carouselCurrentIndex].imageURL,
-                                                size: .init(width: blurWiodth, height: blurHeight)
-                                            )
-                                        VStack(alignment: .leading, spacing: 0) {
-                                            categorySectionView(viewStore: viewStore)
-                                            livingSectionView(viewStore: viewStore)
-                                        }
+                                        categorySectionView(viewStore: viewStore)
+                                        livingSectionView(viewStore: viewStore)
                                     }
-                                } header: {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        // TODO: -로고 반영
-                                        Text("zetry")
-                                            .fontStyle(
-                                                .subtitle1,
-                                                foregroundColor:
-                                                viewStore.scrollViewOffsetY * 0.002 > 0.5 ?
-                                                    .grayScale(.gray12) : .primary(.white)
-                                            )
-                                            .padding(.leading, 16)
-                                            .padding(.bottom, 16)
-                                            .padding(.top, 50)
-
-                                        searchNavigationView(viewStore.scrollViewOffsetY * 0.002)
-                                            .onTapGesture {
-                                                viewStore.send(.routeToSearch)
-                                            }
-                                    }
-                                    .animation(.none, value: UUID())
-                                    .background(
-                                        .thinMaterial.opacity(viewStore.scrollViewOffsetY * 0.002)
-                                    )
                                 }
+                            } header: {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    // TODO: -로고 반영
+                                    Text("zetry")
+                                        .fontStyle(
+                                            .subtitle1,
+                                            foregroundColor:
+                                            viewStore.scrollViewOffsetY * 0.002 > 0.5 ?
+                                                .grayScale(.gray12) : .primary(.white)
+                                        )
+                                        .padding(.leading, 16)
+                                        .padding(.bottom, 16)
+                                        .padding(.top, 50)
+
+                                    searchNavigationView(viewStore.scrollViewOffsetY * 0.002)
+                                        .onTapGesture {
+                                            viewStore.send(.routeToSearch)
+                                        }
+                                }
+                                .animation(.none, value: UUID())
+                                .background(
+                                    .thinMaterial.opacity(viewStore.scrollViewOffsetY * 0.002)
+                                )
                             }
-                        )
-                    }
-            }
-            .edgesIgnoringSafeArea(.top)
-            .onLoad {
-                viewStore.send(.onLoad)
-            }
+                        }
+                    )
+                }
+                .edgesIgnoringSafeArea(.top)
+                .onLoad {
+                    viewStore.send(.onLoad)
+                }
         }
     }
 
