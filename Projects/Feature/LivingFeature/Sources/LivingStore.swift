@@ -6,26 +6,16 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import ComposableArchitecture
 import CoreKitInterface
 
 public struct LivingStore: Reducer {
     public init() {}
 
-    public enum LivingSegementedTab: Segments, CaseIterable, Equatable {
-        case tips
-        case today
-
-        public var title: String {
-            switch self {
-            case .tips: return "알면 좋은 꿀팁"
-            case .today: return "오늘의 상점"
-            }
-        }
-    }
-
     public struct State: Equatable {
-        var selectedSegment: LivingSegementedTab = .tips
+        var livingSectionStore: LivingSectionStore.State = .init()
+        var selectedSegment: LivingSegementedTab = .livingInfo
         var segmentedTab: [LivingSegementedTab] = LivingSegementedTab.allCases
 
         public init() {}
@@ -34,6 +24,7 @@ public struct LivingStore: Reducer {
     public enum Action: Equatable {
         case onAppear
         case selectedSegment(LivingSegementedTab)
+        case livingSection(LivingSectionStore.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -41,9 +32,14 @@ public struct LivingStore: Reducer {
             switch action {
             case .selectedSegment(let segment):
                 state.selectedSegment = segment
+                state.livingSectionStore.selectedLivingTab = segment
                 return .none
             default: return .none
             }
         }
+
+        Scope(state: \.livingSectionStore, action: /Action.livingSection, child: {
+            LivingSectionStore()
+        })
     }
 }

@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import ComposableArchitecture
 import SwiftUI
 import TCACoordinators
@@ -26,6 +27,12 @@ public struct LivingCoordinatorView: View {
                         /LivingScreen.State.living,
                         action: LivingScreen.Action.living,
                         then: LivingView.init
+                    )
+                case .livingSection:
+                    CaseLet(
+                        /LivingScreen.State.livingSection,
+                        action: LivingScreen.Action.livingSection,
+                        then: LivingSectionView.init
                     )
                 }
             }

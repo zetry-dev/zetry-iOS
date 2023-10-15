@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
@@ -25,14 +26,19 @@ public struct LivingView: View {
                         get: { $0.selectedSegment },
                         send: LivingStore.Action.selectedSegment
                     ),
-                    segments: LivingStore.LivingSegementedTab.allCases
+                    segments: LivingSegementedTab.allCases,
+                    segmentStyle: .button(.style)
                 )
+                .frame(maxWidth: .infinity)
+
                 ScrollView {
-                    if viewStore.selectedSegment == .tips {
-                        Text("팁")
-                    } else {
-                        Text("상점")
-                    }
+                    LivingSectionView(
+                        store: store.scope(
+                            state: \.livingSectionStore,
+                            action: LivingStore.Action.livingSection
+                        )
+                    )
+                    .padding(.horizontal, 16)
                 }
             }
         }
