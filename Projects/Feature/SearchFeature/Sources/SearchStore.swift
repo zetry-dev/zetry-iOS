@@ -59,7 +59,6 @@ public struct SearchStore: Reducer {
 
     public var body: some ReducerOf<Self> {
         BindingReducer(action: /Action.view)
-
         Reduce { state, action in
             switch action {
             case .fetchSearchKeywords:
@@ -194,7 +193,7 @@ public struct SearchStore: Reducer {
     }
 
     func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [ProductEntity]) {
-        if storedKeywords.isEmpty ||
+        if storedKeywords.count < 9 ||
             !(Calendar.current.isDateInToday(UserDefaultsManager.keywordsDate)) {
             let keywords = data.map(\.title)
             let newKeywords = keywords.shuffled().prefix(10).map { String($0) }
