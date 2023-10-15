@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-public struct LivingItemCell: View {
+public struct LivingListItemCell: View {
     private let imageURL: String
     private let title: String
     private let subtitle: String
@@ -20,7 +20,7 @@ public struct LivingItemCell: View {
     }
 
     public var body: some View {
-        HStack {
+        HStack(alignment: .top, spacing: 16) {
             CachedAsyncImage(
                 url: URL(string: imageURL)
             ) { phase in
@@ -30,18 +30,20 @@ public struct LivingItemCell: View {
                         .resizable()
                         .scaledToFill()
                 default:
-                    Color.zetry(.grayScale(.gray3))
-                        .frame(height: 150)
+                    Color.zetry(.grayScale(.gray2))
                 }
             }
+            .frame(width: 110, height: 110)
             .background(Color.zetry(.grayScale(.gray2)))
+            .cornerRadius(4)
 
-            VStack {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(title)
                     .fontStyle(.subtitle2)
                 Text(subtitle)
                     .fontStyle(.label2)
             }
+            .padding(.top, 4)
         }
     }
 }
