@@ -54,8 +54,8 @@ public struct CategoryView: View {
                                     ForEach(0 ... 19, id: \.self) { _ in
                                         CategoryItemCell(
                                             "재활용",
-                                            size: 62,
-                                            imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                                            imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg",
+                                            size: 62
                                         )
                                     }
                                 }
@@ -66,8 +66,8 @@ public struct CategoryView: View {
                                     ForEach(0 ... 19, id: \.self) { _ in
                                         CategoryItemCell(
                                             "일반",
-                                            size: 62,
-                                            imageUrl: "https://p7.hiclipart.com/preview/180/516/952/apple-logo-computer-icons-clip-art-iphone-apple.jpg"
+                                            imageUrl: "https://p7.hiclipart.com/preview/180/516/952/apple-logo-computer-icons-clip-art-iphone-apple.jpg",
+                                            size: 62
                                         )
                                     }
                                 }

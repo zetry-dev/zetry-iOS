@@ -41,7 +41,6 @@ public struct BlurImageBackgroundModifier: ViewModifier {
                         .frame(height: size.height)
                 }
             }
-            .background(gradientBackground())
             .frame(width: size.width, height: size.height)
             .edgesIgnoringSafeArea(.top)
             content

@@ -13,7 +13,7 @@ public struct CategoryItemCell: View {
     private let imageUrl: String
     private let size: CGFloat
 
-    public init(_ title: String, size: CGFloat, imageUrl: String) {
+    public init(_ title: String, imageUrl: String, size: CGFloat) {
         self.title = title
         self.imageUrl = imageUrl
         self.size = size
@@ -30,7 +30,7 @@ public struct CategoryItemCell: View {
                         .resizable()
                         .scaledToFill()
                 default:
-                    Color.zetry(.grayScale(.gray3))
+                    Color.zetry(.grayScale(.gray2))
                 }
             }
             .frame(width: size, height: size)
