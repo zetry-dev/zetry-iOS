@@ -27,7 +27,7 @@ public struct CategoryView: View {
                 SegmentedPicker(
                     viewStore.$selectedSegment,
                     segments: CategoryStore.CategorySegementedTab.allCases,
-                    paddingHorizontal: 23.5
+                    segmentStyle: .line(.style)
                 )
 
                 GeometryReader { proxy in
