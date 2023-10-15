@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import ComposableArchitecture
 import SearchFeature
 import SwiftUI
@@ -33,6 +34,12 @@ public struct HomeCoordinatorView: View {
                         /HomeScreen.State.search,
                         action: HomeScreen.Action.search,
                         then: SearchView.init
+                    )
+                case .livingSection:
+                    CaseLet(
+                        /HomeScreen.State.livingSection,
+                        action: HomeScreen.Action.livingSection,
+                        then: LivingSectionView.init
                     )
                 }
             }

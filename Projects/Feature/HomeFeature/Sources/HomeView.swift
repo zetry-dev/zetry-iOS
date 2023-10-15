@@ -13,9 +13,9 @@ import SwiftUI
 
 public struct HomeView: View {
     public let store: StoreOf<HomeStore>
-    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .top), count: 5)
-    private let blurWiodth: CGFloat = UIScreen.main.bounds.width
-    private let blurHeight: CGFloat = UIScreen.main.bounds.height * 0.55
+    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .center), count: 5)
+    private let blurWidth: CGFloat = UIScreen.main.bounds.width
+    private let blurHeight: CGFloat = UIScreen.main.bounds.height * 0.45
 
     public init(store: StoreOf<HomeStore>) {
         self.store = store
@@ -36,15 +36,22 @@ public struct HomeView: View {
                             Section {
                                 VStack(alignment: .leading, spacing: 0) {
                                     carouselView(viewStore: viewStore)
-                                        .padding(.top, 15)
                                         .blurImageBackground(
                                             imageURL: viewStore.cards[viewStore.carouselCurrentIndex].imageURL,
-                                            size: .init(width: blurWiodth, height: blurHeight)
+                                            size: .init(width: blurWidth, height: blurHeight)
                                         )
+                                        .padding(.top, 15)
                                     VStack(alignment: .leading, spacing: 0) {
                                         categorySectionView(viewStore: viewStore)
-                                        livingSectionView(viewStore: viewStore)
+                                        LivingSectionView(
+                                            store: store.scope(
+                                                state: \.livingSectionStore,
+                                                action: HomeStore.Action.livingSection
+                                            )
+                                        )
+                                        .padding(.vertical, 24)
                                     }
+                                    .padding(.horizontal, 16)
                                 }
                             } header: {
                                 VStack(alignment: .leading, spacing: 0) {
@@ -148,8 +155,8 @@ public struct HomeView: View {
                 let itemTitle = viewStore.categories[safe: index]?.title ?? ""
                 CategoryItemCell(
                     itemTitle,
-                    size: 54,
-                    imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                    imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg",
+                    size: 54
                 )
                 .animatedList(viewStore.isAnimated, index: index)
                 .onTapGesture {
@@ -166,35 +173,12 @@ public struct HomeView: View {
                     let itemTitle = viewStore.categories[safe: index]?.title ?? ""
                     CategoryItemCell(
                         itemTitle,
-                        size: 54,
-                        imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
+                        imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg",
+                        size: 54
                     )
                 }
             }
         }
-//        .padding(.top, 26)
-    }
-
-    @ViewBuilder
-    private func livingSectionView(viewStore: ViewStoreOf<HomeStore>) -> some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("생활정보")
-                .fontStyle(.subtitle1)
-
-            ForEach(0 ... 5, id: \.self) { index in
-                LivingItemCell(
-                    "쓰레기 잘 버리는 법",
-                    subtitle: "잘 버리세요.",
-                    imageURL: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
-                )
-                .animatedList(viewStore.isAnimated, index: index)
-                .onTapGesture {
-                    viewStore.send(.routeToLiving)
-                }
-            }
-        }
-        .padding(.top, 16)
-        .padding(.horizontal, 15)
     }
 
     @ViewBuilder
@@ -245,8 +229,7 @@ public struct ObservableScrollView<Content>: View where Content: View {
     let content: (ScrollViewProxy) -> Content
 
     public init(scrollOffset: Binding<CGFloat>,
-                @ViewBuilder content: @escaping (ScrollViewProxy) -> Content)
-    {
+                @ViewBuilder content: @escaping (ScrollViewProxy) -> Content) {
         _scrollOffset = scrollOffset
         self.content = content
     }
@@ -259,7 +242,7 @@ public struct ObservableScrollView<Content>: View where Content: View {
                         let offset = -geo.frame(in: .named(scrollSpace)).origin.y
                         Color.clear.preference(key: ScrollOffsetKey.self,
                                                value: offset)
-                    })
+                        })
             }
         }
         .coordinateSpace(name: scrollSpace)

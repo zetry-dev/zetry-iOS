@@ -6,8 +6,8 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import ComposableArchitecture
-import LivingFeature
 import SearchFeature
 import TCACoordinators
 
@@ -15,11 +15,13 @@ public struct HomeScreen: Reducer {
     public enum State: Equatable {
         case home(HomeStore.State)
         case search(SearchStore.State)
+        case livingSection(LivingSectionStore.State)
     }
 
     public enum Action {
         case home(HomeStore.Action)
         case search(SearchStore.Action)
+        case livingSection(LivingSectionStore.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -28,6 +30,9 @@ public struct HomeScreen: Reducer {
         }
         Scope(state: /State.search, action: /Action.search) {
             SearchStore()._printChanges()
+        }
+        Scope(state: /State.livingSection, action: /Action.livingSection) {
+            LivingSectionStore()._printChanges()
         }
     }
 }
