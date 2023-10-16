@@ -46,7 +46,7 @@ public struct SettingsView: View {
             HStack {
                 Text(item.title)
                     .fontStyle(.body1)
-                    .padding(16)
+                    .padding(.vertical, 16)
                 Spacer()
 
                 if let url = item.url {
@@ -54,20 +54,22 @@ public struct SettingsView: View {
                         DesignSystemAsset.Icons.chevronRight,
                         foregroundColor: .grayScale(.gray3)
                     )
-                    .padding(.trailing, 16)
                 } else {
-//                    if viewStore.updateNeeded {
-                    Button("업데이트") {
-                        //
+                    if viewStore.updateNeeded {
+                        Button {
+                            // open app-store
+                        } label: {
+                            Text("업데이트")
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 4)
+                        }
+                        .buttonStyle(.capsule)
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
-                    .buttonStyle(.capsule)
-//                    }
                 }
             }
             Divider(color: .gray0)
         }
+        .padding(.horizontal, 16)
         .listRowInsets(.init())
         .listRowSeparator(.hidden)
     }
