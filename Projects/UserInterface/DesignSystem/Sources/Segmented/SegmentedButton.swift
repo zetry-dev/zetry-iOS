@@ -87,10 +87,15 @@ public struct SegmentedButton<T: Segments>: View {
                 )
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.zetry(style.lineColor), lineWidth: 1)
+                        .stroke(
+                            Color.zetry(isSelected ? style.selectedColor : style.lineColor),
+                            lineWidth: 1
+                        )
                         .background(
                             RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.zetry(isSelected ? style.selectedColor : style.unselectedColor))
+                                .fill(
+                                    Color.zetry(isSelected ? style.selectedColor : style.unselectedColor)
+                                )
                         )
                 )
         }
