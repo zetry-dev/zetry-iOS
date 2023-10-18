@@ -28,12 +28,14 @@ public struct CategoryItemCell: View {
                 case .success(let image):
                     image
                         .resizable()
+                        .frame(width: size, height: size)
                         .scaledToFill()
                 default:
-                    Color.zetry(.grayScale(.gray2))
+                    Color
+                        .zetry(.grayScale(.gray2))
+                        .frame(width: size, height: size)
                 }
             }
-            .frame(width: size, height: size)
             .background(Color.zetry(.grayScale(.gray2)))
             .cornerRadius(20)
 

@@ -10,13 +10,25 @@ import Foundation
 
 public struct CategoryEntity: Decodable, Equatable {
     public var title: String
-    public var image: String
+    public var imageURL: String
     public var priority: Int
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case imageURL = "image"
+        case priority
+    }
 
     public init(title: String, image: String, priority: Int) {
         self.title = title
-        self.image = image
+        self.imageURL = image
         self.priority = priority
+    }
+
+    public init() {
+        self.title = ""
+        self.imageURL = ""
+        self.priority = -1
     }
 }
 

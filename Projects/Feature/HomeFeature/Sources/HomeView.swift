@@ -13,7 +13,7 @@ import SwiftUI
 
 public struct HomeView: View {
     public let store: StoreOf<HomeStore>
-    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .center), count: 5)
+    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .top), count: 5)
     private let blurWidth: CGFloat = UIScreen.main.bounds.width
     private let blurHeight: CGFloat = UIScreen.main.bounds.height * 0.45
 
@@ -152,10 +152,10 @@ public struct HomeView: View {
     private func categorySectionView(viewStore: ViewStoreOf<HomeStore>) -> some View {
         LazyVGrid(columns: categoryColumns) {
             ForEach(0 ..< 5, id: \.self) { index in
-                let itemTitle = viewStore.categories[safe: index]?.title ?? ""
+                let item = viewStore.categories[safe: index] ?? .init()
                 CategoryItemCell(
-                    itemTitle,
-                    imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg",
+                    item.title,
+                    imageUrl: item.imageURL,
                     size: 54
                 )
                 .animatedList(viewStore.isAnimated, index: index)
@@ -170,10 +170,10 @@ public struct HomeView: View {
 
             if viewStore.isCateogryExpandend {
                 ForEach(5 ..< viewStore.categories.count, id: \.self) { index in
-                    let itemTitle = viewStore.categories[safe: index]?.title ?? ""
+                    let item = viewStore.categories[safe: index] ?? .init()
                     CategoryItemCell(
-                        itemTitle,
-                        imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg",
+                        item.title,
+                        imageUrl: item.imageURL,
                         size: 54
                     )
                 }
