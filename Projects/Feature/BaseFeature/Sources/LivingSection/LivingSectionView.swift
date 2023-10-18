@@ -8,6 +8,7 @@
 
 import ComposableArchitecture
 import DesignSystem
+import LivingDomainInterface
 import SwiftUI
 
 public struct LivingSectionView: View {
@@ -33,7 +34,7 @@ public struct LivingSectionView: View {
     @ViewBuilder
     private func livingSectionListView(
         viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
-        items: [LivingItem]
+        items: [LivingEntity]
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("생활정보")
@@ -48,7 +49,7 @@ public struct LivingSectionView: View {
                         imageURL: item.imageURL
                     )
                     .onTapGesture {
-                        viewStore.send(.routeToLivingDetail(item.destinationURL))
+                        viewStore.send(.routeToLivingDetail(item.linkURL))
                     }
                 }
             }
@@ -59,7 +60,7 @@ public struct LivingSectionView: View {
     @ViewBuilder
     private func livingSectionBannerView(
         viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
-        item: LivingItem
+        item: LivingEntity
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("오늘의 추천상점")
@@ -73,7 +74,7 @@ public struct LivingSectionView: View {
             )
             .padding(.top, 10)
             .onTapGesture {
-                viewStore.send(.routeToLivingDetail(item.destinationURL))
+                viewStore.send(.routeToLivingDetail(item.linkURL))
             }
         }
     }
@@ -81,7 +82,7 @@ public struct LivingSectionView: View {
     @ViewBuilder
     private func livingSectionHorizontalScrollView(
         viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
-        items: [LivingItem]
+        items: [LivingEntity]
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("알면 좋은 꿀팁")
@@ -97,7 +98,7 @@ public struct LivingSectionView: View {
                             imageURL: item.imageURL
                         )
                         .onTapGesture {
-                            viewStore.send(.routeToLivingDetail(item.destinationURL))
+                            viewStore.send(.routeToLivingDetail(item.linkURL))
                         }
                     }
                 }

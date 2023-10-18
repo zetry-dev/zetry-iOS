@@ -8,38 +8,7 @@
 
 import ComposableArchitecture
 import Foundation
-
-// TEST
-public struct LivingSectionItem: Equatable, Hashable {
-    var listSection: [LivingItem]
-    var bannerSection: LivingItem
-    var scrollSection: [LivingItem]
-
-    init() {
-        listSection = Array(repeating: .init(), count: 2)
-        bannerSection = .init()
-        scrollSection = Array(repeating: .init(), count: 5)
-    }
-}
-
-// TEST
-public struct LivingItem: Equatable, Hashable {
-    var title: String
-    var subtitle: String
-    var imageURL: String
-    var destinationURL: String
-
-    init() {
-        title = "친환경 물품을 소개합니다."
-        subtitle = "요즘 트렌드로 떠오르는 친환경 물품에 대해 간단하게 설명해드릴게요."
-        imageURL = "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"
-        destinationURL = ""
-    }
-
-    public static func == (lhs: LivingItem, rhs: LivingItem) -> Bool {
-        lhs.destinationURL == rhs.destinationURL
-    }
-}
+import LivingDomainInterface
 
 public struct LivingSectionStore: Reducer {
     public init() {}
