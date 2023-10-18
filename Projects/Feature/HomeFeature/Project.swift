@@ -7,7 +7,8 @@ let project = Project.module(
     targets: [
         .implements(module: .feature(.HomeFeature), dependencies: [
             .feature(target: .BaseFeature),
-            .feature(target: .SearchFeature)
+            .feature(target: .SearchFeature),
+            .domain(target: .CategoryDomain)
         ]),
         .tests(module: .feature(.HomeFeature), dependencies: [
             .feature(target: .HomeFeature)

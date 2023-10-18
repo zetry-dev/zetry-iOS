@@ -12,7 +12,8 @@ let project = Project.module(
             .core(target: .CoreKit),
             .feature(target: .BaseFeature, type: .interface),
             .userInterface(target: .DesignSystem),
-            .shared(target: .GlobalThirdPartyLibrary)
+            .shared(target: .GlobalThirdPartyLibrary),
+            .domain(target: .LivingDomain)
         ]),
         .tests(module: .feature(.BaseFeature), dependencies: [
             .feature(target: .BaseFeature)
