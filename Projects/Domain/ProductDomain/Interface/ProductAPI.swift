@@ -26,4 +26,8 @@ extension ProductAPI: TargetType {
             return nil
         }
     }
+
+    public var path: String? {
+        nil
+    }
 }

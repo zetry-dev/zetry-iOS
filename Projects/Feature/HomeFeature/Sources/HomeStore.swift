@@ -11,6 +11,7 @@ import CategoryDomain
 import CategoryDomainInterface
 import ComposableArchitecture
 import DesignSystem
+import LivingDomainInterface
 import TCACoordinators
 import UIKit
 

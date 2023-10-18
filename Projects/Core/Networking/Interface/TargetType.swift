@@ -10,5 +10,6 @@ import Foundation
 
 public protocol TargetType {
     var endPoint: EndPoint { get }
+    var path: String? { get }
     var query: [String: Any]? { get }
 }

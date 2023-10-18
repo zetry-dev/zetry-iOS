@@ -20,4 +20,8 @@ extension CategoryAPI: TargetType {
     public var query: [String: Any]? {
         nil
     }
+
+    public var path: String? {
+        nil
+    }
 }

@@ -69,7 +69,7 @@ public struct SettingsStore: Reducer {
 
     private func updateIfNeeded(appStore: String, device: String) -> Bool {
         let result = device.compare(appStore, options: .numeric)
-        
+
         switch result {
         case .orderedDescending, .orderedSame:
             return false

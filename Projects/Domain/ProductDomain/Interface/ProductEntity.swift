@@ -9,10 +9,10 @@
 import Foundation
 
 public struct ProductEntity: Decodable, Equatable {
-    public var title: String
-    public var category: String
-    public var image: String?
-    public var recyclable: Bool?
+    public let title: String
+    public let category: String
+    public let image: String?
+    public let recyclable: Bool?
 }
 
 public extension ProductEntity {

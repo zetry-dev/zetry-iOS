@@ -18,7 +18,11 @@ public final class FirestoreProvider {
     }
 
     public func fetch(_ target: TargetType) async throws -> [[String: Any]] {
-        let ref = database.collection(target.endPoint.rawValue)
+        var endPoint = target.endPoint.rawValue
+        if let path = target.path {
+            endPoint += path
+        }
+        let ref = database.collection(endPoint)
         if let targetQuery = target.query {
             let query = ref.whereField(targetQuery.first!.key, isEqualTo: targetQuery.first!.value)
             return try await query.getDocuments().documents.map { $0.data() }

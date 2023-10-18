@@ -10,8 +10,8 @@ import Foundation
 
 public struct CategoryEntity: Decodable, Equatable {
     public var title: String
-    public var imageURL: String
-    public var priority: Int
+    public let imageURL: String
+    public let priority: Int
 
     enum CodingKeys: String, CodingKey {
         case title
