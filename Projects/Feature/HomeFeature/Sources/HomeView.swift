@@ -156,7 +156,7 @@ public struct HomeView: View {
                 CategoryItemCell(
                     item.title,
                     imageUrl: item.imageURL,
-                    size: 54
+                    size: 58
                 )
                 .animatedList(viewStore.isAnimated, index: index)
                 .onTapGesture {
@@ -174,7 +174,7 @@ public struct HomeView: View {
                     CategoryItemCell(
                         item.title,
                         imageUrl: item.imageURL,
-                        size: 54
+                        size: 58
                     )
                 }
             }
