@@ -32,6 +32,9 @@ public struct LivingView: View {
                     contentView()
                 }
             }
+            .onLoad {
+                viewStore.send(.onLoad)
+            }
         }
     }
 
