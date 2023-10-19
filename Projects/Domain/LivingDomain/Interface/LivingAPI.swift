@@ -16,7 +16,7 @@ extension LivingAPI: TargetType {
     public var path: String? {
         switch self {
         case .fetchLivingItems(let type):
-            return "\(type)/items"
+            return "/\(type)/items"
         }
     }
 
@@ -25,9 +25,6 @@ extension LivingAPI: TargetType {
     }
 
     public var query: [String: Any]? {
-        switch self {
-        case .fetchLivingItems(let livingType):
-            return ["livingType": livingType]
-        }
+        nil
     }
 }

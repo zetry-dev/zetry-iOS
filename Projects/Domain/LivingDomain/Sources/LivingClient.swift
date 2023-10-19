@@ -12,7 +12,7 @@ import LivingDomainInterface
 import Networking
 
 public extension DependencyValues {
-    var productClient: LivingClient {
+    var livingClient: LivingClient {
         get { self[LivingClient.self] }
         set { self[LivingClient.self] = newValue }
     }
@@ -20,6 +20,9 @@ public extension DependencyValues {
 
 extension LivingClient: DependencyKey {
     public static var liveValue = Self(
-        fetchLivingItems: { _ in [] }
+        fetchLivingItems: { livingType in
+            let data = try await FirestoreProvider.shared.fetch(LivingAPI.fetchLivingItems(type: livingType))
+            return data.compactMap { $0.mapping(LivingEntity.self) }
+        }
     )
 }
