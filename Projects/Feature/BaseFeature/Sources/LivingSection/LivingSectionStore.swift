@@ -7,6 +7,7 @@
 //
 
 import ComposableArchitecture
+import CoreKit
 import Foundation
 import LivingDomainInterface
 
@@ -14,8 +15,9 @@ public struct LivingSectionStore: Reducer {
     public init() {}
 
     public struct State: Equatable {
+        public var livingSectionItems: [LivingSegementedTab: [LivingSectionItem]] = [LivingSegementedTab.home: []]
         public var selectedLivingTab: LivingSegementedTab
-        public var livingSectionItems: [Int: [LivingSectionItem]] = [LivingSegementedTab.home.rawValue: Array(repeating: .init(), count: 2)]
+        var homeSectionItem: LivingSectionItem = .init()
 
         public init(selectedLivingTab: LivingSegementedTab = .home) {
             self.selectedLivingTab = selectedLivingTab
@@ -24,18 +26,65 @@ public struct LivingSectionStore: Reducer {
 
     public enum Action: Equatable {
         case view(View)
-        case test
+        case infoSection([LivingEntity])
+        case todaySection([LivingEntity])
+        case tipsSection([LivingEntity])
     }
 
     public var body: some ReducerOf<Self> {
         BindingReducer(action: /Action.view)
 
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
+            case .infoSection(let items):
+                if state.selectedLivingTab == .home {
+                    state.homeSectionItem.listSection = items
+                } else {
+                    state.livingSectionItems[LivingSegementedTab.livingInfo] = makeSectionItems(using: items)
+                }
+                return .none
+            case .todaySection(let items):
+                if state.selectedLivingTab == .home {
+                    state.homeSectionItem.bannerSection = items[safe: 0]
+                } else {
+                    state.livingSectionItems[LivingSegementedTab.today] = makeSectionItems(using: items)
+                }
+                return .none
+            case .tipsSection(let items):
+                if state.selectedLivingTab == .home {
+                    state.homeSectionItem.scrollSection = items
+                } else {
+                    state.livingSectionItems[LivingSegementedTab.tips] = makeSectionItems(using: items)
+                }
+                return .none
             default:
                 return .none
             }
         }
+    }
+
+    private func makeSectionItems(using entity: [LivingEntity]) -> [LivingSectionItem] {
+        entity.chunked(into: 8)
+            .map { entity in
+                let listSection = Array(entity.prefix(2))
+
+                if entity.count > 2 {
+                    let bannerSection = entity[safe: 2]
+                    let scrollSection = entity[safe: 3 ..< entity.count] ?? []
+
+                    return LivingSectionItem(
+                        listSection: listSection,
+                        bannerSection: bannerSection,
+                        scrollSection: scrollSection
+                    )
+                } else {
+                    return LivingSectionItem(
+                        listSection: listSection,
+                        bannerSection: nil,
+                        scrollSection: []
+                    )
+                }
+            }
     }
 }
 

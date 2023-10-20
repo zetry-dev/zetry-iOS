@@ -8,6 +8,7 @@
 
 import BaseFeature
 import ComposableArchitecture
+import CoreKit
 import CoreKitInterface
 import DesignSystem
 import Foundation
@@ -77,7 +78,6 @@ public struct LivingStore: Reducer {
                     .send(.fetchToday),
                     .send(.fetchTips)
                 )
-
             case .fetchToday:
                 return .run { send in
                     let result = await TaskResult {
@@ -92,23 +92,20 @@ public struct LivingStore: Reducer {
                     }
                     await send(.tipsDataLoaded(result))
                 }
-            // TODO: - 데이터 가공
             case let .informationDataLoaded(.success(result)):
-                print(result)
-                return .none
+                state.livingSectionStore.selectedLivingTab = .livingInfo
+                return .send(.livingSection(.infoSection(result)))
             case let .todayDataLoaded(.success(result)):
-                print(result)
-                return .none
+                return .send(.livingSection(.todaySection(result)))
             case let .tipsDataLoaded(.success(result)):
-                print(result)
-                return .none
+                return .send(.livingSection(.tipsSection(result)))
             default:
                 return .none
             }
         }
 
         Scope(state: \.livingSectionStore, action: /Action.livingSection, child: {
-            LivingSectionStore()
+            LivingSectionStore()._printChanges()
         })
     }
 }

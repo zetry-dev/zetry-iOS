@@ -13,9 +13,23 @@ public extension Array {
         indices ~= index ? self[index] : nil
     }
 
+    subscript(safe range: Range<Index>) -> [Element]? {
+        if range.endIndex > endIndex {
+            return range.startIndex >= endIndex ? nil : Array(self[range.startIndex ..< endIndex])
+        } else {
+            return Array(self[range])
+        }
+    }
+
     mutating func prepend(_ newElement: some Any) {
         if let element = newElement as? Element {
             insert(element, at: 0)
+        }
+    }
+
+    func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
 }

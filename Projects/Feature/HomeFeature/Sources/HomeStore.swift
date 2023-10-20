@@ -11,6 +11,7 @@ import CategoryDomain
 import CategoryDomainInterface
 import ComposableArchitecture
 import DesignSystem
+import LivingDomain
 import LivingDomainInterface
 import TCACoordinators
 import UIKit
@@ -45,7 +46,15 @@ public struct HomeStore: Reducer {
         case toggleCategory
         case scrollOffsetYChanged(CGFloat)
 
+        case fetchCategories
+        case fetchInformation
+        case fetchToday
+        case fetchTips
+
         case categoryDataLoaded(TaskResult<[CategoryEntity]>)
+        case informationDataLoaded(TaskResult<[LivingEntity]>)
+        case todayDataLoaded(TaskResult<[LivingEntity]>)
+        case tipsDataLoaded(TaskResult<[LivingEntity]>)
 
         case routeToSearch
         case routeToLiving
@@ -53,6 +62,7 @@ public struct HomeStore: Reducer {
     }
 
     @Dependency(\.categoryClient) private var categoryClient
+    @Dependency(\.livingClient) private var livingClient
 
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -60,12 +70,8 @@ public struct HomeStore: Reducer {
             case .onLoad:
                 return
                     .merge(
-                        .run { send in
-                            let result = await TaskResult {
-                                try await categoryClient.fetchCategories()
-                            }
-                            await send(.categoryDataLoaded(result))
-                        },
+                        .send(.fetchCategories),
+                        .send(.fetchInformation),
                         .send(.animatingList)
                     )
             case .animatingList:
@@ -81,11 +87,49 @@ public struct HomeStore: Reducer {
             case let .scrollOffsetYChanged(offsetY):
                 state.scrollViewOffsetY = offsetY
                 return .none
+            case .fetchCategories:
+                return .run { send in
+                    let result = await TaskResult {
+                        try await categoryClient.fetchCategories()
+                    }
+                    await send(.categoryDataLoaded(result))
+                }
+            case .fetchInformation:
+                return .concatenate(
+                    .run { send in
+                        let result = await TaskResult {
+                            try await livingClient.fetchLivingItems("information")
+                        }
+                        await send(.informationDataLoaded(result))
+                    },
+                    .send(.fetchToday),
+                    .send(.fetchTips)
+                )
+            case .fetchToday:
+                return .run { send in
+                    let result = await TaskResult {
+                        try await livingClient.fetchLivingItems("today")
+                    }
+                    await send(.todayDataLoaded(result))
+                }
+            case .fetchTips:
+                return .run { send in
+                    let result = await TaskResult {
+                        try await livingClient.fetchLivingItems("tips")
+                    }
+                    await send(.tipsDataLoaded(result))
+                }
             case let .categoryDataLoaded(.success(result)):
                 var categories = result.sorted(by: <)
                 categories.insert(.init(title: "더보기", image: "", priority: 0), at: 4)
                 state.categories = categories
                 return .none
+            case let .informationDataLoaded(.success(result)):
+                return .send(.livingSection(.infoSection(Array(result.prefix(2)))))
+            case let .todayDataLoaded(.success(result)):
+                return .send(.livingSection(.todaySection(Array(result.prefix(1)))))
+            case let .tipsDataLoaded(.success(result)):
+                return .send(.livingSection(.tipsSection(Array(result.prefix(5)))))
             default: return .none
             }
         }

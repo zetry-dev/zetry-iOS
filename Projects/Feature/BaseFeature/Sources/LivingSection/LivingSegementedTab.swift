@@ -27,7 +27,7 @@ public enum LivingSegementedTab: Int, Segments, CaseIterable, Equatable {
         default: return ""
         }
     }
-    
+
     public var path: String {
         switch self {
         case .livingInfo: return "information"

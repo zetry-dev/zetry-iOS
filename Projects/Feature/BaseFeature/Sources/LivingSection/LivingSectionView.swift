@@ -21,13 +21,35 @@ public struct LivingSectionView: View {
     public var body: some View {
         WithViewStore(self.store, observe: \.view, send: LivingSectionStore.Action.view) { viewStore in
             VStack(alignment: .leading, spacing: 14) {
-                let sectionItems = viewStore.livingSectionItems[viewStore.selectedLivingTab.rawValue] ?? []
-                ForEach(sectionItems, id: \.self) { item in
-                    livingSectionListView(viewStore: viewStore, items: item.listSection)
-                    livingSectionBannerView(viewStore: viewStore, item: item.bannerSection)
-                    livingSectionHorizontalScrollView(viewStore: viewStore, items: item.scrollSection)
+                if viewStore.selectedLivingTab == .home {
+                    homeSection(viewStore: viewStore, item: viewStore.homeSectionItem)
+                } else {
+                    let sectionItems = viewStore.livingSectionItems[viewStore.selectedLivingTab] ?? []
+                    livingSection(viewStore: viewStore, items: sectionItems)
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private func homeSection(
+        viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
+        item: LivingSectionItem
+    ) -> some View {
+        livingSectionListView(viewStore: viewStore, items: item.listSection)
+        livingSectionBannerView(viewStore: viewStore, item: item.bannerSection)
+        livingSectionHorizontalScrollView(viewStore: viewStore, items: item.scrollSection)
+    }
+
+    @ViewBuilder
+    private func livingSection(
+        viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
+        items: [LivingSectionItem]
+    ) -> some View {
+        ForEach(items, id: \.self) { item in
+            livingSectionListView(viewStore: viewStore, items: item.listSection)
+            livingSectionBannerView(viewStore: viewStore, item: item.bannerSection)
+            livingSectionHorizontalScrollView(viewStore: viewStore, items: item.scrollSection)
         }
     }
 
@@ -37,9 +59,11 @@ public struct LivingSectionView: View {
         items: [LivingEntity]
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("생활정보")
-                .fontStyle(.subtitle1)
-                .padding(.vertical, 16)
+            if viewStore.selectedLivingTab == .home {
+                Text("생활정보")
+                    .fontStyle(.subtitle1)
+                    .padding(.vertical, 16)
+            }
 
             VStack(alignment: .leading, spacing: 18) {
                 ForEach(items, id: \.self) { item in
@@ -60,22 +84,28 @@ public struct LivingSectionView: View {
     @ViewBuilder
     private func livingSectionBannerView(
         viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
-        item: LivingEntity
+        item: LivingEntity?
     ) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("오늘의 추천상점")
-                .fontStyle(.subtitle1)
-                .padding(.vertical, 16)
+        if let item {
+            VStack(alignment: .leading, spacing: 0) {
+                if viewStore.selectedLivingTab == .home {
+                    Text("오늘의 추천상점")
+                        .fontStyle(.subtitle1)
+                        .padding(.vertical, 16)
+                }
 
-            LivingBannerItemCell(
-                item.title,
-                subtitle: item.subtitle,
-                imageURL: item.imageURL
-            )
-            .padding(.top, 10)
-            .onTapGesture {
-                viewStore.send(.routeToLivingDetail(item.linkURL))
+                LivingBannerItemCell(
+                    item.title,
+                    subtitle: item.subtitle,
+                    imageURL: item.imageURL
+                )
+                .padding(.top, 10)
+                .onTapGesture {
+                    viewStore.send(.routeToLivingDetail(item.linkURL))
+                }
             }
+        } else {
+            EmptyView()
         }
     }
 
@@ -85,9 +115,11 @@ public struct LivingSectionView: View {
         items: [LivingEntity]
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("알면 좋은 꿀팁")
-                .fontStyle(.subtitle1)
-                .padding(.vertical, 16)
+            if viewStore.selectedLivingTab == .home {
+                Text("알면 좋은 꿀팁")
+                    .fontStyle(.subtitle1)
+                    .padding(.vertical, 16)
+            }
 
             ScrollView(.horizontal) {
                 HStack(spacing: 10) {
@@ -110,8 +142,9 @@ public struct LivingSectionView: View {
 
 extension LivingSectionView {
     struct ViewState: Equatable {
-        var livingSectionItems: [Int: [LivingSectionItem]]
+        var livingSectionItems: [LivingSegementedTab: [LivingSectionItem]]
         var selectedLivingTab: LivingSegementedTab
+        var homeSectionItem: LivingSectionItem
     }
 }
 
@@ -119,7 +152,8 @@ extension BindingViewStore<LivingSectionStore.State> {
     var view: LivingSectionView.ViewState {
         LivingSectionView.ViewState(
             livingSectionItems: self.livingSectionItems,
-            selectedLivingTab: self.selectedLivingTab
+            selectedLivingTab: self.selectedLivingTab,
+            homeSectionItem: self.homeSectionItem
         )
     }
 }

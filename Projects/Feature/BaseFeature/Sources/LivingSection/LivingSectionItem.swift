@@ -10,12 +10,18 @@ import LivingDomainInterface
 
 public struct LivingSectionItem: Equatable, Hashable {
     var listSection: [LivingEntity]
-    var bannerSection: LivingEntity
+    var bannerSection: LivingEntity?
     var scrollSection: [LivingEntity]
 
-    init() {
-        listSection = Array(repeating: .init(), count: 2)
-        bannerSection = .init()
-        scrollSection = Array(repeating: .init(), count: 5)
+    public init() {
+        listSection = []
+        bannerSection = nil
+        scrollSection = []
+    }
+
+    public init(listSection: [LivingEntity], bannerSection: LivingEntity?, scrollSection: [LivingEntity]) {
+        self.listSection = listSection
+        self.bannerSection = bannerSection
+        self.scrollSection = scrollSection
     }
 }
