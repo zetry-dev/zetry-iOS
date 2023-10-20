@@ -8,12 +8,19 @@
 
 import SwiftUI
 
-public struct CollapsingScrollView<Header: View, Banner: View, Background: View, Content: View>: View {
+public struct CollapsingScrollView<
+    Header: View,
+    Title: View,
+    Banner: View,
+    Background: View,
+    Content: View
+>: View {
     @ObservedObject private var articleContent: ViewFrame = .init()
     @State private var titleRect: CGRect = .zero
     @State private var headerImageRect: CGRect = .zero
 
     private let headerView: () -> Header
+    private let titleView: () -> Title
     private let bannerView: () -> Banner
     private let backgroundView: () -> Background
     private let contentView: () -> Content
@@ -22,13 +29,15 @@ public struct CollapsingScrollView<Header: View, Banner: View, Background: View,
 
     public init(
         imageHeight: CGFloat,
-        headerHeight: CGFloat = 100,
+        headerHeight: CGFloat = 120,
         headerView: @escaping () -> Header,
+        titleView: @escaping () -> Title,
         bannerView: @escaping () -> Banner,
         backgroundView: @escaping () -> Background,
         contentView: @escaping () -> Content
     ) {
         self.headerView = headerView
+        self.titleView = titleView
         self.bannerView = bannerView
         self.contentView = contentView
         self.backgroundView = backgroundView
@@ -51,7 +60,6 @@ public struct CollapsingScrollView<Header: View, Banner: View, Background: View,
 
             GeometryReader { geometry in
                 let width = geometry.size.width
-                let height = self.getHeightForHeaderImage(geometry)
                 let headerOffset = self.getOffsetForHeaderImage(geometry)
 
                 ZStack(alignment: .bottom) {
@@ -61,25 +69,23 @@ public struct CollapsingScrollView<Header: View, Banner: View, Background: View,
                         backgroundView()
                             .frame(
                                 width: width,
-                                height: height
+                                height: imageHeight
                             )
                             .blur(radius: 10)
-                            .opacity(height > 0 ? 1 : 0.3)
-                            .clipped()
                             .background(GeometryGetter(rect: self.$headerImageRect))
 
                         // MARK: - Contents
 
                         ZStack(alignment: .topLeading) {
                             bannerView()
-                                .offset(y: 60)
+                                .offset(y: 40)
                                 .frame(
                                     width: width - 32,
-                                    height: height - 150
+                                    height: imageHeight - (imageHeight * 0.3)
                                 )
                                 .opacity(headerOffset > 0 ? 0 : 1)
 
-                            Text("생활정보")
+                            titleView()
                         }
                         .padding(.top, 60)
                     }
@@ -115,7 +121,7 @@ public struct CollapsingScrollView<Header: View, Banner: View, Background: View,
 
     private func getHeightForHeaderImage(_ geometry: GeometryProxy) -> CGFloat {
         let offset = geometry.frame(in: .global).minY
-        if 0 ... 500 ~= Int(offset) {
+        if 0 ... 100 ~= Int(offset) {
             return imageHeight + offset
         }
         return imageHeight
@@ -124,10 +130,10 @@ public struct CollapsingScrollView<Header: View, Banner: View, Background: View,
     private func getHeaderTitleOffset() -> CGFloat {
         let currentYPos = titleRect.midY
         if currentYPos < headerImageRect.maxY {
-            let minYValue: CGFloat = 50.0
+            let minYValue: CGFloat = 0.0
             let maxYValue: CGFloat = collapsedImageHeight
             let percentage = max(-1, (currentYPos - maxYValue) / (maxYValue - minYValue))
-            let finalOffset: CGFloat = -30.0
+            let finalOffset: CGFloat = -40.0
             return 20 - percentage * finalOffset
         }
         return .infinity
