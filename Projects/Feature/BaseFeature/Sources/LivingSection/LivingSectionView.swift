@@ -142,8 +142,8 @@ public struct LivingSectionView: View {
                 }
             }
 
-            ScrollView(.horizontal) {
-                HStack(spacing: 10) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
                     ForEach(items, id: \.self) { item in
                         LivingScrollItemCell(
                             item.title,

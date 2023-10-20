@@ -13,7 +13,7 @@ import SwiftUI
 
 public struct LivingView: View {
     public let store: StoreOf<LivingStore>
-    private let imageHeight: CGFloat = UIScreen.main.bounds.height * 0.55
+    private let imageHeight: CGFloat = UIScreen.main.bounds.height * 0.45
 
     public init(store: StoreOf<LivingStore>) {
         self.store = store
@@ -24,6 +24,9 @@ public struct LivingView: View {
             VStack {
                 CollapsingScrollView(imageHeight: imageHeight) {
                     headerView(viewStore: viewStore)
+                } titleView: {
+                    Text("생활정보")
+                        .fontStyle(.subtitle1)
                 } bannerView: {
                     bannerView(viewStore: viewStore)
                 } backgroundView: {
@@ -49,6 +52,23 @@ public struct LivingView: View {
                     .tag(index)
                     .onTapGesture {
                         viewStore.send(.routeToLivingDetail)
+                    }
+            }
+        }
+        .cornerRadius(6)
+        .overlay(alignment: .bottomTrailing) {
+            VStack(alignment: .trailing, spacing: 6) {
+                let currentIndex = String(format: "%02d", viewStore.carouselCurrentIndex + 1)
+                let totalIndex = String(format: "%02d", viewStore.cards.count)
+                Text("\(currentIndex) / \(totalIndex)")
+                    .fontStyle(.label3, foregroundColor: .primary(.white))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background {
+                        Color.black
+                            .opacity(0.4)
+                            .cornerRadius(10, corners: [.topLeft])
+                            .cornerRadius(4, corners: [.bottomRight])
                     }
             }
         }
@@ -80,6 +100,21 @@ public struct LivingView: View {
 
     @ViewBuilder
     private func imageView(url urlString: String) -> some View {
-        Image.load(urlString)
+        Image
+            .load(urlString)
+            .overlay(alignment: .bottomLeading) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("생활정보")
+                        .fontStyle(.body1, foregroundColor: .primary(.white))
+                    Text("친환경 제품을\n소개합니다")
+                        .fontStyle(.headline3, foregroundColor: .primary(.white))
+                }
+                .padding(.leading, 30)
+                .padding(.bottom, 30)
+            }
+            .onTapGesture {
+                // TODO: - route to living detail
+                print("route to living detail")
+            }
     }
 }
