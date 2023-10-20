@@ -28,11 +28,14 @@ public struct LivingScrollItemCell: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 Text(title)
+                    .lineLimit(1)
                     .fontStyle(.subtitle2)
                 Text(subtitle)
+                    .lineLimit(2)
                     .fontStyle(.label2)
             }
+            Spacer()
         }
-        .frame(width: 180)
+        .frame(width: 186)
     }
 }

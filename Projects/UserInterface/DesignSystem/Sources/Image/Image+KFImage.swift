@@ -35,7 +35,6 @@ public extension KFImage {
                     .scaledToFill()
             }
             .fade(duration: 0.2)
-            .resizable()
             .cancelOnDisappear(true)
             .centerCropped()
             .frame(width: width, height: height)
@@ -48,7 +47,6 @@ public extension KFImage {
                 .resizable()
                 .scaledToFill()
                 .frame(width: geo.size.width, height: geo.size.height)
-                .clipped()
         }
     }
 }
