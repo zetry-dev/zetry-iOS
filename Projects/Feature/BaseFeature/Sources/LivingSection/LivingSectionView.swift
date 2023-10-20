@@ -60,9 +60,16 @@ public struct LivingSectionView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             if viewStore.selectedLivingTab == .home {
-                Text("생활정보")
-                    .fontStyle(.subtitle1)
-                    .padding(.vertical, 16)
+                HStack(spacing: 6) {
+                    Text("생활정보")
+                        .fontStyle(.subtitle1)
+                    ZetryIcon(DesignSystemAsset.Icons.chevronRight)
+                }
+                .padding(.vertical, 16)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    viewStore.send(.routeToLiving(.livingInfo))
+                }
             }
 
             VStack(alignment: .leading, spacing: 18) {
@@ -89,9 +96,16 @@ public struct LivingSectionView: View {
         if let item {
             VStack(alignment: .leading, spacing: 0) {
                 if viewStore.selectedLivingTab == .home {
-                    Text("오늘의 추천상점")
-                        .fontStyle(.subtitle1)
-                        .padding(.vertical, 16)
+                    HStack(spacing: 6) {
+                        Text("오늘의 추천상점")
+                            .fontStyle(.subtitle1)
+                        ZetryIcon(DesignSystemAsset.Icons.chevronRight)
+                    }
+                    .padding(.vertical, 16)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        viewStore.send(.routeToLiving(.today))
+                    }
                 }
 
                 LivingBannerItemCell(
@@ -116,9 +130,16 @@ public struct LivingSectionView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             if viewStore.selectedLivingTab == .home {
-                Text("알면 좋은 꿀팁")
-                    .fontStyle(.subtitle1)
-                    .padding(.vertical, 16)
+                HStack(spacing: 6) {
+                    Text("알면 좋은 꿀팁")
+                        .fontStyle(.subtitle1)
+                    ZetryIcon(DesignSystemAsset.Icons.chevronRight)
+                }
+                .padding(.vertical, 16)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    viewStore.send(.routeToLiving(.tips))
+                }
             }
 
             ScrollView(.horizontal) {

@@ -36,26 +36,29 @@ public struct LivingSectionStore: Reducer {
 
         Reduce { state, action in
             switch action {
-            case .infoSection(let items):
+            case let .infoSection(items):
                 if state.selectedLivingTab == .home {
                     state.homeSectionItem.listSection = items
                 } else {
                     state.livingSectionItems[LivingSegementedTab.livingInfo] = makeSectionItems(using: items)
                 }
                 return .none
-            case .todaySection(let items):
+            case let .todaySection(items):
                 if state.selectedLivingTab == .home {
                     state.homeSectionItem.bannerSection = items[safe: 0]
                 } else {
                     state.livingSectionItems[LivingSegementedTab.today] = makeSectionItems(using: items)
                 }
                 return .none
-            case .tipsSection(let items):
+            case let .tipsSection(items):
                 if state.selectedLivingTab == .home {
                     state.homeSectionItem.scrollSection = items
                 } else {
                     state.livingSectionItems[LivingSegementedTab.tips] = makeSectionItems(using: items)
                 }
+                return .none
+            case let .view(.routeToLiving(livingSegment)):
+                print(livingSegment)
                 return .none
             default:
                 return .none
@@ -91,6 +94,7 @@ public struct LivingSectionStore: Reducer {
 public extension LivingSectionStore.Action {
     enum View: Equatable, BindableAction {
         case binding(BindingAction<LivingSectionStore.State>)
+        case routeToLiving(LivingSegementedTab)
         case routeToLivingDetail(String)
     }
 }
