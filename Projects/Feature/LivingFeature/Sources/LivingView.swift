@@ -80,18 +80,6 @@ public struct LivingView: View {
 
     @ViewBuilder
     private func imageView(url urlString: String) -> some View {
-        let imageURL = URL(string: urlString)
-
-        CachedAsyncImage(url: imageURL) { phase in
-            switch phase {
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
-            default:
-                Color
-                    .zetry(.grayScale(.gray3))
-            }
-        }
+        Image.load(urlString)
     }
 }

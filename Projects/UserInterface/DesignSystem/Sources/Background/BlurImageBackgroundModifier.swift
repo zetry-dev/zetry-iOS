@@ -26,23 +26,10 @@ public struct BlurImageBackgroundModifier: ViewModifier {
 
     public func body(content: Content) -> some View {
         ZStack(alignment: .top) {
-            CachedAsyncImage(
-                url: URL(string: imageURL)
-            ) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .opacity(0.75)
-                        .blur(radius: 100)
-                default:
-                    gradientBackground()
-                        .frame(height: size.height)
-                }
-            }
-            .frame(width: size.width, height: size.height)
-            .edgesIgnoringSafeArea(.top)
+            Image.load(imageURL, width: size.width, height: size.height)
+                .opacity(0.75)
+                .blur(radius: 100)
+                .edgesIgnoringSafeArea(.top)
             content
         }
     }

@@ -21,21 +21,10 @@ public struct LivingScrollItemCell: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            CachedAsyncImage(
-                url: URL(string: imageURL)
-            ) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                default:
-                    Color.zetry(.grayScale(.gray2))
-                }
-            }
-            .frame(width: 180, height: 250)
-            .background(Color.zetry(.grayScale(.gray2)))
-            .cornerRadius(4)
+            Image
+                .load(imageURL, width: 180, height: 250)
+                .background(Color.zetry(.grayScale(.gray3)))
+                .cornerRadius(4)
 
             VStack(alignment: .leading, spacing: 10) {
                 Text(title)

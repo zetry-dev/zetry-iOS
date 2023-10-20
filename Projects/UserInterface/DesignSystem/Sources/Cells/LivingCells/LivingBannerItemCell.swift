@@ -21,21 +21,10 @@ public struct LivingBannerItemCell: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            CachedAsyncImage(
-                url: URL(string: imageURL)
-            ) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                default:
-                    Color.zetry(.grayScale(.gray2))
-                }
-            }
-            .frame(height: 220)
-            .background(Color.zetry(.grayScale(.gray2)))
-            .cornerRadius(4)
+            Image
+                .load(imageURL, height: 220)
+                .background(Color.zetry(.grayScale(.gray2)))
+                .cornerRadius(4)
 
             VStack(alignment: .leading, spacing: 10) {
                 Text(title)

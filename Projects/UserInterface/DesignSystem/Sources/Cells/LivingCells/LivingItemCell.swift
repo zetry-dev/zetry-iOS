@@ -21,21 +21,10 @@ public struct LivingListItemCell: View {
 
     public var body: some View {
         HStack(alignment: .top, spacing: 16) {
-            CachedAsyncImage(
-                url: URL(string: imageURL)
-            ) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                default:
-                    Color.zetry(.grayScale(.gray2))
-                }
-            }
-            .frame(width: 110, height: 110)
-            .background(Color.zetry(.grayScale(.gray2)))
-            .cornerRadius(4)
+            Image
+                .load(imageURL, width: 110, height: 110)
+                .background(Color.zetry(.grayScale(.gray3)))
+                .cornerRadius(4)
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(title)

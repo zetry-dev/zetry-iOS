@@ -21,23 +21,10 @@ public struct CategoryItemCell: View {
 
     public var body: some View {
         VStack(spacing: 8) {
-            CachedAsyncImage(
-                url: URL(string: imageUrl)
-            ) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .frame(width: size, height: size)
-                        .scaledToFill()
-                default:
-                    Color
-                        .zetry(.grayScale(.gray2))
-                        .frame(width: size, height: size)
-                }
-            }
-            .background(Color.zetry(.grayScale(.gray2)))
-            .cornerRadius(20)
+            Image
+                .load(imageUrl, width: size, height: size)
+                .background(Color.zetry(.grayScale(.gray3)))
+                .cornerRadius(20)
 
             Text(title)
                 .fontStyle(.body2)

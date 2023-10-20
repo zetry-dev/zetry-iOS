@@ -95,34 +95,20 @@ public struct HomeView: View {
             spacing: 16,
             cardPadding: 64
         ) { card, cardSize, index in
-            CachedAsyncImage(
-                url: URL(string: card.imageURL)
-            ) { phase in
-                switch phase {
-                case .success(let image):
-                    carouselItem(viewStore: viewStore, image: image, args: (card, cardSize, index))
-                default:
-                    Color
-                        .zetry(.grayScale(.gray3))
-                        .frame(width: cardSize.width, height: cardSize.width)
-                }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+            carouselItem(viewStore: viewStore, imageURL: card.imageURL, args: (card, cardSize, index))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
         }
     }
 
     @ViewBuilder
     private func carouselItem(
         viewStore: ViewStoreOf<HomeStore>,
-        image: Image,
+        imageURL: String,
         args: (Card, CGSize, Int)
     ) -> some View {
-        let (card, size, index) = args
-
-        image
-            .resizable()
-            .scaledToFill()
-            .frame(width: size.width)
+        let (_, size, index) = args
+        Image
+            .load(imageURL, width: size.width)
             .overlay(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading) {

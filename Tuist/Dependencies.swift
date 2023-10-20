@@ -5,6 +5,7 @@ let dependencies = Dependencies(
     carthage: nil,
     swiftPackageManager: SwiftPackageManagerDependencies(
         [
+            .remote(url: "https://github.com/onevcat/Kingfisher.git", requirement: .exact("7.9.1")),
             .remote(url: "https://github.com/firebase/firebase-ios-sdk.git", requirement: .branch("master")),
             .remote(url: "https://github.com/johnpatrickmorgan/TCACoordinators.git", requirement: .exact("0.6.0")),
             .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .exact("1.1.0")),
