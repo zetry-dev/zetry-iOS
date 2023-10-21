@@ -40,6 +40,7 @@ public struct HomeStore: Reducer {
 
     public enum Action: Equatable {
         case onLoad
+        case onAppear
         case animatingList
         case indexChanged(Int)
         case cardChanged([Card])
@@ -56,6 +57,7 @@ public struct HomeStore: Reducer {
         case todayDataLoaded(TaskResult<[LivingEntity]>)
         case tipsDataLoaded(TaskResult<[LivingEntity]>)
 
+        case routeToCategory(String)
         case routeToSearch
         case routeToLiving
         case livingSection(LivingSectionStore.Action)
@@ -74,6 +76,11 @@ public struct HomeStore: Reducer {
                         .send(.fetchInformation),
                         .send(.animatingList)
                     )
+            case .onAppear:
+                if state.categories.isEmpty {
+                    return .send(.onLoad)
+                }
+                return .none
             case .animatingList:
                 state.isAnimated = true
                 return .none

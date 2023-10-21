@@ -15,7 +15,7 @@ public struct CategoryCoordinator: Reducer {
     public struct State: Equatable, IndexedRouterState {
         public var routes: [Route<CategoryScreen.State>]
 
-        public init(routes: [Route<CategoryScreen.State>] = [.root(.category(.init()), embedInNavigationView: true)]) {
+        public init(routes: [Route<CategoryScreen.State>]) {
             self.routes = routes
         }
     }

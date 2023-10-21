@@ -84,6 +84,9 @@ public struct HomeView: View {
                 .onLoad {
                     viewStore.send(.onLoad)
                 }
+                .onAppear {
+                    viewStore.send(.onAppear)
+                }
         }
     }
 
@@ -150,6 +153,8 @@ public struct HomeView: View {
                         _ = withAnimation(.linear) {
                             viewStore.send(.toggleCategory)
                         }
+                    } else {
+                        viewStore.send(.routeToCategory(item.title))
                     }
                 }
             }
@@ -162,6 +167,9 @@ public struct HomeView: View {
                         imageUrl: item.imageURL,
                         size: 58
                     )
+                    .onTapGesture {
+                        viewStore.send(.routeToCategory(item.title))
+                    }
                 }
             }
         }

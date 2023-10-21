@@ -43,12 +43,15 @@ public struct CategoryStore: Reducer {
         var selectedCategory: String
         @BindingState var selectedSegment: CategorySegementedTab = .recyclable
 
-        public init() {}
+        public init(selectedCategory: String) {
+            self.selectedCategory = selectedCategory
+        }
     }
 
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case onLoad
+        case onAppear
         case didTapCategory(String)
 
         case filterProducts
@@ -66,6 +69,7 @@ public struct CategoryStore: Reducer {
 
     public var body: some ReducerOf<Self> {
         BindingReducer()
+
         Reduce { state, action in
             switch action {
             case .binding(\.$selectedSegment):
@@ -75,6 +79,11 @@ public struct CategoryStore: Reducer {
                     .send(.fetchCategories),
                     .send(.fetchProducts)
                 )
+            case .onAppear:
+                if state.categories.isEmpty {
+                    return .send(.onLoad)
+                }
+                return .none
             case let .didTapCategory(category):
                 state.selectedCategory = category
                 return .send(.filterProducts)
