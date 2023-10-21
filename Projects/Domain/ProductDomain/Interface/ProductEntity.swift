@@ -8,23 +8,67 @@
 
 import Foundation
 
-public struct ProductEntity: Decodable, Equatable {
+public struct ProductEntity: Decodable, Equatable, Hashable {
     public let title: String
     public let category: String
-    public let image: String?
-    public let recyclable: Bool?
+    public let imageURL: String
+    public let recyclable: Bool
+    public let isTrash: Bool
+    public let description: [String]
 }
 
 public extension ProductEntity {
-    static var mock = ProductEntity(title: "종이컵", category: "종이", image: "imageURL", recyclable: true)
+    static var mock = ProductEntity(
+        title: "종이컵",
+        category: "종이",
+        imageURL: "imageURL",
+        recyclable: true,
+        isTrash: false,
+        description: ["종이컵버리는법"]
+    )
 }
 
 public extension [ProductEntity] {
     static var mock = [
-        ProductEntity(title: "종이컵", category: "종이", image: "imageURL", recyclable: true),
-        ProductEntity(title: "박스", category: "종이", image: "imageURL", recyclable: true),
-        ProductEntity(title: "신문지", category: "종이", image: "imageURL", recyclable: true),
-        ProductEntity(title: "한지", category: "종이", image: "imageURL", recyclable: true),
-        ProductEntity(title: "포장지", category: "종이", image: "imageURL", recyclable: true)
+        ProductEntity(
+            title: "종이컵",
+            category: "종이",
+            imageURL: "imageURL",
+            recyclable: true,
+            isTrash: false,
+            description: ["종이컵버리는법"]
+        ),
+        ProductEntity(
+            title: "박스",
+            category: "종이류",
+            imageURL: "imageURL",
+            recyclable: true,
+            isTrash: false,
+            description: ["종이컵버리는법"]
+        ),
+        ProductEntity(
+            title: "신문지",
+            category: "종이류",
+            imageURL: "imageURL",
+            recyclable: true,
+            isTrash: false,
+            description: ["종이컵버리는법"]
+        ),
+        ProductEntity(
+            title: "한지",
+            category: "종이류",
+            imageURL: "imageURL",
+            recyclable: true,
+            isTrash: false,
+            description: ["종이컵버리는법"]
+        ),
+        ProductEntity(
+            title: "포장지",
+            category: "종이류",
+            imageURL: "imageURL",
+            recyclable: true,
+            isTrash: false,
+            description: ["종이컵버리는법"]
+        )
     ]
 }

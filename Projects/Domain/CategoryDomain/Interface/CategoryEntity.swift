@@ -8,16 +8,10 @@
 
 import Foundation
 
-public struct CategoryEntity: Decodable, Equatable {
+public struct CategoryEntity: Decodable, Equatable, Hashable {
     public var title: String
     public let imageURL: String
     public let priority: Int
-
-    enum CodingKeys: String, CodingKey {
-        case title
-        case imageURL = "image"
-        case priority
-    }
 
     public init(title: String, image: String, priority: Int) {
         self.title = title
