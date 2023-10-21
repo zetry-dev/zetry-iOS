@@ -34,14 +34,13 @@ public struct CategoryView: View {
                     HStack(spacing: 0) {
                         ScrollView {
                             VStack(alignment: .leading, spacing: 0) {
-                                ForEach(viewStore.categories.indices, id: \.self) { index in
-                                    let category = viewStore.categories[index]
+                                ForEach(viewStore.categories, id: \.self) { category in
                                     categoryView(
                                         category.title,
-                                        selected: index == viewStore.selectedCategory
+                                        selected: category.title == viewStore.selectedCategory
                                     )
                                     .onTapGesture {
-                                        viewStore.send(.didTapCategory(index))
+                                        viewStore.send(.didTapCategory(category.title))
                                     }
                                 }
                             }
@@ -49,31 +48,18 @@ public struct CategoryView: View {
                         .frame(maxWidth: proxy.size.width * 0.35)
 
                         ScrollView {
-                            if viewStore.selectedSegment == .recyclable {
-                                LazyVGrid(columns: columns) {
-                                    ForEach(0 ... 19, id: \.self) { _ in
-                                        CategoryItemCell(
-                                            "재활용",
-                                            imageUrl: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg",
-                                            size: 62
-                                        )
-                                    }
+                            LazyVGrid(columns: columns) {
+                                ForEach(viewStore.selectedProducts, id: \.self) { product in
+                                    CategoryItemCell(
+                                        product.title,
+                                        imageUrl: product.imageURL,
+                                        size: 62
+                                    )
                                 }
-                                .padding(.vertical, 18)
-                                .padding(.horizontal, 13)
-                            } else {
-                                LazyVGrid(columns: columns) {
-                                    ForEach(0 ... 19, id: \.self) { _ in
-                                        CategoryItemCell(
-                                            "일반",
-                                            imageUrl: "https://p7.hiclipart.com/preview/180/516/952/apple-logo-computer-icons-clip-art-iphone-apple.jpg",
-                                            size: 62
-                                        )
-                                    }
-                                }
-                                .padding(.vertical, 18)
-                                .padding(.horizontal, 13)
                             }
+                            .padding(.vertical, 18)
+                            .padding(.horizontal, 13)
+                            .animation(.none, value: UUID())
                         }
                         .frame(maxWidth: .infinity)
                     }
