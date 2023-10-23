@@ -17,6 +17,8 @@ public extension Font {
         case subtitle2
         case subtitle3
         case subtitle4
+        case subtitle5
+        case boldSubtitle1
         case body1
         case body2
         case body3
@@ -30,5 +32,9 @@ public extension Font {
 
     static func zetry(_ style: ZetryFontSystem) -> Font {
         style.font
+    }
+
+    static func zetry(_ style: ZetryFontSystem) -> UIFont {
+        style.uiFont
     }
 }
