@@ -50,6 +50,9 @@ public struct AppCoordinator: Reducer {
                         embedInNavigationView: true)
                 ]
                 return .none
+            case let .routeAction(_, action: .mainTab(.category(.routeAction(_, action: .category(.routeToProductDetail(product)))))):
+                state.routes.push(.detail(.init(item: product)))
+                return .none
             case let .routeAction(_, action: .search(.routeToDetail(item))):
                 state.routes.push(.detail(.init(item: item)))
                 return .none

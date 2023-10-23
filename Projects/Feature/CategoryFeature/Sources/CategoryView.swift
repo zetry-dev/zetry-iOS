@@ -55,6 +55,9 @@ public struct CategoryView: View {
                                         imageUrl: product.imageURL,
                                         size: 62
                                     )
+                                    .onTapGesture {
+                                        viewStore.send(.routeToProductDetail(product))
+                                    }
                                 }
                             }
                             .padding(.vertical, 18)

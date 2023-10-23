@@ -61,6 +61,7 @@ public struct CategoryStore: Reducer {
         case categoryDataLoaded(TaskResult<[CategoryEntity]>)
         case productDataLoaded(TaskResult<[ProductEntity]>)
 
+        case routeToProductDetail(ProductEntity)
         case routeToSearch
     }
 
@@ -116,7 +117,7 @@ public struct CategoryStore: Reducer {
     }
 
     private func filterProducts(state: State) -> [ProductEntity] {
-        return state.products
+        state.products
             .filter {
                 $0.category == state.selectedCategory && $0.recyclable == state.selectedSegment.value
             }
