@@ -63,7 +63,7 @@ public struct LivingSectionView: View {
                 HStack(spacing: 6) {
                     Text("생활정보")
                         .fontStyle(.subtitle1)
-                    ZetryIcon(DesignSystemAsset.Icons.chevronRight)
+                    ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
                 }
                 .padding(.vertical, 16)
                 .contentShape(Rectangle())
@@ -99,7 +99,7 @@ public struct LivingSectionView: View {
                     HStack(spacing: 6) {
                         Text("오늘의 추천상점")
                             .fontStyle(.subtitle1)
-                        ZetryIcon(DesignSystemAsset.Icons.chevronRight)
+                        ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
                     }
                     .padding(.vertical, 16)
                     .contentShape(Rectangle())
@@ -133,7 +133,7 @@ public struct LivingSectionView: View {
                 HStack(spacing: 6) {
                     Text("알면 좋은 꿀팁")
                         .fontStyle(.subtitle1)
-                    ZetryIcon(DesignSystemAsset.Icons.chevronRight)
+                    ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
                 }
                 .padding(.vertical, 16)
                 .contentShape(Rectangle())

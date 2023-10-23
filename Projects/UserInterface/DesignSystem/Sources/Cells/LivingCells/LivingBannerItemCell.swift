@@ -32,7 +32,7 @@ public struct LivingBannerItemCell: View {
                     .fontStyle(.subtitle2)
                 Text(subtitle)
                     .lineLimit(2)
-                    .fontStyle(.label2)
+                    .fontStyle(.body3)
             }
         }
     }

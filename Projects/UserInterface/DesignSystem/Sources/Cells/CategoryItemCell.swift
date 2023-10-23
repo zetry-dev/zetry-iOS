@@ -23,7 +23,7 @@ public struct CategoryItemCell: View {
         VStack(spacing: 8) {
             Image
                 .load(imageUrl, width: size, height: size)
-                .background(Color.zetry(.grayScale(.gray3)))
+                .background(Color.zetry(.grayScale(.gray2)))
                 .cornerRadius(20)
 
             Text(title)

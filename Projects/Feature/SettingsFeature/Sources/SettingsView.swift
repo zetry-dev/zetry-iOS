@@ -67,7 +67,7 @@ public struct SettingsView: View {
                     }
                 }
             }
-            Divider(color: .gray0)
+            Divider(color: .grayScale(.gray0))
         }
         .padding(.horizontal, 16)
         .listRowInsets(.init())

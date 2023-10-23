@@ -29,7 +29,7 @@ public struct SearchView: View {
                             Text("\"\(viewStore.query)\"에 대한 검색 결과가 없습니다.\n다시 한번 확인해 주세요.")
                                 .fontStyle(.body2)
                                 .padding(.top, 35)
-                            Divider(color: .gray1, height: 3)
+                            Divider(color: .grayScale(.gray1), height: 3)
                         }
                     } else {
                         if viewStore.query.isEmpty {

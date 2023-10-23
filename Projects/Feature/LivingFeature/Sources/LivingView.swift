@@ -26,7 +26,7 @@ public struct LivingView: View {
                     headerView(viewStore: viewStore)
                 } titleView: {
                     Text("생활정보")
-                        .fontStyle(.subtitle1)
+                        .fontStyle(.boldSubtitle1)
                 } bannerView: {
                     bannerView(viewStore: viewStore)
                 } backgroundView: {

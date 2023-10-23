@@ -28,7 +28,7 @@ public enum MainTabItem {
         }
     }
 
-    var icon: DesignSystemImages {
+    var defaultIcon: DesignSystemImages {
         switch self {
         case .home:
             return DesignSystemAsset.Icons.house
@@ -38,6 +38,19 @@ public enum MainTabItem {
             return DesignSystemAsset.Icons.magazine
         case .settings:
             return DesignSystemAsset.Icons.gearshape
+        }
+    }
+
+    var activeIcon: DesignSystemImages {
+        switch self {
+        case .home:
+            return DesignSystemAsset.Icons.houseActive
+        case .category:
+            return DesignSystemAsset.Icons.line3MagnifyingglassActive
+        case .living:
+            return DesignSystemAsset.Icons.magazineActive
+        case .settings:
+            return DesignSystemAsset.Icons.gearshapeActive
         }
     }
 }

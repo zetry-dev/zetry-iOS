@@ -31,7 +31,7 @@ public extension KFImage {
         self
             .placeholder {
                 Color
-                    .zetry(.grayScale(.gray3))
+                    .zetry(.grayScale(.gray2))
                     .scaledToFill()
             }
             .fade(duration: 0.2)

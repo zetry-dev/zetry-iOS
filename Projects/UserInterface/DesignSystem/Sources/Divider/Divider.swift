@@ -9,17 +9,20 @@
 import SwiftUI
 
 public struct Divider: View {
-    let color: Color.ZetryColorSystem.GrayScale
+    let color: Color.ZetryColorSystem
     let height: CGFloat
+    let opacity: Double
 
-    public init(color: Color.ZetryColorSystem.GrayScale = .gray0, height: CGFloat = 1) {
+    public init(color: Color.ZetryColorSystem, height: CGFloat = 1, opacity: Double = 1) {
         self.color = color
         self.height = height
+        self.opacity = opacity
     }
 
     public var body: some View {
         Color
-            .zetry(.grayScale(color))
+            .zetry(color)
+            .opacity(opacity)
             .frame(height: height)
     }
 }

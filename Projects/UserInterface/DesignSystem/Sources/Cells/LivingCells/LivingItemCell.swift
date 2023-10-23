@@ -29,10 +29,10 @@ public struct LivingListItemCell: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(title)
                     .lineLimit(1)
-                    .fontStyle(.subtitle2)
+                    .fontStyle(.subtitle3)
                 Text(subtitle)
                     .lineLimit(2)
-                    .fontStyle(.label2)
+                    .fontStyle(.body3)
             }
             .padding(.top, 4)
         }

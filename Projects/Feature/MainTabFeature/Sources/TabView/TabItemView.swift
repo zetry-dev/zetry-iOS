@@ -23,9 +23,9 @@ public struct TabItemView: View {
             selection = tab
         } label: {
             VStack(spacing: 4) {
-                tab.icon.swiftUIImage
-                    .renderingMode(.template)
-                    .foregroundColor(.zetry(.grayScale(selection == tab ? .gray12 : .gray6)))
+                let image = tab == selection ? tab.activeIcon.swiftUIImage : tab.defaultIcon.swiftUIImage
+
+                image
                 Text(tab.description)
                     .fontStyle(.label4, foregroundColor: .grayScale(selection == tab ? .gray12 : .gray6))
             }

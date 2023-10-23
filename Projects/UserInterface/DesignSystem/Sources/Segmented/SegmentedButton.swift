@@ -56,7 +56,7 @@ public struct SegmentedButton<T: Segments>: View {
                     )
             }
             .id(segments[index].hashValue)
-            .padding(.vertical, 12)
+            .padding(.vertical, 10)
 
             if isSelected {
                 Color.zetry(style.lineColor)
