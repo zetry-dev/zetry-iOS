@@ -39,7 +39,7 @@ public struct AppScreen: Reducer {
             SearchStore()
         }
         Scope(state: /State.detail, action: /Action.detail) {
-            ProductDetailStore()
+            ProductDetailStore()._printChanges()
         }
     }
 }

@@ -36,13 +36,16 @@ public struct AppCoordinator: Reducer {
                     await send(.routeAction(0, action: .launch(.onDisappear)))
                 }
                 .debounce(id: CancelID.onAppear, for: .seconds(2), scheduler: UIScheduler.shared)
+
             case .routeAction(_, action: .launch(.onDisappear)):
                 state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
                 return .none
+
             case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToSearch))))),
                  .routeAction(_, action: .mainTab(.category(.routeAction(_, action: .category(.routeToSearch))))):
                 state.routes.push(.search(.init()))
                 return .none
+
             case let .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToCategory(categoryTitle)))))):
                 state.routes = [
                     .root(
@@ -50,17 +53,29 @@ public struct AppCoordinator: Reducer {
                         embedInNavigationView: true)
                 ]
                 return .none
+
             case let .routeAction(_, action: .mainTab(.category(.routeAction(_, action: .category(.routeToProductDetail(product)))))):
                 state.routes.push(.detail(.init(item: product)))
                 return .none
+
             case let .routeAction(_, action: .search(.routeToDetail(item))):
                 state.routes.push(.detail(.init(item: item)))
                 return .none
+
             case .routeAction(_, action: .search(.view(.pop))):
                 state.routes.pop()
                 return .none
+
             case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToLiving))))):
                 state.routes = [.root(.mainTab(.init(selectedTab: .living)), embedInNavigationView: true)]
+                return .none
+
+            case .routeAction(_, action: .detail(.pop)):
+                state.routes.pop()
+                return .none
+
+            case .routeAction(_, action: .detail(.popToRoot)):
+                state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
                 return .none
             default:
                 return .none
