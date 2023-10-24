@@ -12,7 +12,7 @@ public struct ZetryIcon: View {
     public enum Size {
         case larger
         case smaller
-        case custom(CGSize)
+        case custom(width: CGFloat, height: CGFloat)
     }
 
     private let icon: DesignSystemImages
@@ -45,8 +45,8 @@ extension ZetryIcon.Size {
             return 24
         case .smaller:
             return 20
-        case .custom(let size):
-            return size.width
+        case .custom(let width, _):
+            return width
         }
     }
 
@@ -56,8 +56,8 @@ extension ZetryIcon.Size {
             return 24
         case .smaller:
             return 20
-        case .custom(let size):
-            return size.height
+        case .custom(_, let height):
+            return height
         }
     }
 }

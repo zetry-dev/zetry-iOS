@@ -20,7 +20,7 @@ public struct DetailChip: View {
     public var body: some View {
         HStack(spacing: 4) {
             if let icon {
-                ZetryIcon(icon, foregroundColor: .primary(.white), size: .custom(.init(width: 14, height: 14)))
+                ZetryIcon(icon, foregroundColor: .primary(.white), size: .custom(width: 14, height: 14))
             }
             Text(text)
                 .fontStyle(.body2, foregroundColor: .primary(.white))
