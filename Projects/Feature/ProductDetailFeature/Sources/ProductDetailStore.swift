@@ -7,14 +7,18 @@
 //
 
 import ComposableArchitecture
+import Foundation
 import ProductDomain
 import ProductDomainInterface
+import UIKit
 
 public struct ProductDetailStore: Reducer {
     public init() {}
 
     public struct State: Equatable {
         let item: ProductEntity
+        let imageHeight: CGFloat = UIScreen.main.bounds.height / 2.2
+        var scrollViewOffsetY: CGFloat = 0.0
 
         public init(item: ProductEntity) {
             self.item = item
@@ -22,17 +26,25 @@ public struct ProductDetailStore: Reducer {
     }
 
     public enum Action: Equatable {
-        case onAppear
+        case onLoad
+        case scrollOffsetYChanged(CGFloat)
+
+        case pop
+        case popToRoot
     }
 
     @Dependency(\.productClient) var productClient
 
     public var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .onAppear:
+            case .onLoad:
                 return .none
-            default: return .none
+            case .scrollOffsetYChanged(let offset):
+                state.scrollViewOffsetY = offset
+                return .none
+            default:
+                return .none
             }
         }
     }
