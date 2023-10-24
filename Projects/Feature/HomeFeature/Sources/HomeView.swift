@@ -147,9 +147,7 @@ public struct HomeView: View {
                     item.title,
                     imageUrl: item.imageURL,
                     size: 58
-                )
-                .animatedList(viewStore.isAnimated, index: index)
-                .onTapGesture {
+                ) {
                     if index == 4 {
                         _ = withAnimation(.linear) {
                             viewStore.send(.toggleCategory)
@@ -158,6 +156,7 @@ public struct HomeView: View {
                         viewStore.send(.routeToCategory(item.title))
                     }
                 }
+                .animatedList(viewStore.isAnimated, index: index)
             }
 
             if viewStore.isCateogryExpandend {
@@ -167,8 +166,7 @@ public struct HomeView: View {
                         item.title,
                         imageUrl: item.imageURL,
                         size: 58
-                    )
-                    .onTapGesture {
+                    ) {
                         viewStore.send(.routeToCategory(item.title))
                     }
                 }
