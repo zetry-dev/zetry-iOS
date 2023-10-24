@@ -16,12 +16,14 @@ public struct SearchCoordinator: Reducer {
         public var routes: [Route<SearchScreen.State>]
     }
 
-    public enum Action: IndexedRouterAction {
+    public enum Action: BindableAction, IndexedRouterAction {
+        case binding(BindingAction<State>)
         case updateRoutes([Route<SearchScreen.State>])
         case routeAction(Int, action: SearchScreen.Action)
     }
 
     public var body: some ReducerOf<Self> {
+        BindingReducer()
         Reduce { _, action in
             switch action {
             default:
