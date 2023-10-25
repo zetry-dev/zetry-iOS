@@ -41,7 +41,7 @@ public struct SearchableTextField: View {
             .submitLabel(.search)
 
             if !text.isEmpty {
-                ZetryIcon(DesignSystemAsset.Icons.xmarkCircleFill)
+                DesignSystemAsset.Icons.xmarkCircleFill.swiftUIImage
                     .onTapGesture {
                         text = ""
                     }

@@ -34,6 +34,7 @@ public extension KFImage {
                     .zetry(.grayScale(.gray2))
                     .scaledToFill()
             }
+            .resizable()
             .fade(duration: 0.2)
             .cancelOnDisappear(true)
             .centerCropped()
