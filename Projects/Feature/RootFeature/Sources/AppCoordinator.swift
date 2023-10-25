@@ -58,7 +58,8 @@ public struct AppCoordinator: Reducer {
                 state.routes.push(.detail(.init(item: product)))
                 return .none
 
-            case let .routeAction(_, action: .search(.routeToDetail(item))):
+            case let .routeAction(_, action: .search(.routeToDetail(item))),
+                 let .routeAction(_, action: .search(.view(.routeToDetail(item)))):
                 state.routes.push(.detail(.init(item: item)))
                 return .none
 

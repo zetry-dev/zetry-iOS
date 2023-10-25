@@ -8,6 +8,7 @@
 
 import ComposableArchitecture
 import DesignSystem
+import ProductDomainInterface
 import SwiftUI
 
 public struct SearchView: View {
@@ -24,13 +25,7 @@ public struct SearchView: View {
                 searchableNavigationView(viewStore)
                 ScrollView {
                     if viewStore.isEmptyResult {
-                        // TODO: - EmptyResult
-                        VStack(spacing: 35) {
-                            Text("\"\(viewStore.query)\"에 대한 검색 결과가 없습니다.\n다시 한번 확인해 주세요.")
-                                .fontStyle(.body2)
-                                .padding(.top, 35)
-                            Divider(color: .grayScale(.gray1), height: 3)
-                        }
+                        emptyRecommendationView(viewStore)
                     } else {
                         if viewStore.query.isEmpty {
                             recentSearchView(viewStore)
@@ -43,6 +38,7 @@ public struct SearchView: View {
                         }
                     }
                 }
+                .background(viewStore.isEmptyResult ? Color.zetry(.grayScale(.gray0)) : Color.white)
             }
             .task {
                 viewStore.send(.onAppear)
@@ -61,6 +57,7 @@ extension SearchView {
         let updatedTimeStamp: String
         let recommendedKeywords: [String]
         var relatedKeywords: [String]
+        let recommendedProducts: [ProductEntity]
         var isEmptyResult: Bool
     }
 }
@@ -75,6 +72,7 @@ extension BindingViewStore<SearchStore.State> {
             updatedTimeStamp: self.updatedTimeStamp,
             recommendedKeywords: self.recommendedKeywords,
             relatedKeywords: self.relatedKeywords,
+            recommendedProducts: self.recommendedProducts,
             isEmptyResult: self.isEmptyResult
         )
     }
@@ -278,6 +276,45 @@ extension SearchView {
                 viewStore.send(.didTapQuery(keyword))
             }
             .padding(.top, 14)
+        }
+    }
+
+    @ViewBuilder
+    private func emptyRecommendationView(
+        _ viewStore: ViewStore<SearchView.ViewState, SearchStore.Action.View>
+    ) -> some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 10) {
+                ZetryIcon(
+                    DesignSystemAsset.Icons.exclamationmarkCircle,
+                    foregroundColor: .primary(.primary),
+                    size: .custom(width: 52, height: 52)
+                )
+                VStack(spacing: 6) {
+                    Text("찾으시는 검색 결과가 없습니다.")
+                        .fontStyle(.subtitle5)
+                    Text("다시 한번 확인해 주세요.")
+                        .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 36)
+            .background(Color.white)
+
+            VStack(spacing: 30) {
+                Text("혹시 이런 쓰레기를 찾으시나요?")
+                    .fontStyle(.body2, foregroundColor: .grayScale(.gray7))
+
+                HStack(spacing: 12) {
+                    ForEach(Array(viewStore.recommendedProducts), id: \.self) { item in
+                        RecommendItemCell(item.title, imageURL: item.imageURL) {
+                            viewStore.send(.routeToDetail(item: item))
+                        }
+                    }
+                }
+                .padding(.horizontal, 25)
+            }
+            .padding(.top, 30)
         }
     }
 }

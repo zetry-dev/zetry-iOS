@@ -26,7 +26,8 @@ public struct SearchStore: Reducer {
         var topKeywords: [String] = []
         var relatedKeywords: [String] = []
         var searchResults: [String] = []
-        var updatedTimeStamp: String = "2023.08.08 업데이트"
+        var recommendedProducts: [ProductEntity] = []
+        var updatedTimeStamp: String = ""
         var isEmptyResult: Bool = false
 
         public init() {
@@ -41,6 +42,7 @@ public struct SearchStore: Reducer {
         case addRecentKeyword
         case storeKeywords([ProductEntity])
         case updateTimeStamp
+        case addRecommendProducts([ProductEntity])
 
         case itemDataLoaded(TaskResult<[ProductEntity]>)
         case relatedQueryDataLoaded(TaskResult<[ProductEntity]>)
@@ -104,10 +106,15 @@ public struct SearchStore: Reducer {
                 return .run { send in
                     await send(.storeKeywords(result))
                     await send(.updateTimeStamp)
+                    await send(.addRecommendProducts(result))
                 }
 
             case .itemDataLoaded(.failure):
                 state.recommendedKeywords = []
+                return .none
+
+            case .addRecommendProducts(let products):
+                state.recommendedProducts = Array(products.shuffled().prefix(3))
                 return .none
 
             case .relatedQueryDataLoaded(.success(let result)):
@@ -115,6 +122,7 @@ public struct SearchStore: Reducer {
                     state.relatedKeywords = result.map(\.title)
                 }
                 return .none
+
             case .presentSearchFailure:
                 state.isEmptyResult = true
                 return .none
@@ -133,7 +141,8 @@ public struct SearchStore: Reducer {
                 state.updatedTimeStamp = formatter.string(from: Date.now)
                 return .none
 
-            case .routeToDetail:
+            case .routeToDetail,
+                 .view(.routeToDetail):
                 state.query = ""
                 return .none
 
@@ -214,5 +223,6 @@ public extension SearchStore.Action {
 
         case removeRelatedKeywords
         case pop
+        case routeToDetail(item: ProductEntity)
     }
 }
