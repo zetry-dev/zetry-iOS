@@ -27,8 +27,8 @@ public struct RecommendItemCell: View {
                 Image
                     .load(
                         imageURL,
-                        width: 60,
-                        height: 40
+                        width: 62,
+                        height: 62
                     )
                 Text(text)
                     .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
