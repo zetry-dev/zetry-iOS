@@ -143,6 +143,7 @@ public struct HomeView: View {
                 CategoryItemCell(
                     item.title,
                     imageUrl: item.imageURL,
+                    icon: index == 4 ? viewStore.cateogryExpandendIcon : nil,
                     size: 58
                 ) {
                     if index == 4 {

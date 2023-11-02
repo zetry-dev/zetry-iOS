@@ -23,6 +23,9 @@ public struct HomeStore: Reducer {
         var livingSectionStore: LivingSectionStore.State = .init()
         var categories: [CategoryEntity] = []
         var isCateogryExpandend: Bool = false
+        var cateogryExpandendIcon: DesignSystemImages {
+            isCateogryExpandend ? DesignSystemAsset.Icons.chevronUpCircle : DesignSystemAsset.Icons.chevronDownCircle
+        }
 
         var isAnimated: Bool = false
         var carouselCurrentIndex: Int = 0
