@@ -51,7 +51,6 @@ public struct CategoryStore: Reducer {
     public enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case onLoad
-        case onAppear
         case didTapCategory(String)
 
         case filterProducts
@@ -80,11 +79,6 @@ public struct CategoryStore: Reducer {
                     .send(.fetchCategories),
                     .send(.fetchProducts)
                 )
-            case .onAppear:
-                if state.categories.isEmpty {
-                    return .send(.onLoad)
-                }
-                return .none
             case let .didTapCategory(category):
                 state.selectedCategory = category
                 return .send(.filterProducts)

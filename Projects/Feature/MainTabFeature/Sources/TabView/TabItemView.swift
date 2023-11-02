@@ -23,9 +23,9 @@ public struct TabItemView: View {
             selection = tab
         } label: {
             VStack(spacing: 4) {
-                let image = tab == selection ? tab.activeIcon.swiftUIImage : tab.defaultIcon.swiftUIImage
+                let image = tab == selection ? tab.activeIcon : tab.defaultIcon
 
-                image
+                ZetryIcon(image, foregroundColor: .grayScale(selection == tab ? .gray12 : .gray6))
                 Text(tab.description)
                     .fontStyle(.label4, foregroundColor: .grayScale(selection == tab ? .gray12 : .gray6))
             }

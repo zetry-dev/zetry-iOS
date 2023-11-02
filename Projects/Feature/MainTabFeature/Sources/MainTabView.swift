@@ -31,45 +31,40 @@ public struct MainTabView: View {
 
             let selection: Binding<MainTabItem> = viewStore.binding(send: { MainTabStore.Action.tabSelected($0) })
 
-            GeometryReader { proxy in
-                TabView(selection: selection) {
-                    HomeCoordinatorView(
-                        store: self.store.scope(
-                            state: \.home,
-                            action: MainTabStore.Action.home
+            VStack(spacing: 0) {
+                switch selection.wrappedValue {
+                    case .home:
+                        HomeCoordinatorView(
+                            store: self.store.scope(
+                                state: \.home,
+                                action: MainTabStore.Action.home
+                            )
                         )
-                    )
-                    .tag(MainTabItem.home)
-
-                    CategoryCoordinatorView(
-                        store: self.store.scope(
-                            state: \.category,
-                            action: MainTabStore.Action.category
+                    case .category:
+                        CategoryCoordinatorView(
+                            store: self.store.scope(
+                                state: \.category,
+                                action: MainTabStore.Action.category
+                            )
                         )
-                    )
-                    .tag(MainTabItem.category)
-
-                    LivingCoordinatorView(
-                        store: self.store.scope(
-                            state: \.living,
-                            action: MainTabStore.Action.living
+                    case .living:
+                        LivingCoordinatorView(
+                            store: self.store.scope(
+                                state: \.living,
+                                action: MainTabStore.Action.living
+                            )
                         )
-                    )
-                    .tag(MainTabItem.living)
-
-                    SettingsCoordinatorView(
-                        store: self.store.scope(
-                            state: \.settings,
-                            action: MainTabStore.Action.settings
+                    case .settings:
+                        SettingsCoordinatorView(
+                            store: self.store.scope(
+                                state: \.settings,
+                                action: MainTabStore.Action.settings
+                            )
                         )
-                    )
-                    .tag(MainTabItem.settings)
                 }
-                .safeAreaInset(edge: .bottom) {
-                    ZetryTabView(selectedTab: selection, height: proxy.safeAreaInsets.bottom)
-                }
-                .edgesIgnoringSafeArea(.bottom)
+                ZetryTabView(selectedTab: selection, height: 45)
             }
+            .edgesIgnoringSafeArea(.bottom)
         }
     }
 }

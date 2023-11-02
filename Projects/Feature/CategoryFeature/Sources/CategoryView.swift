@@ -72,9 +72,6 @@ public struct CategoryView: View {
             .onLoad {
                 viewStore.send(.onLoad)
             }
-            .onAppear {
-                viewStore.send(.onAppear)
-            }
         }
     }
 
