@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "chevron_circle_up.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
