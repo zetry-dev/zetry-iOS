@@ -17,6 +17,7 @@ public struct ProductDetailStore: Reducer {
 
     public struct State: Equatable {
         let item: ProductEntity
+        var recommendedItems: [ProductEntity] = []
         let imageHeight: CGFloat = UIScreen.main.bounds.height / 2.2
         var scrollViewOffsetY: CGFloat = 0.0
 
@@ -29,6 +30,9 @@ public struct ProductDetailStore: Reducer {
         case onLoad
         case scrollOffsetYChanged(CGFloat)
 
+        case fetchProduct
+        case productDataLoaded(TaskResult<[ProductEntity]>)
+
         case pop
         case popToRoot
     }
@@ -39,9 +43,19 @@ public struct ProductDetailStore: Reducer {
         Reduce { state, action in
             switch action {
             case .onLoad:
-                return .none
-            case .scrollOffsetYChanged(let offset):
+                return .send(.fetchProduct)
+            case let .scrollOffsetYChanged(offset):
                 state.scrollViewOffsetY = offset
+                return .none
+            case .fetchProduct:
+                return .run { send in
+                    let result = await TaskResult {
+                        try await productClient.fetchAllItems()
+                    }
+                    await send(.productDataLoaded(result))
+                }
+            case let .productDataLoaded(.success(result)):
+                state.recommendedItems = Array(result.shuffled().prefix(4))
                 return .none
             default:
                 return .none

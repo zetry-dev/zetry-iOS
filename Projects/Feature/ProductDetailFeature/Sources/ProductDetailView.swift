@@ -47,7 +47,7 @@ public struct ProductDetailView: View {
                         }
                     }
                     .frame(height: viewStore.imageHeight)
-                    detailContentView(product: product)
+                    detailContentView(viewStore: viewStore)
                         .offset(y: -40)
                 }
             }
@@ -79,6 +79,9 @@ public struct ProductDetailView: View {
                         ZetryIcon(DesignSystemAsset.Icons.house)
                     }
                 }
+            }
+            .onLoad {
+                viewStore.send(.onLoad)
             }
         }
     }
@@ -121,7 +124,9 @@ public struct ProductDetailView: View {
     }
 
     @ViewBuilder
-    func detailContentView(product: ProductEntity) -> some View {
+    func detailContentView(viewStore: ViewStoreOf<ProductDetailStore>) -> some View {
+        let product = viewStore.item
+        let recommendItems = viewStore.recommendedItems
         VStack(alignment: .leading, spacing: 15) {
             Text(product.title)
                 .fontStyle(.headline1)
@@ -155,10 +160,9 @@ public struct ProductDetailView: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
-                        CategoryItemCell("신문지", imageUrl: "ii", size: 72) {}
-                        CategoryItemCell("신문지", imageUrl: "ii", size: 72) {}
-                        CategoryItemCell("신문지", imageUrl: "ii", size: 72) {}
-                        CategoryItemCell("신문지", imageUrl: "ii", size: 72) {}
+                        ForEach(recommendItems, id: \.self) {
+                            CategoryItemCell($0.title, imageUrl: $0.imageURL, size: 72) {}
+                        }
                     }
                 }
             }
