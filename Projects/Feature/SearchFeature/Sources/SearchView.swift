@@ -298,7 +298,7 @@ extension SearchView {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 36)
+            .padding(.vertical, 105)
             .background(Color.white)
 
             VStack(spacing: 30) {
