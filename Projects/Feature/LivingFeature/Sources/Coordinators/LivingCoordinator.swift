@@ -15,7 +15,7 @@ public struct LivingCoordinator: Reducer {
     public struct State: Equatable, IndexedRouterState {
         public var routes: [Route<LivingScreen.State>]
 
-        public init(routes: [Route<LivingScreen.State>] = [.root(.living(.init()), embedInNavigationView: true)]) {
+        public init(routes: [Route<LivingScreen.State>]) {
             self.routes = routes
         }
     }

@@ -29,6 +29,9 @@ public struct LivingSectionStore: Reducer {
         case infoSection([LivingEntity])
         case todaySection([LivingEntity])
         case tipsSection([LivingEntity])
+
+        case routeToLiving(LivingSegementedTab)
+        case routeToLivingDetail(String)
     }
 
     public var body: some ReducerOf<Self> {
@@ -56,9 +59,6 @@ public struct LivingSectionStore: Reducer {
                 } else {
                     state.livingSectionItems[LivingSegementedTab.tips] = makeSectionItems(using: items)
                 }
-                return .none
-            case let .view(.routeToLiving(livingSegment)):
-                print(livingSegment)
                 return .none
             default:
                 return .none
@@ -91,10 +91,10 @@ public struct LivingSectionStore: Reducer {
     }
 }
 
-public extension LivingSectionStore.Action {
+ public extension LivingSectionStore.Action {
     enum View: Equatable, BindableAction {
         case binding(BindingAction<LivingSectionStore.State>)
         case routeToLiving(LivingSegementedTab)
         case routeToLivingDetail(String)
     }
-}
+ }

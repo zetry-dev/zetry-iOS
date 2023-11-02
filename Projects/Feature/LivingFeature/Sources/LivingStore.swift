@@ -32,7 +32,9 @@ public struct LivingStore: Reducer {
             .init(title: "카드4", color: .pink, imageURL: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg")
         ]
 
-        public init() {}
+        public init(selectedLiving: LivingSegementedTab) {
+            self.selectedSegment = selectedLiving
+        }
     }
 
     public enum Action: Equatable {

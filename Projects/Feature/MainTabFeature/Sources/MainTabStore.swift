@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseFeature
 import CategoryFeature
 import ComposableArchitecture
 import HomeFeature
@@ -20,13 +21,16 @@ public struct MainTabStore: Reducer {
 
         public var home: HomeCoordinator.State = .init()
         public var category: CategoryCoordinator.State
-        public var living: LivingCoordinator.State = .init()
+        public var living: LivingCoordinator.State
         public var settings: SettingsCoordinator.State = .init()
 
-        public init(selectedTab: MainTabItem = .home, selectedCategory: String = "종이류") {
+        public init(selectedTab: MainTabItem = .home, selectedCategory: String = "종이류", selectedLiving: LivingSegementedTab = .livingInfo) {
             self.selectedTab = selectedTab
             self.category = .init(
                 routes: [.root(.category(.init(selectedCategory: selectedCategory)))]
+            )
+            self.living = .init(
+                routes: [.root(.living(.init(selectedLiving: selectedLiving)))]
             )
         }
     }

@@ -82,9 +82,6 @@ public struct HomeView: View {
                 )
             }
             .edgesIgnoringSafeArea(.top)
-            .onLoad {
-                viewStore.send(.onLoad)
-            }
             .onAppear {
                 viewStore.send(.onAppear)
             }

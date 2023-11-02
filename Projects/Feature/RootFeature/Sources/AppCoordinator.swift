@@ -67,8 +67,11 @@ public struct AppCoordinator: Reducer {
                 state.routes.pop()
                 return .none
 
-            case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToLiving))))):
-                state.routes = [.root(.mainTab(.init(selectedTab: .living)), embedInNavigationView: true)]
+            case let .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToLiving(livingTab)))))):
+                state.routes = [
+                    .root(.mainTab(.init(selectedTab: .living, selectedLiving: livingTab)),
+                          embedInNavigationView: true)
+                ]
                 return .none
 
             case .routeAction(_, action: .detail(.pop)):

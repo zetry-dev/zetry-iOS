@@ -39,7 +39,6 @@ public struct HomeStore: Reducer {
     }
 
     public enum Action: Equatable {
-        case onLoad
         case onAppear
         case animatingList
         case indexChanged(Int)
@@ -59,7 +58,7 @@ public struct HomeStore: Reducer {
 
         case routeToCategory(String)
         case routeToSearch
-        case routeToLiving
+        case routeToLiving(LivingSegementedTab)
         case livingSection(LivingSectionStore.Action)
     }
 
@@ -69,18 +68,13 @@ public struct HomeStore: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .onLoad:
+            case .onAppear:
                 return
                     .merge(
                         .send(.fetchCategories),
                         .send(.fetchInformation),
                         .send(.animatingList)
                     )
-            case .onAppear:
-                if state.categories.isEmpty {
-                    return .send(.onLoad)
-                }
-                return .none
             case .animatingList:
                 state.isAnimated = true
                 return .none
@@ -137,6 +131,8 @@ public struct HomeStore: Reducer {
                 return .send(.livingSection(.todaySection(Array(result.prefix(1)))))
             case let .tipsDataLoaded(.success(result)):
                 return .send(.livingSection(.tipsSection(Array(result.prefix(5)))))
+            case let .livingSection(.view(.routeToLiving(livingSection))):
+                return .send(.routeToLiving(livingSection))
             default: return .none
             }
         }
