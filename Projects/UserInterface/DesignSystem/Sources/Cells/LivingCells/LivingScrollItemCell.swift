@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import CoreKitInterface
 import SwiftUI
 
 public struct LivingScrollItemCell: View {
@@ -30,9 +31,8 @@ public struct LivingScrollItemCell: View {
                 Text(title)
                     .lineLimit(1)
                     .fontStyle(.subtitle3)
-                Text(subtitle)
-                    .lineLimit(2)
-                    .fontStyle(.body3)
+                
+                MultilineText(subtitle, lineLimit: 2, font: .body3)
             }
             Spacer()
         }

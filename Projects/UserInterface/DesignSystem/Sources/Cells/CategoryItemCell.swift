@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import CoreKitInterface
 import SwiftUI
 
 public struct CategoryItemCell: View {
@@ -45,8 +46,7 @@ public struct CategoryItemCell: View {
                     }
                 }
 
-                Text(title)
-                    .fontStyle(.body2)
+                MultilineText(title, font: .body2)
             }
         }
         .buttonStyle(.bounce)

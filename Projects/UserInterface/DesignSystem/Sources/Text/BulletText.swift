@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import CoreKitInterface
 import SwiftUI
 
 public struct BulletText: View {
@@ -16,13 +17,13 @@ public struct BulletText: View {
     }
 
     public var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 4) {
-            Text("•")
-                .fontStyle(.body1, foregroundColor: .primary(.primary))
-            Text(text)
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Circle()
+                .foregroundColor(.zetry(.primary(.primary)))
+                .frame(width: 4, height: 4)
+                .padding(.bottom, 4)
+            MultilineText(text, font: .label1)
                 .fontWithLineHeight(font: Font.zetry(.label1), lineHeight: 24)
-                .fontStyle(.label1)
         }
-        .multilineTextAlignment(.leading)
     }
 }

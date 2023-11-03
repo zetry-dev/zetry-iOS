@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import CoreKitInterface
 import SwiftUI
 
 public struct RecommendItemCell: View {
@@ -30,8 +31,8 @@ public struct RecommendItemCell: View {
                         width: 62,
                         height: 62
                     )
-                Text(text)
-                    .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
+                
+                MultilineText(text, font: .body2, foregroudColor: .grayScale(.gray9))
             }
             .padding(.vertical, 25)
             .padding(.horizontal, 20)

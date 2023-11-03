@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import CoreKitInterface
 import SwiftUI
 
 public struct LivingBannerItemCell: View {
@@ -30,9 +31,8 @@ public struct LivingBannerItemCell: View {
                 Text(title)
                     .lineLimit(1)
                     .fontStyle(.subtitle2)
-                Text(subtitle)
-                    .lineLimit(2)
-                    .fontStyle(.body3)
+                
+                MultilineText(subtitle, lineLimit: 2, font: .body3)
             }
         }
     }

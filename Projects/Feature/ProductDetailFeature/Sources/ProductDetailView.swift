@@ -130,13 +130,13 @@ public struct ProductDetailView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(product.title)
                 .fontStyle(.headline1)
-                .padding(.leading, 28)
+                .padding(.leading, 30)
 
             Divider(color: .primary(.black), opacity: 0.05)
 
             Text("버리는 방법")
                 .fontStyle(.subtitle1)
-                .padding(.leading, 28)
+                .padding(.leading, 30)
 
             VStack(alignment: .leading, spacing: 16) {
                 ForEach(product.description, id: \.self) { description in
@@ -145,11 +145,11 @@ public struct ProductDetailView: View {
                 HStack(alignment: .top, spacing: 8) {
                     ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircle,
                               foregroundColor: .primary(.primary))
-                    Text("마우스는 폐가전 무상방문수거 서비스를 통해 컴퓨터를 배출할 때 배출할 수 있어요.")
+                    Text("마우스는 폐가전 무상방문수거 서비스를 통해 컴퓨터를 배출할 때 배출할 수 있어요.".nonBreakingSpaced())
                         .fontStyle(.body2, foregroundColor: .grayScale(.gray7))
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 30)
             .padding(.bottom, 9)
 
             Divider(color: .grayScale(.gray2))
