@@ -38,7 +38,6 @@ public struct CategoryItemCell: View {
                 if !imageUrl.isEmpty {
                     Image
                         .load(imageUrl, width: size, height: size)
-                        .background(Color.zetry(.grayScale(.gray2)))
                         .cornerRadius(20)
                 } else {
                     if let icon {

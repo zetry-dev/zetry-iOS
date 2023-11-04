@@ -62,7 +62,7 @@ public struct MainTabView: View {
                             )
                         )
                 }
-                ZetryTabView(selectedTab: selection, height: 45)
+                ZetryTabView(selectedTab: selection)
             }
             .edgesIgnoringSafeArea(.bottom)
         }

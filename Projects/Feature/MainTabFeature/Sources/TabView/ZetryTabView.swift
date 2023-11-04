@@ -11,11 +11,9 @@ import SwiftUI
 
 public struct ZetryTabView: View {
     @Binding private var selectedTab: MainTabItem
-    private var height: CGFloat
 
-    public init(selectedTab: Binding<MainTabItem>, height: CGFloat) {
+    public init(selectedTab: Binding<MainTabItem>) {
         self._selectedTab = selectedTab
-        self.height = height
     }
 
     public var body: some View {
@@ -26,7 +24,7 @@ public struct ZetryTabView: View {
             TabItemView(selection: $selectedTab, tab: .settings)
         }
         .padding(.top, 12)
-        .padding(.bottom, height > 0 ? 34 : 10)
+        .padding(.bottom, 34)
         .background(
             .thinMaterial,
             in: RoundedRectangle(cornerRadius: 15, style: .continuous)
