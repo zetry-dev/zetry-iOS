@@ -160,9 +160,9 @@ public struct ProductDetailView: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 18) {
-                        ForEach(recommendItems, id: \.self) {
-                            CategoryItemCell($0.title, imageUrl: $0.imageURL, size: 72) {
-                                viewStore.send(.routeToDetail(item: product))
+                        ForEach(recommendItems, id: \.self) { recommendItem in
+                            CategoryItemCell(recommendItem.title, imageUrl: recommendItem.imageURL, size: 72) {
+                                viewStore.send(.routeToDetail(item: recommendItem))
                             }
                         }
                     }
