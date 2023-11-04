@@ -35,6 +35,7 @@ public struct LivingView: View {
                     contentView()
                 }
             }
+            .toolbar(.hidden, for: .navigationBar)
             .onLoad {
                 viewStore.send(.onLoad)
             }

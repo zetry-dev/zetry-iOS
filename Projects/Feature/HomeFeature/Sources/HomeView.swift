@@ -82,6 +82,7 @@ public struct HomeView: View {
                 )
             }
             .edgesIgnoringSafeArea(.top)
+            .toolbar(.hidden, for: .navigationBar)
             .onAppear {
                 viewStore.send(.onAppear)
             }
