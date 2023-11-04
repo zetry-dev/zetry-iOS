@@ -118,9 +118,7 @@ public struct SearchStore: Reducer {
                 return .none
 
             case .relatedQueryDataLoaded(.success(let result)):
-                if !result.isEmpty {
-                    state.relatedKeywords = result.map(\.title)
-                }
+                state.relatedKeywords = !result.isEmpty ? result.map(\.title) : []
                 return .none
 
             case .presentSearchFailure:
@@ -203,7 +201,8 @@ public struct SearchStore: Reducer {
 
     func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [ProductEntity]) {
         if storedKeywords.count < 9 ||
-            !(Calendar.current.isDateInToday(UserDefaultsManager.keywordsDate)) {
+            !(Calendar.current.isDateInToday(UserDefaultsManager.keywordsDate))
+        {
             let keywords = data.map(\.title)
             let newKeywords = keywords.shuffled().prefix(10).map { String($0) }
             storedKeywords = newKeywords
