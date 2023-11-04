@@ -33,6 +33,7 @@ public struct ProductDetailStore: Reducer {
         case fetchProduct
         case productDataLoaded(TaskResult<[ProductEntity]>)
 
+        case routeToDetail(item: ProductEntity)
         case pop
         case popToRoot
     }
