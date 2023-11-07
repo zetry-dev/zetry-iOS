@@ -15,6 +15,7 @@ public struct ProductEntity: Decodable, Equatable, Hashable {
     public let recyclable: Bool
     public let isTrash: Bool
     public let description: [String]
+    public let keywords: [String]
 }
 
 public extension ProductEntity {
@@ -24,7 +25,8 @@ public extension ProductEntity {
         imageURL: "imageURL",
         recyclable: true,
         isTrash: false,
-        description: ["종이컵버리는법"]
+        description: ["종이컵버리는법"],
+        keywords: ["종이"]
     )
 }
 
@@ -36,7 +38,8 @@ public extension [ProductEntity] {
             imageURL: "imageURL",
             recyclable: true,
             isTrash: false,
-            description: ["종이컵버리는법"]
+            description: ["종이컵버리는법"],
+            keywords: ["종이"]
         ),
         ProductEntity(
             title: "박스",
@@ -44,7 +47,8 @@ public extension [ProductEntity] {
             imageURL: "imageURL",
             recyclable: true,
             isTrash: false,
-            description: ["종이컵버리는법"]
+            description: ["종이컵버리는법"],
+            keywords: ["종이"]
         ),
         ProductEntity(
             title: "신문지",
@@ -52,7 +56,8 @@ public extension [ProductEntity] {
             imageURL: "imageURL",
             recyclable: true,
             isTrash: false,
-            description: ["종이컵버리는법"]
+            description: ["종이컵버리는법"],
+            keywords: ["종이"]
         ),
         ProductEntity(
             title: "한지",
@@ -60,7 +65,8 @@ public extension [ProductEntity] {
             imageURL: "imageURL",
             recyclable: true,
             isTrash: false,
-            description: ["종이컵버리는법"]
+            description: ["종이컵버리는법"],
+            keywords: ["종이"]
         ),
         ProductEntity(
             title: "포장지",
@@ -68,7 +74,8 @@ public extension [ProductEntity] {
             imageURL: "imageURL",
             recyclable: true,
             isTrash: false,
-            description: ["종이컵버리는법"]
+            description: ["종이컵버리는법"],
+            keywords: ["종이"]
         )
     ]
 }
