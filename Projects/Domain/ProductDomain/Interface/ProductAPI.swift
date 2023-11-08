@@ -11,6 +11,7 @@ import NetworkingInterface
 public enum ProductAPI {
     case fetchItems(category: String)
     case fetchAllItems
+    case search(keyword: String)
 }
 
 extension ProductAPI: TargetType {
@@ -18,10 +19,12 @@ extension ProductAPI: TargetType {
         .products
     }
 
-    public var query: [String: Any]? {
+    public var query: (field: String, value: Any)? {
         switch self {
         case .fetchItems(let category):
-            return ["category": category]
+            return (field: "category", value: category)
+        case .search(let keyword):
+            return (field: "keywords", value: keyword)
         default:
             return nil
         }

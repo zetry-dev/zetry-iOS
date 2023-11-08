@@ -24,8 +24,13 @@ public final class FirestoreProvider {
         }
         let ref = database.collection(endPoint)
         if let targetQuery = target.query {
-            let query = ref.whereField(targetQuery.first!.key, isEqualTo: targetQuery.first!.value)
-            return try await query.getDocuments().documents.map { $0.data() }
+            if targetQuery.field == "keywords" {
+                let query = ref.whereField(targetQuery.field, arrayContains: targetQuery.value)
+                return try await query.getDocuments().documents.map { $0.data() }
+            } else {
+                let query = ref.whereField(targetQuery.field, isEqualTo: targetQuery.value)
+                return try await query.getDocuments().documents.map { $0.data() }
+            }
         } else {
             return try await ref.getDocuments().documents.map { $0.data() }
         }

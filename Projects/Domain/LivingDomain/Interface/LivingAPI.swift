@@ -15,8 +15,8 @@ public enum LivingAPI {
 extension LivingAPI: TargetType {
     public var path: String? {
         switch self {
-        case .fetchLivingItems(let type):
-            return "/\(type)/items"
+            case .fetchLivingItems(let type):
+                return "/\(type)/items"
         }
     }
 
@@ -24,7 +24,7 @@ extension LivingAPI: TargetType {
         .living
     }
 
-    public var query: [String: Any]? {
+    public var query: (field: String, value: Any)? {
         nil
     }
 }

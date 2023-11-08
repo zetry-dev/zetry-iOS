@@ -17,7 +17,7 @@ extension CategoryAPI: TargetType {
         .categories
     }
 
-    public var query: [String: Any]? {
+    public var query: (field: String, value: Any)? {
         nil
     }
 
