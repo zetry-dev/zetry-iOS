@@ -40,6 +40,7 @@ public struct MainTabView: View {
                                 action: MainTabStore.Action.home
                             )
                         )
+                        .toolbar(.hidden, for: .navigationBar)
                     case .category:
                         CategoryCoordinatorView(
                             store: self.store.scope(
