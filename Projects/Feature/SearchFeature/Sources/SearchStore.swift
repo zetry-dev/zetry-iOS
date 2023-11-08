@@ -68,7 +68,7 @@ public struct SearchStore: Reducer {
                     debugPrint("keywords :: \(state.query)")
                     return .run { [newState = state] send in
                         let result = await TaskResult {
-                            try await productClient.fetchItems(newState.query)
+                            try await productClient.searchItems(newState.query)
                         }
                         await send(.relatedQueryDataLoaded(result))
                     }

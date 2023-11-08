@@ -15,7 +15,7 @@ public struct ProductEntity: Decodable, Equatable, Hashable {
     public let recyclable: Bool
     public let isTrash: Bool
     public let description: [String]
-    public let keywords: [String]
+    public var keywords: [String]? = nil
 }
 
 public extension ProductEntity {

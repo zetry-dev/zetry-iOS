@@ -27,6 +27,10 @@ extension ProductClient: DependencyKey {
         fetchItems: {
             let data = try await FirestoreProvider.shared.fetch(ProductAPI.fetchItems(category: $0))
             return data.compactMap { $0.mapping(ProductEntity.self) }
+        },
+        searchItems: {
+            let data = try await FirestoreProvider.shared.fetch(ProductAPI.search(keyword: $0))
+            return data.compactMap { $0.mapping(ProductEntity.self) }
         }
     )
 }
