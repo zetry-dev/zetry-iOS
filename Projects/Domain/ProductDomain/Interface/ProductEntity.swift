@@ -16,6 +16,7 @@ public struct ProductEntity: Decodable, Equatable, Hashable {
     public let isTrash: Bool
     public let description: [String]
     public var keywords: [String]? = nil
+    public var notice: String? = nil
 }
 
 public extension ProductEntity {
@@ -26,7 +27,8 @@ public extension ProductEntity {
         recyclable: true,
         isTrash: false,
         description: ["종이컵버리는법"],
-        keywords: ["종이"]
+        keywords: ["종이"],
+        notice: nil
     )
 }
 
@@ -39,7 +41,8 @@ public extension [ProductEntity] {
             recyclable: true,
             isTrash: false,
             description: ["종이컵버리는법"],
-            keywords: ["종이"]
+            keywords: ["종이"],
+            notice: nil
         ),
         ProductEntity(
             title: "박스",
@@ -48,7 +51,8 @@ public extension [ProductEntity] {
             recyclable: true,
             isTrash: false,
             description: ["종이컵버리는법"],
-            keywords: ["종이"]
+            keywords: ["종이"],
+            notice: nil
         ),
         ProductEntity(
             title: "신문지",
@@ -57,7 +61,8 @@ public extension [ProductEntity] {
             recyclable: true,
             isTrash: false,
             description: ["종이컵버리는법"],
-            keywords: ["종이"]
+            keywords: ["종이"],
+            notice: nil
         ),
         ProductEntity(
             title: "한지",
@@ -66,7 +71,8 @@ public extension [ProductEntity] {
             recyclable: true,
             isTrash: false,
             description: ["종이컵버리는법"],
-            keywords: ["종이"]
+            keywords: ["종이"],
+            notice: nil
         ),
         ProductEntity(
             title: "포장지",
@@ -75,7 +81,8 @@ public extension [ProductEntity] {
             recyclable: true,
             isTrash: false,
             description: ["종이컵버리는법"],
-            keywords: ["종이"]
+            keywords: ["종이"],
+            notice: nil
         )
     ]
 }

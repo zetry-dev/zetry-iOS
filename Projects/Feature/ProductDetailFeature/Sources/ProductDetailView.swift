@@ -143,11 +143,13 @@ public struct ProductDetailView: View {
                     BulletText(description)
                 }
 
-                HStack(alignment: .top, spacing: 8) {
-                    ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircle,
-                              foregroundColor: .primary(.primary))
-                    Text("마우스는 폐가전 무상방문수거 서비스를 통해 컴퓨터를 배출할 때 배출할 수 있어요.".nonBreakingSpaced())
-                        .fontStyle(.body2, foregroundColor: .grayScale(.gray7))
+                if let notice = product.notice {
+                    HStack(alignment: .top, spacing: 8) {
+                        ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircle,
+                                  foregroundColor: .primary(.primary))
+                        Text(notice.nonBreakingSpaced())
+                            .fontStyle(.body2, foregroundColor: .grayScale(.gray7))
+                    }
                 }
             }
             .padding(.top, 8)
