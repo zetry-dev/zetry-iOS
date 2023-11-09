@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseDomainInterface
 import BaseFeature
 import ComposableArchitecture
 import CoreKit
@@ -24,13 +25,7 @@ public struct LivingStore: Reducer {
         var segmentedTab: [LivingSegementedTab] = LivingSegementedTab.allCases
         var carouselCurrentIndex: Int = 0
         var scrollViewOffsetY: CGFloat = 0.0
-        // test
-        var cards: [Card] = [
-            .init(title: "카드1", color: .red, imageURL: "https://img.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_791316-9864.jpg"),
-            .init(title: "카드2", color: .blue, imageURL: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"),
-            .init(title: "카드3", color: .green, imageURL: "https://img.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_791316-9864.jpg"),
-            .init(title: "카드4", color: .pink, imageURL: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg")
-        ]
+        var banners: [BannerEntity] = []
 
         public init(selectedLiving: LivingSegementedTab) {
             self.selectedSegment = selectedLiving
@@ -44,10 +39,12 @@ public struct LivingStore: Reducer {
         case indexChanged(Int)
         case cardChanged([Card])
 
+        case fetchBanners
         case fetchInformation
         case fetchToday
         case fetchTips
 
+        case bannerDataLoaded(TaskResult<[BannerEntity]>)
         case informationDataLoaded(TaskResult<[LivingEntity]>)
         case todayDataLoaded(TaskResult<[LivingEntity]>)
         case tipsDataLoaded(TaskResult<[LivingEntity]>)
@@ -61,7 +58,10 @@ public struct LivingStore: Reducer {
         Reduce { state, action in
             switch action {
             case .onLoad:
-                return .send(.fetchInformation)
+                return .concatenate(
+                    .send(.fetchBanners),
+                    .send(.fetchInformation)
+                )
             case let .selectedSegment(segment):
                 state.selectedSegment = segment
                 state.livingSectionStore.selectedLivingTab = segment
@@ -69,6 +69,13 @@ public struct LivingStore: Reducer {
             case let .indexChanged(index):
                 state.carouselCurrentIndex = index
                 return .none
+            case .fetchBanners:
+                return .run { send in
+                    let result = await TaskResult {
+                        try await livingClient.fetchLivingBannerItems()
+                    }
+                    await send(.bannerDataLoaded(result))
+                }
             case .fetchInformation:
                 return .concatenate(
                     .run { send in
@@ -94,6 +101,9 @@ public struct LivingStore: Reducer {
                     }
                     await send(.tipsDataLoaded(result))
                 }
+            case let .bannerDataLoaded(.success(result)):
+                state.banners = result
+                return .none
             case let .informationDataLoaded(.success(result)):
                 state.livingSectionStore.selectedLivingTab = .livingInfo
                 return .send(.livingSection(.infoSection(result)))

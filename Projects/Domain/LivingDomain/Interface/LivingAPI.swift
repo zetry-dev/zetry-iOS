@@ -10,6 +10,7 @@ import NetworkingInterface
 
 public enum LivingAPI {
     case fetchLivingItems(type: String)
+    case fetchLivingBannerItems
 }
 
 extension LivingAPI: TargetType {
@@ -17,11 +18,18 @@ extension LivingAPI: TargetType {
         switch self {
             case .fetchLivingItems(let type):
                 return "/\(type)/items"
+            case .fetchLivingBannerItems:
+                return nil
         }
     }
 
     public var endPoint: EndPoint {
-        .living
+        switch self {
+            case .fetchLivingBannerItems:
+                return .livingBanners
+            default:
+                return .living
+        }
     }
 
     public var query: (field: String, value: Any)? {

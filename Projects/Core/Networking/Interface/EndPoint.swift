@@ -9,7 +9,9 @@
 import Foundation
 
 public enum EndPoint: String {
+    case mainBanners
     case products
     case categories
     case living
+    case livingBanners
 }
