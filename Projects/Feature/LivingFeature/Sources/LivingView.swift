@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseDomainInterface
 import BaseFeature
 import ComposableArchitecture
 import DesignSystem
@@ -30,7 +31,7 @@ public struct LivingView: View {
                 } bannerView: {
                     bannerView(viewStore: viewStore)
                 } backgroundView: {
-                    imageView(url: viewStore.cards[viewStore.carouselCurrentIndex].imageURL)
+                    imageView(banner: viewStore.banners[safe: viewStore.carouselCurrentIndex])
                 } contentView: {
                     contentView()
                 }
@@ -47,9 +48,8 @@ public struct LivingView: View {
         let selection = viewStore.binding(get: \.carouselCurrentIndex, send: LivingStore.Action.indexChanged)
 
         TabView(selection: selection) {
-            ForEach(viewStore.cards.indices, id: \.self) { index in
-                let card = viewStore.cards[index]
-                imageView(url: card.imageURL)
+            ForEach(viewStore.banners.indices, id: \.self) { index in
+                imageView(banner: viewStore.banners[safe: index])
                     .tag(index)
                     .onTapGesture {
                         viewStore.send(.routeToLivingDetail)
@@ -76,7 +76,7 @@ public struct LivingView: View {
     @ViewBuilder
     private func carouselIndexView(_ viewStore: ViewStoreOf<LivingStore>) -> some View {
         let currentIndex = String(format: "%02d", viewStore.carouselCurrentIndex + 1)
-        let totalIndex = String(format: "%02d", viewStore.cards.count)
+        let totalIndex = String(format: "%02d", viewStore.banners.count)
 
         Text("\(currentIndex) / \(totalIndex)") { string in
             string.foregroundColor = .white
@@ -112,22 +112,24 @@ public struct LivingView: View {
     }
 
     @ViewBuilder
-    private func imageView(url urlString: String) -> some View {
-        Image
-            .load(urlString)
-            .overlay(alignment: .bottomLeading) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("생활정보")
-                        .fontStyle(.body1, foregroundColor: .primary(.white))
-                    Text("친환경 제품을\n소개합니다")
-                        .fontStyle(.headline3, foregroundColor: .primary(.white))
+    private func imageView(banner: BannerEntity?) -> some View {
+        if let banner {
+            Image
+                .load(banner.imageURL)
+                .overlay(alignment: .bottomLeading) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(banner.title)
+                            .fontStyle(.body1, foregroundColor: .primary(.white))
+                        Text(banner.subtitle)
+                            .fontStyle(.headline3, foregroundColor: .primary(.white))
+                    }
+                    .padding(.leading, 30)
+                    .padding(.bottom, 30)
                 }
-                .padding(.leading, 30)
-                .padding(.bottom, 30)
-            }
-            .onTapGesture {
-                // TODO: - route to living detail
-                print("route to living detail")
-            }
+                .onTapGesture {
+                    // TODO: - route to living detail
+                    print("route to living detail")
+                }
+        }
     }
 }

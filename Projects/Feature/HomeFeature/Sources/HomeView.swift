@@ -8,6 +8,7 @@
 
 import BaseFeature
 import ComposableArchitecture
+import BaseDomainInterface
 import DesignSystem
 import SwiftUI
 
@@ -38,7 +39,7 @@ public struct HomeView: View {
                             VStack(alignment: .leading, spacing: 0) {
                                 carouselView(viewStore: viewStore)
                                     .blurImageBackground(
-                                        imageURL: viewStore.cards[viewStore.carouselCurrentIndex].imageURL,
+                                        imageURL: viewStore.banners[safe: viewStore.carouselCurrentIndex]?.imageURL ?? "",
                                         size: .init(width: blurWidth, height: blurHeight)
                                     )
                                     .padding(.top, 15)
@@ -93,7 +94,7 @@ public struct HomeView: View {
     private func carouselView(viewStore: ViewStoreOf<HomeStore>) -> some View {
         CarouselView(
             index: viewStore.binding(get: \.carouselCurrentIndex, send: HomeStore.Action.indexChanged),
-            items: viewStore.binding(get: \.cards, send: HomeStore.Action.cardChanged),
+            items: viewStore.binding(get: \.banners, send: HomeStore.Action.cardChanged),
             spacing: 16,
             cardPadding: 64
         ) { card, cardSize, index in
@@ -106,24 +107,22 @@ public struct HomeView: View {
     private func carouselItem(
         viewStore: ViewStoreOf<HomeStore>,
         imageURL: String,
-        args: (Card, CGSize, Int)
+        args: (BannerEntity, CGSize, Int)
     ) -> some View {
-        let (_, size, index) = args
+        let (banner, size, index) = args
         Image
             .load(imageURL, width: size.width)
             .overlay(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading) {
                         Text("#\(index + 1)")
-                        // TODO: - card.category
-                        Text("생활정보")
+                        Text(banner.subtitle)
                     }
                     .fontStyle(.subtitle3, foregroundColor: .primary(.white))
                     .padding(.leading, 15)
 
                     Spacer()
-                    // TODO: - card.title
-                    Text("친환경 제품을\n소개합니다")
+                    Text(banner.title)
                         .fontStyle(.subtitle2, foregroundColor: .primary(.white))
                         .padding(.leading, 30)
                 }
@@ -132,7 +131,6 @@ public struct HomeView: View {
             .onTapGesture {
                 // TODO: - route to living detail
                 print("route to living detail")
-//                card.link
             }
     }
 

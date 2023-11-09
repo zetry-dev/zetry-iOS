@@ -11,7 +11,6 @@ import BaseFeature
 import ComposableArchitecture
 import CoreKit
 import CoreKitInterface
-import DesignSystem
 import Foundation
 import LivingDomain
 import LivingDomainInterface
@@ -37,7 +36,7 @@ public struct LivingStore: Reducer {
         case selectedSegment(LivingSegementedTab)
         case livingSection(LivingSectionStore.Action)
         case indexChanged(Int)
-        case cardChanged([Card])
+        case cardChanged([BannerEntity])
 
         case fetchBanners
         case fetchInformation

@@ -6,11 +6,13 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseDomainInterface
 import BaseFeature
 import CategoryDomain
 import CategoryDomainInterface
 import ComposableArchitecture
 import DesignSystem
+import HomeDomain
 import LivingDomain
 import LivingDomainInterface
 import TCACoordinators
@@ -21,6 +23,7 @@ public struct HomeStore: Reducer {
 
     public struct State: Equatable {
         var livingSectionStore: LivingSectionStore.State = .init()
+        var banners: [BannerEntity] = []
         var categories: [CategoryEntity] = []
         var isCateogryExpandend: Bool = false
         var cateogryExpandendIcon: DesignSystemImages {
@@ -30,13 +33,6 @@ public struct HomeStore: Reducer {
         var isAnimated: Bool = false
         var carouselCurrentIndex: Int = 0
         var scrollViewOffsetY: CGFloat = 0.0
-        // test
-        var cards: [Card] = [
-            .init(title: "카드1", color: .red, imageURL: "https://img.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_791316-9864.jpg"),
-            .init(title: "카드2", color: .blue, imageURL: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg"),
-            .init(title: "카드3", color: .green, imageURL: "https://img.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_791316-9864.jpg"),
-            .init(title: "카드4", color: .pink, imageURL: "https://i.pinimg.com/564x/35/4a/a8/354aa89fa2365b813031fb75d9f548e0.jpg")
-        ]
 
         public init() {}
     }
@@ -45,15 +41,17 @@ public struct HomeStore: Reducer {
         case onAppear
         case animatingList
         case indexChanged(Int)
-        case cardChanged([Card])
+        case cardChanged([BannerEntity])
         case toggleCategory
         case scrollOffsetYChanged(CGFloat)
 
+        case fetchBanners
         case fetchCategories
         case fetchInformation
         case fetchToday
         case fetchTips
 
+        case bannerDataLoaded(TaskResult<[BannerEntity]>)
         case categoryDataLoaded(TaskResult<[CategoryEntity]>)
         case informationDataLoaded(TaskResult<[LivingEntity]>)
         case todayDataLoaded(TaskResult<[LivingEntity]>)
@@ -65,6 +63,7 @@ public struct HomeStore: Reducer {
         case livingSection(LivingSectionStore.Action)
     }
 
+    @Dependency(\.homeClient) private var homeClient
     @Dependency(\.categoryClient) private var categoryClient
     @Dependency(\.livingClient) private var livingClient
 
@@ -74,6 +73,7 @@ public struct HomeStore: Reducer {
             case .onAppear:
                 return
                     .merge(
+                        .send(.fetchBanners),
                         .send(.fetchCategories),
                         .send(.fetchInformation),
                         .send(.animatingList)
@@ -91,6 +91,13 @@ public struct HomeStore: Reducer {
             case let .scrollOffsetYChanged(offsetY):
                 state.scrollViewOffsetY = offsetY
                 return .none
+            case .fetchBanners:
+                return .run { send in
+                    let result = await TaskResult {
+                        try await homeClient.fetchMainBannerItems()
+                    }
+                    await send(.bannerDataLoaded(result))
+                }
             case .fetchCategories:
                 return .run { send in
                     let result = await TaskResult {
@@ -123,6 +130,9 @@ public struct HomeStore: Reducer {
                     }
                     await send(.tipsDataLoaded(result))
                 }
+            case let .bannerDataLoaded(.success(result)):
+                state.banners = result.sorted(by: <)
+                return .none
             case let .categoryDataLoaded(.success(result)):
                 var categories = result.sorted(by: <)
                 categories.insert(.init(title: "더보기", image: "", priority: 0), at: 4)
