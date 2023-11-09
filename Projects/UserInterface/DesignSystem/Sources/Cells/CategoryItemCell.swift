@@ -45,7 +45,7 @@ public struct CategoryItemCell: View {
                     }
                 }
 
-                MultilineText(title, font: .body2)
+                MultilineText(title, lineLimit: 2, font: .body2)
             }
         }
         .buttonStyle(.bounce)

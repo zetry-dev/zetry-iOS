@@ -163,11 +163,12 @@ public struct ProductDetailView: View {
                     .fontStyle(.subtitle2)
 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 18) {
+                    HStack(alignment: .top, spacing: 18) {
                         ForEach(recommendItems, id: \.self) { recommendItem in
                             CategoryItemCell(recommendItem.title, imageUrl: recommendItem.imageURL, size: 72) {
                                 viewStore.send(.routeToDetail(item: recommendItem))
                             }
+                            .frame(width: 72)
                         }
                     }
                 }
