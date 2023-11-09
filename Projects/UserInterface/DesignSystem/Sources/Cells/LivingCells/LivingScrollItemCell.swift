@@ -32,7 +32,7 @@ public struct LivingScrollItemCell: View {
                     .lineLimit(1)
                     .fontStyle(.subtitle3)
                 
-                MultilineText(subtitle, lineLimit: 2, font: .body3)
+                MultilineText(subtitle, lineLimit: 2, font: .body2)
             }
             Spacer()
         }

@@ -59,10 +59,7 @@ public struct LivingView: View {
         .cornerRadius(6)
         .overlay(alignment: .bottomTrailing) {
             VStack(alignment: .trailing, spacing: 6) {
-                let currentIndex = String(format: "%02d", viewStore.carouselCurrentIndex + 1)
-                let totalIndex = String(format: "%02d", viewStore.cards.count)
-                Text("\(currentIndex) / \(totalIndex)")
-                    .fontStyle(.label3, foregroundColor: .primary(.white))
+                carouselIndexView(viewStore)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .background {
@@ -74,6 +71,21 @@ public struct LivingView: View {
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
+    }
+
+    @ViewBuilder
+    private func carouselIndexView(_ viewStore: ViewStoreOf<LivingStore>) -> some View {
+        let currentIndex = String(format: "%02d", viewStore.carouselCurrentIndex + 1)
+        let totalIndex = String(format: "%02d", viewStore.cards.count)
+
+        Text("\(currentIndex) / \(totalIndex)") { string in
+            string.foregroundColor = .white
+            string.font = Font.zetry(.label3)
+            if let range = string.range(of: "/ \(totalIndex)") {
+                string[range].foregroundColor = Color.zetry(.grayScale(.gray2)).opacity(0.7)
+                string.font = Font.zetry(.label3)
+            }
+        }
     }
 
     @ViewBuilder

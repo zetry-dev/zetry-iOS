@@ -138,10 +138,11 @@ public struct ProductDetailView: View {
                 .fontStyle(.subtitle1)
                 .padding(.leading, 30)
 
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 30) {
                 ForEach(product.description, id: \.self) { description in
                     BulletText(description)
                 }
+
                 HStack(alignment: .top, spacing: 8) {
                     ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircle,
                               foregroundColor: .primary(.primary))
@@ -149,8 +150,9 @@ public struct ProductDetailView: View {
                         .fontStyle(.body2, foregroundColor: .grayScale(.gray7))
                 }
             }
-            .padding(.horizontal, 30)
+            .padding(.top, 8)
             .padding(.bottom, 9)
+            .padding(.horizontal, 30)
 
             Divider(color: .grayScale(.gray2))
 

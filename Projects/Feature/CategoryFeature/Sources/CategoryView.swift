@@ -46,6 +46,7 @@ public struct CategoryView: View {
                             }
                         }
                         .frame(maxWidth: proxy.size.width * 0.35)
+                        .background(Color.white)
 
                         ScrollView {
                             LazyVGrid(columns: columns) {
@@ -96,12 +97,12 @@ public struct CategoryView: View {
     private func categoryView(_ category: String, selected: Bool) -> some View {
         Text(category)
             .fontStyle(
-                selected ? .subtitle4 : .body2,
+                selected ? .subtitle4 : .label1,
                 foregroundColor: selected ? .grayScale(.gray12) : .grayScale(.gray5)
             )
             .padding(.leading, 20)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .frame(height: 56)
+            .frame(height: 60)
             .contentShape(Rectangle())
             .background(selected ? Color.zetry(.grayScale(.gray0)) : Color.white)
     }

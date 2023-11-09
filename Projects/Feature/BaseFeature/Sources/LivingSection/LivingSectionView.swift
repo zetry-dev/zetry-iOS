@@ -84,7 +84,7 @@ public struct LivingSectionView: View {
                     }
                 }
             }
-            .padding(.top, 10)
+            .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
         }
     }
 
@@ -113,7 +113,7 @@ public struct LivingSectionView: View {
                     subtitle: item.subtitle,
                     imageURL: item.imageURL
                 )
-                .padding(.top, 10)
+                .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
                 .onTapGesture {
                     viewStore.send(.routeToLivingDetail(item.linkURL))
                 }
@@ -155,7 +155,7 @@ public struct LivingSectionView: View {
                         }
                     }
                 }
-                .padding(.top, 10)
+                .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
             }
         }
     }

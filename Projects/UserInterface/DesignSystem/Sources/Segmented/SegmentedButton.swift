@@ -56,11 +56,12 @@ public struct SegmentedButton<T: Segments>: View {
                     )
             }
             .id(segments[index].hashValue)
-            .padding(.vertical, 10)
+            .padding(.vertical, 14)
 
             if isSelected {
                 Color.zetry(style.lineColor)
                     .matchedGeometryEffect(id: "line", in: animation)
+                    .padding(.horizontal, 23.5)
                     .frame(height: 2)
             } else {
                 Color.clear
