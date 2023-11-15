@@ -41,7 +41,8 @@ let targets: [Target] = [
             .feature(target: .LivingFeature),
             .feature(target: .SearchFeature),
             .feature(target: .ProductDetailFeature),
-            .feature(target: .SettingsFeature)
+            .feature(target: .SettingsFeature),
+            .feature(target: .WebViewFeature)
         ],
         settings: .settings(base: env.baseSetting)
     )
