@@ -48,7 +48,7 @@ public struct LivingStore: Reducer {
         case todayDataLoaded(TaskResult<[LivingEntity]>)
         case tipsDataLoaded(TaskResult<[LivingEntity]>)
 
-        case routeToLivingDetail
+        case routeToWebview(String)
     }
 
     @Dependency(\.livingClient) private var livingClient

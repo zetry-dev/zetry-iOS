@@ -31,7 +31,10 @@ public struct LivingView: View {
                 } bannerView: {
                     bannerView(viewStore: viewStore)
                 } backgroundView: {
-                    imageView(banner: viewStore.banners[safe: viewStore.carouselCurrentIndex])
+                    imageView(
+                        viewStore: viewStore,
+                        banner: viewStore.banners[safe: viewStore.carouselCurrentIndex]
+                    )
                 } contentView: {
                     contentView()
                 }
@@ -49,11 +52,9 @@ public struct LivingView: View {
 
         TabView(selection: selection) {
             ForEach(viewStore.banners.indices, id: \.self) { index in
-                imageView(banner: viewStore.banners[safe: index])
+                let item = viewStore.banners[safe: index]
+                imageView(viewStore: viewStore, banner: item)
                     .tag(index)
-                    .onTapGesture {
-                        viewStore.send(.routeToLivingDetail)
-                    }
             }
         }
         .cornerRadius(6)
@@ -112,7 +113,7 @@ public struct LivingView: View {
     }
 
     @ViewBuilder
-    private func imageView(banner: BannerEntity?) -> some View {
+    private func imageView(viewStore: ViewStoreOf<LivingStore>, banner: BannerEntity?) -> some View {
         if let banner {
             Image
                 .load(banner.imageURL)
@@ -127,8 +128,7 @@ public struct LivingView: View {
                     .padding(.bottom, 30)
                 }
                 .onTapGesture {
-                    // TODO: - route to living detail
-                    print("route to living detail")
+                    viewStore.send(.routeToWebview(banner.linkURL))
                 }
         }
     }

@@ -13,6 +13,7 @@ import ProductDetailFeature
 import SearchFeature
 import SwiftUI
 import TCACoordinators
+import WebViewFeature
 
 public struct AppCoordinatorView: View {
     private let store: StoreOf<AppCoordinator>
@@ -48,6 +49,12 @@ public struct AppCoordinatorView: View {
                         /AppScreen.State.detail,
                         action: AppScreen.Action.detail,
                         then: ProductDetailView.init
+                    )
+                case .webview:
+                    CaseLet(
+                        /AppScreen.State.webview,
+                        action: AppScreen.Action.webview,
+                        then: WebviewView.init
                     )
                 }
             }

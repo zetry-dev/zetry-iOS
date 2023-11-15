@@ -6,9 +6,9 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseDomainInterface
 import BaseFeature
 import ComposableArchitecture
-import BaseDomainInterface
 import DesignSystem
 import SwiftUI
 
@@ -129,8 +129,7 @@ public struct HomeView: View {
                 .padding(.vertical, 30)
             }
             .onTapGesture {
-                // TODO: - route to living detail
-                print("route to living detail")
+                viewStore.send(.routeToWebview(banner.linkURL))
             }
     }
 

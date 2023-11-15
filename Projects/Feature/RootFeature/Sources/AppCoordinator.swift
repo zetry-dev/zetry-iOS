@@ -63,10 +63,6 @@ public struct AppCoordinator: Reducer {
                 state.routes.push(.detail(.init(item: item)))
                 return .none
 
-            case .routeAction(_, action: .search(.view(.pop))):
-                state.routes.pop()
-                return .none
-
             case let .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToLiving(livingTab)))))):
                 state.routes = [
                     .root(.mainTab(.init(selectedTab: .living, selectedLiving: livingTab)),
@@ -78,13 +74,21 @@ public struct AppCoordinator: Reducer {
                 state.routes.push(.detail(.init(item: item)))
                 return .none
 
-            case .routeAction(_, action: .detail(.pop)):
-                state.routes.pop()
-                return .none
-
             case .routeAction(_, action: .detail(.popToRoot)):
                 state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
                 return .none
+
+            case let .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToWebview(urlString)))))),
+                 let .routeAction(_, action: .mainTab(.living(.routeAction(_, action: .living(.routeToWebview(urlString)))))):
+                state.routes.push(.webview(.init(urlString: urlString)))
+                return .none
+
+            case .routeAction(_, action: .search(.view(.pop))),
+                 .routeAction(_, action: .detail(.pop)),
+                 .routeAction(_, action: .webview(.pop)):
+                state.routes.pop()
+                return .none
+
             default:
                 return .none
             }

@@ -60,6 +60,8 @@ public struct HomeStore: Reducer {
         case routeToCategory(String)
         case routeToSearch
         case routeToLiving(LivingSegementedTab)
+        case routeToWebview(String)
+
         case livingSection(LivingSectionStore.Action)
     }
 

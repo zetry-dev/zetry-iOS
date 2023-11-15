@@ -12,6 +12,7 @@ import MainTabFeature
 import ProductDetailFeature
 import SearchFeature
 import TCACoordinators
+import WebViewFeature
 
 public struct AppScreen: Reducer {
     public enum State: Equatable {
@@ -19,6 +20,7 @@ public struct AppScreen: Reducer {
         case mainTab(MainTabStore.State)
         case search(SearchStore.State)
         case detail(ProductDetailStore.State)
+        case webview(WebviewStore.State)
     }
 
     public enum Action {
@@ -26,6 +28,7 @@ public struct AppScreen: Reducer {
         case mainTab(MainTabStore.Action)
         case search(SearchStore.Action)
         case detail(ProductDetailStore.Action)
+        case webview(WebviewStore.Action)
     }
 
     public var body: some ReducerOf<Self> {
@@ -40,6 +43,9 @@ public struct AppScreen: Reducer {
         }
         Scope(state: /State.detail, action: /Action.detail) {
             ProductDetailStore()._printChanges()
+        }
+        Scope(state: /State.webview, action: /Action.webview) {
+            WebviewStore()._printChanges()
         }
     }
 }
