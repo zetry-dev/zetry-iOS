@@ -1,11 +1,16 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="&#236;&#185;&#180;&#237;&#133;&#140;&#234;&#179;&#160;&#235;&#166;&#172;_active">
+<g id="&#236;&#185;&#180;&#237;&#133;&#140;&#234;&#179;&#160;&#235;&#166;&#172;_active" clip-path="url(#clip0_1474_8900)">
 <g id="Group 3011">
-<path id="Ellipse 5" d="M21 10.5C21 14.6421 17.6421 18 13.5 18C9.35786 18 6 14.6421 6 10.5C6 6.35786 9.35786 3 13.5 3C17.6421 3 21 6.35786 21 10.5Z" stroke="black" stroke-width="2"/>
-<path id="Vector 13" d="M19.3182 21.3736C19.6462 21.8216 20.2717 21.922 20.7152 21.5979C21.1588 21.2738 21.2524 20.6479 20.9244 20.1999L19.3182 21.3736ZM16.5453 17.5868L19.3182 21.3736L20.9244 20.1999L18.1515 16.4132L16.5453 17.5868Z" fill="black"/>
-<path id="Vector 14" d="M3 5H8" stroke="black" stroke-width="2" stroke-linecap="round"/>
-<path id="Vector 15" d="M3 17H6H9" stroke="black" stroke-width="2" stroke-linecap="round"/>
-<path id="Vector 16" d="M3 11H6" stroke="black" stroke-width="2" stroke-linecap="round"/>
+<path id="Ellipse 5" d="M22.2518 10.8549C22.2518 15.7453 18.2873 19.7098 13.3969 19.7098C8.50646 19.7098 4.54199 15.7453 4.54199 10.8549C4.54199 5.96447 8.50646 2 13.3969 2C18.2873 2 22.2518 5.96447 22.2518 10.8549Z" stroke="#101922" stroke-width="2.12263"/>
+<path id="Vector 13" d="M20.3619 23.623C20.71 24.0984 21.3739 24.205 21.8446 23.861C22.3154 23.517 22.4147 22.8528 22.0666 22.3773L20.3619 23.623ZM17.0881 19.1521L20.3619 23.623L22.0666 22.3773L18.7928 17.9065L17.0881 19.1521Z" fill="#101922"/>
+<path id="Vector 14" d="M1 4.36084H6.90326" stroke="#101922" stroke-width="2.12263" stroke-linecap="round"/>
+<path id="Vector 15" d="M1 18.5293H4.54196H8.08392" stroke="#101922" stroke-width="2.12263" stroke-linecap="round"/>
+<path id="Vector 16" d="M1 11.4458H4.54196" stroke="#101922" stroke-width="2.12263" stroke-linecap="round"/>
 </g>
 </g>
+<defs>
+<clipPath id="clip0_1474_8900">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>
