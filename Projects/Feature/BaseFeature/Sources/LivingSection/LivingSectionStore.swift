@@ -29,9 +29,6 @@ public struct LivingSectionStore: Reducer {
         case infoSection([LivingEntity])
         case todaySection([LivingEntity])
         case tipsSection([LivingEntity])
-
-        case routeToLiving(LivingSegementedTab)
-        case routeToLivingDetail(String)
     }
 
     public var body: some ReducerOf<Self> {
@@ -91,10 +88,10 @@ public struct LivingSectionStore: Reducer {
     }
 }
 
- public extension LivingSectionStore.Action {
+public extension LivingSectionStore.Action {
     enum View: Equatable, BindableAction {
         case binding(BindingAction<LivingSectionStore.State>)
         case routeToLiving(LivingSegementedTab)
-        case routeToLivingDetail(String)
+        case routeToWebview(String)
     }
- }
+}

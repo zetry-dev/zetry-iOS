@@ -140,14 +140,18 @@ public struct HomeStore: Reducer {
                 categories.insert(.init(title: "더보기", image: "", priority: 0), at: 4)
                 state.categories = categories
                 return .none
+                    
             case let .informationDataLoaded(.success(result)):
                 return .send(.livingSection(.infoSection(Array(result.prefix(2)))))
             case let .todayDataLoaded(.success(result)):
                 return .send(.livingSection(.todaySection(Array(result.prefix(1)))))
             case let .tipsDataLoaded(.success(result)):
                 return .send(.livingSection(.tipsSection(Array(result.prefix(5)))))
+
             case let .livingSection(.view(.routeToLiving(livingSection))):
                 return .send(.routeToLiving(livingSection))
+            case let .livingSection(.view(.routeToWebview(urlString))):
+                return .send(.routeToWebview(urlString))
             default: return .none
             }
         }

@@ -100,9 +100,11 @@ public struct LivingStore: Reducer {
                     }
                     await send(.tipsDataLoaded(result))
                 }
+                    
             case let .bannerDataLoaded(.success(result)):
                 state.banners = result
                 return .none
+
             case let .informationDataLoaded(.success(result)):
                 state.livingSectionStore.selectedLivingTab = .livingInfo
                 return .send(.livingSection(.infoSection(result)))
@@ -110,6 +112,9 @@ public struct LivingStore: Reducer {
                 return .send(.livingSection(.todaySection(result)))
             case let .tipsDataLoaded(.success(result)):
                 return .send(.livingSection(.tipsSection(result)))
+
+            case let .livingSection(.view(.routeToWebview(urlString))):
+                return .send(.routeToWebview(urlString))
             default:
                 return .none
             }

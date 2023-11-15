@@ -79,7 +79,7 @@ public struct AppCoordinator: Reducer {
                 return .none
 
             case let .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToWebview(urlString)))))),
-                 let .routeAction(_, action: .mainTab(.living(.routeAction(_, action: .living(.routeToWebview(urlString)))))):
+                let .routeAction(_, action: .mainTab(.living(.routeAction(_, action: .living(.routeToWebview(urlString)))))):
                 state.routes.push(.webview(.init(urlString: urlString)))
                 return .none
 

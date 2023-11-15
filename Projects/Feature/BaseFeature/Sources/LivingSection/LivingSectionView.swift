@@ -80,7 +80,7 @@ public struct LivingSectionView: View {
                         imageURL: item.imageURL
                     )
                     .onTapGesture {
-                        viewStore.send(.routeToLivingDetail(item.linkURL))
+                        viewStore.send(.routeToWebview(item.linkURL))
                     }
                 }
             }
@@ -115,7 +115,7 @@ public struct LivingSectionView: View {
                 )
                 .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
                 .onTapGesture {
-                    viewStore.send(.routeToLivingDetail(item.linkURL))
+                    viewStore.send(.routeToWebview(item.linkURL))
                 }
             }
         } else {
@@ -151,7 +151,7 @@ public struct LivingSectionView: View {
                             imageURL: item.imageURL
                         )
                         .onTapGesture {
-                            viewStore.send(.routeToLivingDetail(item.linkURL))
+                            viewStore.send(.routeToWebview(item.linkURL))
                         }
                     }
                 }
