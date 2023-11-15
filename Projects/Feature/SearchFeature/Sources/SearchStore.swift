@@ -167,6 +167,7 @@ public struct SearchStore: Reducer {
             case .view(.didTapSearch):
                 debugPrint("query :: \(state.query)")
                 return .concatenate([
+                    .send(.addRecentKeyword),
                     .run { [newState = state] send in
                         if let item = newState.items.first(where: { $0.title == newState.query }) {
                             await send(.routeToDetail(item: item))
@@ -174,10 +175,7 @@ public struct SearchStore: Reducer {
                             await send(.presentSearchFailure)
                         }
                     },
-                    .merge([
-                        .send(.addRecentKeyword),
-                        .send(.view(.removeRelatedKeywords))
-                    ])
+                    .send(.view(.removeRelatedKeywords))
                 ])
 
             case .view(.didTapQuery(let query)):
@@ -200,7 +198,7 @@ public struct SearchStore: Reducer {
     }
 
     func storeRandomKeywordIfNeeded(_ storedKeywords: inout [String], data: [ProductEntity]) {
-        if storedKeywords.count < 9 ||
+        if storedKeywords.count < 10 ||
             !(Calendar.current.isDateInToday(UserDefaultsManager.keywordsDate))
         {
             let keywords = data.map(\.title)

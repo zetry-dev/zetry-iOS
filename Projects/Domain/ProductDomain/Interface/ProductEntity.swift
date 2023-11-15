@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ProductEntity: Decodable, Equatable, Hashable {
+public struct ProductEntity: Decodable, Equatable, Hashable, Sendable {
     public let title: String
     public let category: String
     public let imageURL: String

@@ -205,8 +205,7 @@ extension SearchView {
         HStack(spacing: 14) {
             Text("\(index + 1)")
                 .fontStyle(.body1, foregroundColor: .primary(.primary))
-            Text(keyword)
-                .fontStyle(.body2)
+            MultilineText(keyword, lineLimit: 1, font: .body2)
             Spacer()
         }
         .contentShape(Rectangle())
@@ -218,8 +217,7 @@ extension SearchView {
         HStack(spacing: 14) {
             Text("\(index + 1)")
                 .fontStyle(.body1)
-            Text(keyword)
-                .fontStyle(.body2)
+            MultilineText(keyword, lineLimit: 1, font: .body2)
             Spacer()
         }
         .contentShape(Rectangle())
