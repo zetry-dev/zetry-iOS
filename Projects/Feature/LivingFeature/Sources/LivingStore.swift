@@ -33,6 +33,7 @@ public struct LivingStore: Reducer {
 
     public enum Action: Equatable {
         case onLoad
+        case scrollOffsetYChanged(CGFloat)
         case selectedSegment(LivingSegementedTab)
         case livingSection(LivingSectionStore.Action)
         case indexChanged(Int)
@@ -61,6 +62,9 @@ public struct LivingStore: Reducer {
                     .send(.fetchBanners),
                     .send(.fetchInformation)
                 )
+            case let .scrollOffsetYChanged(offsetY):
+                state.scrollViewOffsetY = offsetY
+                return .none
             case let .selectedSegment(segment):
                 state.selectedSegment = segment
                 state.livingSectionStore.selectedLivingTab = segment
@@ -100,7 +104,7 @@ public struct LivingStore: Reducer {
                     }
                     await send(.tipsDataLoaded(result))
                 }
-                    
+
             case let .bannerDataLoaded(.success(result)):
                 state.banners = result
                 return .none

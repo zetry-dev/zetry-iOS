@@ -37,6 +37,7 @@ public struct SegmentedPicker<T: Segments>: View {
                 }
             }
             .padding(.horizontal, horizontalPadding)
+            .frame(maxWidth: .infinity)
 
             if case .line = segmentStyle {
                 Color.zetry(.grayScale(.gray2))

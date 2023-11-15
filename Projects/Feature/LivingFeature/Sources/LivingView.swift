@@ -22,23 +22,39 @@ public struct LivingView: View {
 
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { viewStore in
-            VStack {
-                CollapsingScrollView(imageHeight: imageHeight) {
-                    headerView(viewStore: viewStore)
-                } titleView: {
-                    Text("생활정보")
-                        .fontStyle(.boldSubtitle1)
-                } bannerView: {
-                    bannerView(viewStore: viewStore)
-                } backgroundView: {
-                    imageView(
-                        viewStore: viewStore,
-                        banner: viewStore.banners[safe: viewStore.carouselCurrentIndex]
-                    )
-                } contentView: {
-                    contentView()
+            ObservableScrollView(
+                scrollOffset: viewStore.binding(
+                    get: \.scrollViewOffsetY,
+                    send: LivingStore.Action.scrollOffsetYChanged
+                )
+            ) { proxy in
+                bannerView(viewStore: viewStore)
+                    .id("top")
+
+                LazyVStack(
+                    alignment: .leading,
+                    spacing: 0,
+                    pinnedViews: [.sectionHeaders],
+                    content: {
+                        Section {
+                            VStack(alignment: .leading, spacing: 0) {
+                                contentView()
+                            }
+                        } header: {
+                            headerView(viewStore: viewStore)
+                                .background(
+                                    .thinMaterial.opacity(viewStore.scrollViewOffsetY < 370 ? 0 : 1)
+                                )
+                        }
+                    }
+                )
+                .onChange(of: viewStore.selectedSegment) { _ in
+                    withAnimation {
+                        proxy.scrollTo("top", anchor: .top)
+                    }
                 }
             }
+            .edgesIgnoringSafeArea(.top)
             .toolbar(.hidden, for: .navigationBar)
             .onLoad {
                 viewStore.send(.onLoad)
@@ -49,29 +65,42 @@ public struct LivingView: View {
     @ViewBuilder
     private func bannerView(viewStore: ViewStoreOf<LivingStore>) -> some View {
         let selection = viewStore.binding(get: \.carouselCurrentIndex, send: LivingStore.Action.indexChanged)
+        let background = viewStore.banners[safe: viewStore.carouselCurrentIndex]
 
-        TabView(selection: selection) {
-            ForEach(viewStore.banners.indices, id: \.self) { index in
-                let item = viewStore.banners[safe: index]
-                imageView(viewStore: viewStore, banner: item)
-                    .tag(index)
-            }
-        }
-        .cornerRadius(6)
-        .overlay(alignment: .bottomTrailing) {
-            VStack(alignment: .trailing, spacing: 6) {
-                carouselIndexView(viewStore)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background {
-                        Color.black
-                            .opacity(0.4)
-                            .cornerRadius(10, corners: [.topLeft])
-                            .cornerRadius(4, corners: [.bottomRight])
+        ZStack {
+            imageView(viewStore: viewStore, banner: background)
+                .blur(radius: 10)
+            VStack(alignment: .leading, spacing: 20) {
+                Text("생활정보")
+                    .fontStyle(.boldSubtitle1)
+                ZStack(alignment: .bottomTrailing) {
+                    TabView(selection: selection) {
+                        ForEach(viewStore.banners.indices, id: \.self) { index in
+                            let item = viewStore.banners[safe: index]
+                            imageView(viewStore: viewStore, banner: item)
+                                .tag(index)
+                        }
                     }
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .frame(height: 300)
+
+                    VStack(alignment: .trailing, spacing: 6) {
+                        carouselIndexView(viewStore)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background {
+                                Color.black
+                                    .opacity(0.4)
+                                    .cornerRadius(10, corners: [.topLeft])
+                                    .cornerRadius(4, corners: [.bottomRight])
+                            }
+                    }
+                }
+                .cornerRadius(6)
             }
+            .padding(.top, 50)
+            .padding(.horizontal, 16)
         }
-        .tabViewStyle(.page(indexDisplayMode: .never))
     }
 
     @ViewBuilder
@@ -99,6 +128,8 @@ public struct LivingView: View {
             segments: LivingSegementedTab.allCases,
             segmentStyle: .button(.style)
         )
+        .padding(.vertical, 16)
+        .padding(.top, viewStore.scrollViewOffsetY < 370 ? 0 : 50)
     }
 
     @ViewBuilder
