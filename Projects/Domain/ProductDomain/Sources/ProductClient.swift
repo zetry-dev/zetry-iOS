@@ -6,31 +6,34 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseDomainInterface
 import ComposableArchitecture
-import Networking
-import ProductDomainInterface
 
-public extension DependencyValues {
-    var productClient: ProductClient {
-        get { self[ProductClient.self] }
-        set { self[ProductClient.self] = newValue }
+public struct ProductClient {
+    public var fetchAllItems: @Sendable () async throws -> [ProductEntity]
+    public var fetchItems: @Sendable (_ category: String) async throws -> [ProductEntity]
+    public var searchItems: @Sendable (_ keyword: String) async throws -> [ProductEntity]
+
+    public init(
+        fetchAllItems: @Sendable @escaping () async throws -> [ProductEntity],
+        fetchItems: @Sendable @escaping (_ category: String) async throws -> [ProductEntity],
+        searchItems: @Sendable @escaping (_ keyword: String) async throws -> [ProductEntity]
+    ) {
+        self.fetchAllItems = fetchAllItems
+        self.fetchItems = fetchItems
+        self.searchItems = searchItems
     }
 }
 
-extension ProductClient: DependencyKey {
-    public static var liveValue = Self(
-        fetchAllItems: {
-            let data = try await FirestoreProvider.shared.fetch(ProductAPI.fetchAllItems)
-            return data.compactMap { $0.mapping(ProductEntity.self) }
-        },
-        fetchItems: {
-            let data = try await FirestoreProvider.shared.fetch(ProductAPI.fetchItems(category: $0))
-            return data.compactMap { $0.mapping(ProductEntity.self) }
-        },
-        searchItems: {
-            let data = try await FirestoreProvider.shared.fetch(ProductAPI.search(keyword: $0))
-            return data.compactMap { $0.mapping(ProductEntity.self) }
-        }
+extension ProductClient: TestDependencyKey {
+    public static let previewValue = Self(
+        fetchAllItems: { .mock },
+        fetchItems: { _ in .mock },
+        searchItems: { _ in .mock }
+    )
+
+    public static let testValue = Self(
+        fetchAllItems: unimplemented("\(Self.self).product.fetchAllItems"),
+        fetchItems: unimplemented("\(Self.self).product.fetchItems"),
+        searchItems: unimplemented("\(Self.self).product.searchItems")
     )
 }

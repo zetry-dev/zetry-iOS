@@ -9,7 +9,7 @@
 import ComposableArchitecture
 import CoreKit
 import Foundation
-import LivingDomainInterface
+import LivingDomain
 
 public struct LivingSectionStore: Reducer {
     public init() {}

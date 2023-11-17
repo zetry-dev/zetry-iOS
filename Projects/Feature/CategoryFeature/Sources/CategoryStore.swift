@@ -8,11 +8,9 @@
 
 import BaseFeature
 import CategoryDomain
-import CategoryDomainInterface
 import ComposableArchitecture
 import CoreKitInterface
 import ProductDomain
-import ProductDomainInterface
 
 public struct CategoryStore: Reducer {
     public init() {}

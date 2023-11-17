@@ -8,25 +8,28 @@
 
 import BaseDomainInterface
 import ComposableArchitecture
-import LivingDomainInterface
-import Networking
 
-public extension DependencyValues {
-    var livingClient: LivingClient {
-        get { self[LivingClient.self] }
-        set { self[LivingClient.self] = newValue }
+public struct LivingClient {
+    public var fetchLivingItems: @Sendable (_ livingType: String) async throws -> [LivingEntity]
+    public var fetchLivingBannerItems: @Sendable () async throws -> [BannerEntity]
+
+    public init(
+        fetchLivingItems: @Sendable @escaping (_ livingType: String) async throws -> [LivingEntity],
+        fetchLivingBannerItems: @Sendable @escaping () async throws -> [BannerEntity]
+    ) {
+        self.fetchLivingItems = fetchLivingItems
+        self.fetchLivingBannerItems = fetchLivingBannerItems
     }
 }
 
-extension LivingClient: DependencyKey {
-    public static var liveValue = Self(
-        fetchLivingItems: { livingType in
-            let data = try await FirestoreProvider.shared.fetch(LivingAPI.fetchLivingItems(type: livingType))
-            return data.compactMap { $0.mapping(LivingEntity.self) }
-        },
-        fetchLivingBannerItems: {
-            let data = try await FirestoreProvider.shared.fetch(LivingAPI.fetchLivingBannerItems)
-            return data.compactMap { $0.mapping(BannerEntity.self) }
-        }
+extension LivingClient: TestDependencyKey {
+    public static let previewValue = Self(
+        fetchLivingItems: { _ in [] },
+        fetchLivingBannerItems: { [] }
+    )
+
+    public static let testValue = Self(
+        fetchLivingItems: unimplemented("\(Self.self).living.fetchLivingItems"),
+        fetchLivingBannerItems: unimplemented("\(Self.self).living.fetchLivingBannerItems")
     )
 }

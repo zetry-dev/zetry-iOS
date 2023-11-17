@@ -13,7 +13,6 @@ import CoreKit
 import CoreKitInterface
 import Foundation
 import LivingDomain
-import LivingDomainInterface
 
 public struct LivingStore: Reducer {
     public init() {}

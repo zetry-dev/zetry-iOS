@@ -1,28 +1,29 @@
 //
-//  TestClient.swift
+//  CategoryClient.swift
 //  CategoryDomain
 //
-//  Created by Allie Kim on 2023/08/27.
+//  Created by AllieKim on 2023/08/28.
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import BaseDomainInterface
-import CategoryDomainInterface
 import ComposableArchitecture
-import Networking
 
-public extension DependencyValues {
-    var categoryClient: CategoryClient {
-        get { self[CategoryClient.self] }
-        set { self[CategoryClient.self] = newValue }
+public struct CategoryClient {
+    public var fetchCategories: @Sendable () async throws -> [CategoryEntity]
+
+    public init(
+        fetchCategories: @Sendable @escaping () async throws -> [CategoryEntity]
+    ) {
+        self.fetchCategories = fetchCategories
     }
 }
 
-extension CategoryClient: DependencyKey {
-    public static var liveValue = Self(
-        fetchCategories: {
-            let data = try await FirestoreProvider.shared.fetch(CategoryAPI.fetchCategories)
-            return data.compactMap { $0.mapping(CategoryEntity.self) }
-        }
+extension CategoryClient: TestDependencyKey {
+    public static let previewValue = Self(
+        fetchCategories: { .mock }
+    )
+
+    public static let testValue = Self(
+        fetchCategories: unimplemented("\(Self.self).category.fetchCategories")
     )
 }

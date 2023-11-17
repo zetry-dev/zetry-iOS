@@ -1,6 +1,6 @@
 //
 //  ProductAPI.swift
-//  ProductDomainInterface
+//  ProductDomain
 //
 //  Created by AllieKim on 2023/09/07.
 //  Copyright © 2023 com.zetry. All rights reserved.

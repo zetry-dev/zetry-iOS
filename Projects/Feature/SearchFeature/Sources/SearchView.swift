@@ -8,7 +8,7 @@
 
 import ComposableArchitecture
 import DesignSystem
-import ProductDomainInterface
+import ProductDomain
 import SwiftUI
 
 public struct SearchView: View {

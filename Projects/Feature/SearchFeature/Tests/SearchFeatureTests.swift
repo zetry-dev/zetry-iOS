@@ -8,7 +8,7 @@
 
 import ComposableArchitecture
 import CoreKit
-import ProductDomainInterface
+import ProductDomain
 @testable import SearchFeature
 import XCTest
 

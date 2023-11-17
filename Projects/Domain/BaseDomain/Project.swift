@@ -16,9 +16,7 @@ let project = Project.module(
             dependencies: [
                 .SPM.TCA,
                 .domain(target: .BaseDomain, type: .interface),
-                .core(target: .Networking),
-                .shared(target: .GlobalThirdPartyLibrary)
-//                .shared(target: .UtilityModule)
+                .core(target: .Networking)
             ]
         ),
         .tests(

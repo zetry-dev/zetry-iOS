@@ -8,21 +8,23 @@
 
 import BaseDomainInterface
 import ComposableArchitecture
-import HomeDomainInterface
-import Networking
 
-public extension DependencyValues {
-    var homeClient: HomeClient {
-        get { self[HomeClient.self] }
-        set { self[HomeClient.self] = newValue }
+public struct HomeClient {
+    public var fetchMainBannerItems: @Sendable () async throws -> [BannerEntity]
+
+    public init(
+        fetchMainBannerItems: @Sendable @escaping () async throws -> [BannerEntity]
+    ) {
+        self.fetchMainBannerItems = fetchMainBannerItems
     }
 }
 
-extension HomeClient: DependencyKey {
-    public static var liveValue = Self(
-        fetchMainBannerItems: {
-            let data = try await FirestoreProvider.shared.fetch(HomeAPI.fetchMainBannerItems)
-            return data.compactMap { $0.mapping(BannerEntity.self) }
-        }
+extension HomeClient: TestDependencyKey {
+    public static let previewValue = Self(
+        fetchMainBannerItems: { [] }
+    )
+
+    public static let testValue = Self(
+        fetchMainBannerItems: unimplemented("\(Self.self).home.fetchMainBannerItems")
     )
 }

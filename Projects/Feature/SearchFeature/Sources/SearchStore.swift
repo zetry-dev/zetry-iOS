@@ -10,7 +10,6 @@ import ComposableArchitecture
 import CoreKit
 import Foundation
 import ProductDomain
-import ProductDomainInterface
 
 public struct SearchStore: Reducer {
     public init() {}

@@ -9,12 +9,10 @@
 import BaseDomainInterface
 import BaseFeature
 import CategoryDomain
-import CategoryDomainInterface
 import ComposableArchitecture
 import DesignSystem
 import HomeDomain
 import LivingDomain
-import LivingDomainInterface
 import TCACoordinators
 import UIKit
 

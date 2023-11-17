@@ -9,7 +9,6 @@
 import ComposableArchitecture
 import Foundation
 import ProductDomain
-import ProductDomainInterface
 import UIKit
 
 public struct ProductDetailStore: Reducer {

@@ -8,7 +8,7 @@
 
 import ComposableArchitecture
 import DesignSystem
-import LivingDomainInterface
+import LivingDomain
 import SwiftUI
 
 public struct LivingSectionView: View {

@@ -6,7 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
-import LivingDomainInterface
+import LivingDomain
 
 public struct LivingSectionItem: Equatable, Hashable {
     var listSection: [LivingEntity]
