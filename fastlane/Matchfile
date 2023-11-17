@@ -1,0 +1,12 @@
+git_url("https://github.com/zetry-dev/zetry-iOS-signing.git")
+
+clone_branch_directly false
+force_for_new_devices true
+
+storage_mode("git")
+
+type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
+
+app_identifier("com.zetry.Zetry")
+
+username("allie0147.dev@gmail.com") # Your Apple Developer Portal username

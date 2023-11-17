@@ -1,0 +1,172 @@
+
+default_platform(:ios)
+
+platform :ios do
+
+##########################################################################################################################
+  # 배포
+  desc("Testflight 업로드")
+
+  before_all do 
+    sign_in_app_store()
+  end
+
+  # Release
+  lane :release do |options|
+    bump_build_number()
+    version_number()
+
+    build_release()
+
+    # upload_to_crashlytics()
+  end
+
+  # CI Release
+  lane :ci_release do |options|
+    build_number()
+    version_number()
+
+    ci_build_release()
+
+    upload_to_crashlytics()
+  end
+
+########################################################################################################################
+  # 빌드
+  lane :common_build do
+
+    build_app(
+      workspace: "Zetry.xcworkspace", 
+      scheme: "Zetry",
+      export_method: "app-store",
+      # export_options: export_options,
+      clean: true
+    )
+  end
+
+  lane :build_release do
+    sync_codesign_appstore()
+    common_build()
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
+
+  lane :ci_build_release do
+    sync_codesign_ci()
+    common_build()
+    upload_to_testflight(
+      api_key: lane_context[SharedValues::APP_STORE_CONNECT_API_KEY],
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+########################################################################################################################
+  # Sign In App store
+  lane :sign_in_app_store do
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"],
+      duration: 500,
+      in_house: false
+    )
+  end
+
+########################################################################################################################
+  # match 갱신
+  private_lane :renew_codesign do |options|
+    sync_code_signing( 
+      type: options[:type],
+      readonly: true,
+      app_identifier: ["com.zetry.Zetry"],
+      force_for_new_devices: true,
+  )
+  end
+
+  lane :renew_codesign_development do
+    renew_codesign(type:"development")
+  end
+
+  lane :renew_codesign_appstore do
+    renew_codesign(type:"appstore")
+  end
+
+  # match 로드 (certificate, profile visioning)
+  private_lane :sync_codesign do |options|
+    match(type:  options[:type], readonly: true)
+  end
+
+  private_lane :sync_codesign_ci do |options|
+    create_keychain(
+      name: ENV['KEYCHAIN_NAME'],
+      password: ENV['KEYCHAIN_PASSWORD'],
+      timeout: 1800,
+      default_keychain: true,
+      unlock: true,
+      lock_when_sleeps: false
+    )
+
+    sync_code_signing(
+      git_url: 'git@github.com:zetry-dev/zetry-iOS-signing.git',
+      type: 'appstore',
+      keychain_name: ENV['KEYCHAIN_NAME'],
+      keychain_password: ENV['KEYCHAIN_PASSWORD'],
+      readonly: true,
+      app_identifier: ["com.zetry.Zetry"],
+  )
+  end
+
+  lane :sync_codesign_development do 
+    sync_codesign(type:"development")
+  end
+
+  lane :sync_codesign_appstore do
+    sync_codesign(type:"appstore")
+  end
+
+####################################################################################################################
+  # 빌드번호 DateTime
+  lane :bump_build_number do
+    build_number = Time.new.strftime("%Y%m%d.%k%M")
+    increment_build_number(
+      xcodeproj: "projects/App/Zetry.xcodeproj",
+      build_number: build_number
+    )
+  end
+
+  # 버전
+  lane :version_number do 
+    get_version_number(
+      xcodeproj: "projects/App/Zetry.xcodeproj",
+      target: "Zetry"
+    )
+  end
+
+  # 빌드넘버
+  lane :build_number do
+    get_build_number(xcodeproj: "projects/App/Zetry.xcodeproj")
+  end
+
+######################################################################################################################
+  # Crashlytics 업로드
+  lane :upload_to_crashlytics do |options|
+
+    case options[:configuration]
+    when "Release"
+      app_identifier = "com.zetry.Zetry"
+      gsp_path = "zetry/projects/App/Support/GoogleService-Info.plist"
+    end
+
+    download_dsyms(
+      app_identifier: app_identifier,
+      version:lane_context[SharedValues::VERSION_NUMBER],
+      build_number: lane_context[SharedValues::BUILD_NUMBER]
+    )
+
+    upload_symbols_to_crashlytics(
+      binary_path: "Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols",
+      gsp_path: gsp_path
+    )
+    
+    clean_build_artifacts
+  end
+end
