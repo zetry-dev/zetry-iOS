@@ -32,7 +32,7 @@ public struct CategoryView: View {
 
                 GeometryReader { proxy in
                     HStack(spacing: 0) {
-                        ScrollView {
+                        ScrollView(showsIndicators: false) {
                             VStack(alignment: .leading, spacing: 0) {
                                 ForEach(viewStore.categories, id: \.self) { category in
                                     categoryView(
@@ -48,7 +48,7 @@ public struct CategoryView: View {
                         .frame(maxWidth: proxy.size.width * 0.35)
                         .background(Color.white)
 
-                        ScrollView {
+                        ScrollView(showsIndicators: false) {
                             LazyVGrid(columns: columns) {
                                 ForEach(viewStore.selectedProducts, id: \.self) { product in
                                     CategoryItemCell(

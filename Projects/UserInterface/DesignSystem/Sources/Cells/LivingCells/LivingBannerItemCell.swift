@@ -31,8 +31,9 @@ public struct LivingBannerItemCell: View {
                 Text(title)
                     .lineLimit(1)
                     .fontStyle(.subtitle2)
-                
+
                 MultilineText(subtitle, lineLimit: 2, font: .body2)
+                    .fontWithLineHeight(font: Font.zetry(.body2), lineHeight: 20)
             }
         }
     }

@@ -6,6 +6,7 @@
 //  Copyright © 2023 com.zetry. All rights reserved.
 //
 
+import BaseDomainInterface
 import ComposableArchitecture
 
 public struct SettingsClient {

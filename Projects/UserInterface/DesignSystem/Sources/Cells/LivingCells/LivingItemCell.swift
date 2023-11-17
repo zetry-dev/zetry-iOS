@@ -33,6 +33,7 @@ public struct LivingListItemCell: View {
                     .fontStyle(.subtitle3)
 
                 MultilineText(subtitle, lineLimit: 2, font: .body2)
+                    .fontWithLineHeight(font: Font.zetry(.body2), lineHeight: 20)
             }
             .padding(.top, 4)
         }

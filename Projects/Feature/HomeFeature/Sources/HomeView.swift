@@ -187,7 +187,7 @@ public struct HomeView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
             }
-            .padding(.horizontal, 14)
+            .padding(.leading, 16)
             .padding(.vertical, 6)
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
