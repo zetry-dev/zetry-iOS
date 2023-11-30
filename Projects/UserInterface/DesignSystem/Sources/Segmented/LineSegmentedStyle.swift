@@ -20,7 +20,7 @@ public extension SegmentStyle.LineSegmentedStyle {
     }
 
     var unselectedFontSize: Font.ZetryFontSystem {
-        .body1
+        .body2
     }
 
     var selectedColor: Color.ZetryColorSystem {

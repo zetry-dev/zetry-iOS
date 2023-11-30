@@ -151,7 +151,7 @@ public struct LivingView: View {
                 .overlay(alignment: .bottomLeading) {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(banner.title)
-                            .fontStyle(.body1, foregroundColor: .primary(.white))
+                            .fontStyle(.body2, foregroundColor: .primary(.white))
                         Text(banner.subtitle)
                             .fontStyle(.headline3, foregroundColor: .primary(.white))
                     }

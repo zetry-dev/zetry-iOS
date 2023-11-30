@@ -32,7 +32,7 @@ public struct RecommendItemCell: View {
                         height: 62
                     )
                 
-                MultilineText(text, font: .body2, foregroudColor: .grayScale(.gray9))
+                MultilineText(text, font: .body3, foregroudColor: .grayScale(.gray9))
             }
             .padding(.vertical, 25)
             .padding(.horizontal, 20)

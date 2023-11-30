@@ -30,12 +30,14 @@ public extension Font.ZetryFontSystem {
         case .boldSubtitle1:
             return DesignSystemFontFamily.Pretendard.bold.swiftUIFont(size: 20)
         case .body1:
-            return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 16)
+            return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 17)
         case .body2:
-            return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 14)
+            return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 16)
         case .body3:
-            return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 12)
+            return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 14)
         case .body4:
+            return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 12)
+        case .body5:
             return DesignSystemFontFamily.Pretendard.medium.swiftUIFont(size: 11)
         case .label1:
             return DesignSystemFontFamily.Pretendard.regular.swiftUIFont(size: 16)
@@ -71,12 +73,14 @@ public extension Font.ZetryFontSystem {
         case .boldSubtitle1:
             return DesignSystemFontFamily.Pretendard.bold.font(size: 20)
         case .body1:
-            return DesignSystemFontFamily.Pretendard.medium.font(size: 16)
+            return DesignSystemFontFamily.Pretendard.medium.font(size: 17)
         case .body2:
-            return DesignSystemFontFamily.Pretendard.medium.font(size: 14)
+            return DesignSystemFontFamily.Pretendard.medium.font(size: 16)
         case .body3:
-            return DesignSystemFontFamily.Pretendard.medium.font(size: 12)
+            return DesignSystemFontFamily.Pretendard.medium.font(size: 14)
         case .body4:
+            return DesignSystemFontFamily.Pretendard.medium.font(size: 12)
+        case .body5:
             return DesignSystemFontFamily.Pretendard.medium.font(size: 11)
         case .label1:
             return DesignSystemFontFamily.Pretendard.regular.font(size: 16)

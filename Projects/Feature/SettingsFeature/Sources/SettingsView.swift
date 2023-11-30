@@ -45,7 +45,7 @@ public struct SettingsView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Text(item.title)
-                    .fontStyle(.body1)
+                    .fontStyle(.body2)
                     .padding(.vertical, 16)
                 Spacer()
 

@@ -23,6 +23,7 @@ public extension Font {
         case body2
         case body3
         case body4
+        case body5
         case label1
         case label2
         case label3

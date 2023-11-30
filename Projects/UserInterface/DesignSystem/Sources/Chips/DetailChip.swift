@@ -23,7 +23,7 @@ public struct DetailChip: View {
                 ZetryIcon(icon, foregroundColor: .primary(.white), size: .custom(width: 14, height: 14))
             }
             Text(text)
-                .fontStyle(.body2, foregroundColor: .primary(.white))
+                .fontStyle(.body3, foregroundColor: .primary(.white))
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)

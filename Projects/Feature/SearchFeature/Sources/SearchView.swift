@@ -204,8 +204,8 @@ extension SearchView {
     private func topKeywordView(_ keyword: String, index: Int) -> some View {
         HStack(spacing: 14) {
             Text("\(index + 1)")
-                .fontStyle(.body1, foregroundColor: .primary(.primary))
-            MultilineText(keyword, lineLimit: 1, font: .body2)
+                .fontStyle(.body2, foregroundColor: .primary(.primary))
+            MultilineText(keyword, lineLimit: 1, font: .body3)
             Spacer()
         }
         .contentShape(Rectangle())
@@ -216,8 +216,8 @@ extension SearchView {
     private func keywordView(_ keyword: String, index: Int) -> some View {
         HStack(spacing: 14) {
             Text("\(index + 1)")
-                .fontStyle(.body1)
-            MultilineText(keyword, lineLimit: 1, font: .body2)
+                .fontStyle(.body2)
+            MultilineText(keyword, lineLimit: 1, font: .body3)
             Spacer()
         }
         .contentShape(Rectangle())
@@ -266,7 +266,7 @@ extension SearchView {
             HStack(spacing: 9) {
                 ZetryIcon(DesignSystemAsset.Icons.magnifyingglass, foregroundColor: .grayScale(.gray6))
                 Text(keyword)
-                    .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
+                    .fontStyle(.body3, foregroundColor: .grayScale(.gray9))
                 Spacer()
             }
             .contentShape(Rectangle())
@@ -292,7 +292,7 @@ extension SearchView {
                     Text("찾으시는 검색 결과가 없습니다.")
                         .fontStyle(.subtitle5)
                     Text("다시 한번 확인해 주세요.")
-                        .fontStyle(.body2, foregroundColor: .grayScale(.gray9))
+                        .fontStyle(.body3, foregroundColor: .grayScale(.gray9))
                 }
             }
             .frame(maxWidth: .infinity)
@@ -301,7 +301,7 @@ extension SearchView {
 
             VStack(spacing: 30) {
                 Text("혹시 이런 쓰레기를 찾으시나요?")
-                    .fontStyle(.body2, foregroundColor: .grayScale(.gray7))
+                    .fontStyle(.body3, foregroundColor: .grayScale(.gray7))
 
                 HStack(spacing: 12) {
                     ForEach(Array(viewStore.recommendedProducts), id: \.self) { item in

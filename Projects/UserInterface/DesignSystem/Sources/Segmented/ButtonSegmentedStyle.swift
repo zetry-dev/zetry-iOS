@@ -16,11 +16,11 @@ public extension SegmentStyle {
 
 public extension SegmentStyle.ButtonSegmentedStyle {
     var selectedFontSize: Font.ZetryFontSystem {
-        .body2
+        .body3
     }
 
     var unselectedFontSize: Font.ZetryFontSystem {
-        .body2
+        .body3
     }
 
     var selectedColor: Color.ZetryColorSystem {

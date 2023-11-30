@@ -16,7 +16,7 @@ public struct ZetryPrimaryButtonStyle: ButtonStyle {
             .label
             .lineLimit(1)
             .minimumScaleFactor(0.5)
-            .fontStyle(.body1, foregroundColor: .primary(.white))
+            .fontStyle(.body2, foregroundColor: .primary(.white))
             .padding(10)
             .frame(maxWidth: .infinity)
             .background {

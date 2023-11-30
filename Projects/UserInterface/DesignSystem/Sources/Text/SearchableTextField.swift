@@ -28,7 +28,7 @@ public struct SearchableTextField: View {
                 "",
                 text: $text,
                 prompt: Text(prompt)
-                    .font(.zetry(.body2))
+                    .font(.zetry(.body3))
                     .foregroundColor(.zetry(.grayScale(.gray6)))
             )
             .onChange(of: text) {
@@ -36,7 +36,7 @@ public struct SearchableTextField: View {
                     text = String($0.prefix(maxCount))
                 }
             }
-            .fontStyle(.body2)
+            .fontStyle(.body3)
             .focused(focusedField)
             .submitLabel(.search)
 
