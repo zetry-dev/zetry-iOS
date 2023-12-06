@@ -14,7 +14,7 @@ import SwiftUI
 
 public struct LivingView: View {
     public let store: StoreOf<LivingStore>
-    private let imageHeight: CGFloat = UIScreen.main.bounds.height * 0.45
+    private let imageWidth: CGFloat = UIScreen.main.bounds.width - 32
 
     public init(store: StoreOf<LivingStore>) {
         self.store = store
@@ -68,8 +68,7 @@ public struct LivingView: View {
         let background = viewStore.banners[safe: viewStore.carouselCurrentIndex]
 
         ZStack {
-            imageView(viewStore: viewStore, banner: background)
-                .blur(radius: 10)
+            backgroundImageView(banner: background)
             VStack(alignment: .leading, spacing: 20) {
                 Text("생활정보")
                     .fontStyle(.boldSubtitle1)
@@ -147,11 +146,11 @@ public struct LivingView: View {
     private func imageView(viewStore: ViewStoreOf<LivingStore>, banner: BannerEntity?) -> some View {
         if let banner {
             Image
-                .load(banner.imageURL)
+                .load(banner.imageURL, width: imageWidth, height: 300)
                 .overlay(alignment: .bottomLeading) {
                     VStack(alignment: .leading, spacing: 6) {
                         Text(banner.title)
-                            .fontStyle(.body2, foregroundColor: .primary(.white))
+                            .fontStyle(.body3, foregroundColor: .primary(.white))
                         Text(banner.subtitle)
                             .fontStyle(.headline3, foregroundColor: .primary(.white))
                     }
@@ -161,6 +160,15 @@ public struct LivingView: View {
                 .onTapGesture {
                     viewStore.send(.routeToWebview(banner.linkURL))
                 }
+        }
+    }
+
+    @ViewBuilder
+    private func backgroundImageView(banner: BannerEntity?) -> some View {
+        if let banner {
+            Image
+                .load(banner.imageURL, width: UIScreen.main.bounds.width, height: 400)
+                .blur(radius: 100)
         }
     }
 }

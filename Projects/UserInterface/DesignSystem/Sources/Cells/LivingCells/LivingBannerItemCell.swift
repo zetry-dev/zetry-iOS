@@ -21,13 +21,13 @@ public struct LivingBannerItemCell: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
             Image
                 .load(imageURL, height: 220)
                 .background(Color.zetry(.grayScale(.gray2)))
                 .cornerRadius(4)
 
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(title)
                     .lineLimit(1)
                     .fontStyle(.subtitle2)

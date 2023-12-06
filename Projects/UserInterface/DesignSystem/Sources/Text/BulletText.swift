@@ -22,8 +22,8 @@ public struct BulletText: View {
                 .foregroundColor(.zetry(.primary(.primary)))
                 .frame(width: 4, height: 4)
                 .padding(.bottom, 4)
-            MultilineText(text, font: .body1)
-                .fontWithLineHeight(font: Font.zetry(.body1), lineHeight: 26)
+            MultilineText(text, font: .subtitle3)
+                .fontWithLineHeight(font: Font.zetry(.subtitle3), lineHeight: 26)
         }
     }
 }

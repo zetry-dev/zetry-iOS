@@ -27,7 +27,7 @@ public struct LivingScrollItemCell: View {
                 .background(Color.zetry(.grayScale(.gray3)))
                 .cornerRadius(4)
 
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(title)
                     .lineLimit(1)
                     .fontStyle(.subtitle3)
