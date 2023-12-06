@@ -29,7 +29,7 @@ public struct HomeStore: Reducer {
         }
 
         var isAnimated: Bool = false
-        var carouselCurrentIndex: Int = 0
+        var carouselCurrentIndex: Int? = 0
         var scrollViewOffsetY: CGFloat = 0.0
 
         public init() {}
@@ -38,7 +38,7 @@ public struct HomeStore: Reducer {
     public enum Action: Equatable {
         case onAppear
         case animatingList
-        case indexChanged(Int)
+        case indexChanged(Int?)
         case cardChanged([BannerEntity])
         case toggleCategory
         case scrollOffsetYChanged(CGFloat)

@@ -14,7 +14,7 @@ import SwiftUI
 
 public struct HomeView: View {
     public let store: StoreOf<HomeStore>
-    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .top), count: 5)
+    private let categoryColumns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .topLeading), count: 5)
     private let blurWidth: CGFloat = UIScreen.main.bounds.width
     private let blurHeight: CGFloat = UIScreen.main.bounds.height * 0.45
 
@@ -30,59 +30,43 @@ public struct HomeView: View {
                     send: HomeStore.Action.scrollOffsetYChanged
                 )
             ) { _ in
-                LazyVStack(
-                    alignment: .leading,
-                    spacing: 0,
-                    pinnedViews: [.sectionHeaders],
-                    content: {
+                ZStack(alignment: .top) {
+                    blurBackground(
+                        imageURL: viewStore.banners[safe: viewStore.carouselCurrentIndex ?? 0]?.imageURL ?? "",
+                        blurSize: .init(width: blurWidth, height: blurHeight)
+                    )
+
+                    LazyVStack(
+                        alignment: .leading,
+                        spacing: 0,
+                        pinnedViews: [.sectionHeaders]
+                    ) {
                         Section {
                             VStack(alignment: .leading, spacing: 0) {
-                                carouselView(viewStore: viewStore)
-                                    .blurImageBackground(
-                                        imageURL: viewStore.banners[safe: viewStore.carouselCurrentIndex]?.imageURL ?? "",
-                                        size: .init(width: blurWidth, height: blurHeight)
-                                    )
-                                    .padding(.top, 15)
                                 VStack(alignment: .leading, spacing: 0) {
-                                    categorySectionView(viewStore: viewStore)
-                                    LivingSectionView(
-                                        store: store.scope(
-                                            state: \.livingSectionStore,
-                                            action: HomeStore.Action.livingSection
+                                    carouselView(viewStore: viewStore)
+                                        .padding(.top, 15)
+                                        .padding(.bottom, 20)
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        categorySectionView(viewStore: viewStore)
+                                        LivingSectionView(
+                                            store: store.scope(
+                                                state: \.livingSectionStore,
+                                                action: HomeStore.Action.livingSection
+                                            )
                                         )
-                                    )
-                                    .padding(.vertical, 24)
+                                        .padding(.vertical, 24)
+                                    }
+                                    .padding(.horizontal, 16)
                                 }
-                                .padding(.horizontal, 16)
                             }
                         } header: {
-                            VStack(alignment: .leading, spacing: 0) {
-                                // TODO: -로고 반영
-                                Text("zetry")
-                                    .fontStyle(
-                                        .subtitle1,
-                                        foregroundColor:
-                                        viewStore.scrollViewOffsetY * 0.002 > 0.5 ?
-                                            .grayScale(.gray12) : .primary(.white)
-                                    )
-                                    .padding(.leading, 16)
-                                    .padding(.bottom, 16)
-                                    .padding(.top, 50)
-
-                                searchNavigationView(viewStore.scrollViewOffsetY * 0.002)
-                                    .onTapGesture {
-                                        viewStore.send(.routeToSearch)
-                                    }
-                            }
-                            .animation(.none, value: UUID())
-                            .background(
-                                .thinMaterial.opacity(viewStore.scrollViewOffsetY * 0.002)
-                            )
+                            headerView(viewStore: viewStore)
                         }
                     }
-                )
+                }
             }
-            .edgesIgnoringSafeArea(.top)
+            .ignoresSafeArea(edges: .top)
             .toolbar(.hidden, for: .navigationBar)
             .onAppear {
                 viewStore.send(.onAppear)
@@ -91,51 +75,95 @@ public struct HomeView: View {
     }
 
     @ViewBuilder
-    private func carouselView(viewStore: ViewStoreOf<HomeStore>) -> some View {
-        CarouselView(
-            index: viewStore.binding(get: \.carouselCurrentIndex, send: HomeStore.Action.indexChanged),
-            items: viewStore.binding(get: \.banners, send: HomeStore.Action.cardChanged),
-            spacing: 16,
-            cardPadding: 64
-        ) { card, cardSize, index in
-            carouselItem(viewStore: viewStore, imageURL: card.imageURL, args: (card, cardSize, index))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+    private func blurBackground(imageURL: String, blurSize: CGSize) -> some View {
+        Image.load(
+            imageURL,
+            width: blurSize.width,
+            height: blurSize.height
+        )
+        .blur(radius: 100)
+    }
+
+    @ViewBuilder
+    private func headerView(viewStore: ViewStoreOf<HomeStore>) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // TODO: -로고 반영
+            Text("zetry")
+                .fontStyle(
+                    .subtitle1,
+                    foregroundColor:
+                    viewStore.scrollViewOffsetY * 0.002 > 0.5 ?
+                        .grayScale(.gray12) : .primary(.white)
+                )
+                .padding(.leading, 16)
+                .padding(.bottom, 16)
+                .padding(.top, 50)
+
+            searchNavigationView(viewStore.scrollViewOffsetY * 0.002)
+                .onTapGesture {
+                    viewStore.send(.routeToSearch)
+                }
         }
+        .animation(.none, value: UUID())
+        .background(
+            .thinMaterial.opacity(viewStore.scrollViewOffsetY * 0.002)
+        )
+    }
+
+    @ViewBuilder
+    private func carouselView(viewStore: ViewStoreOf<HomeStore>) -> some View {
+        let bannerSize = UIScreen.main.bounds.width - 16
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 8) {
+                ForEach(Array(viewStore.banners.enumerated()), id: \.element) { index, card in
+                    carouselItem(card, viewStore: viewStore, index: index)
+                        .id(index)
+                        .onTapGesture {
+                            viewStore.send(.routeToWebview(card.linkURL))
+                        }
+                }
+            }
+            .scrollTargetLayout()
+        }
+        .scrollPosition(id: viewStore.binding(get: \.carouselCurrentIndex, send: HomeStore.Action.indexChanged))
+        .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+        .scrollClipDisabled()
+        .safeAreaPadding(.horizontal, 16)
+        .frame(width: bannerSize, height: bannerSize)
+        .aspectRatio(100 / 99, contentMode: .fit)
     }
 
     @ViewBuilder
     private func carouselItem(
+        _ item: BannerEntity,
         viewStore: ViewStoreOf<HomeStore>,
-        imageURL: String,
-        args: (BannerEntity, CGSize, Int)
+        index: Int
     ) -> some View {
-        let (banner, size, index) = args
         Image
-            .load(imageURL, width: size.width)
+            .load(item.imageURL)
+            .containerRelativeFrame([.horizontal, .vertical])
+            .clipShape(RoundedRectangle(cornerRadius: 6))
             .overlay(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading) {
                         Text("#\(index + 1)")
-                        Text(banner.subtitle)
+                        Text(item.subtitle)
                     }
                     .fontStyle(.subtitle3, foregroundColor: .primary(.white))
                     .padding(.leading, 15)
 
                     Spacer()
-                    Text(banner.title)
+                    Text(item.title)
                         .fontStyle(.subtitle2, foregroundColor: .primary(.white))
                         .padding(.leading, 30)
                 }
                 .padding(.vertical, 30)
             }
-            .onTapGesture {
-                viewStore.send(.routeToWebview(banner.linkURL))
-            }
     }
 
     @ViewBuilder
     private func categorySectionView(viewStore: ViewStoreOf<HomeStore>) -> some View {
-        LazyVGrid(columns: categoryColumns) {
+        LazyVGrid(columns: categoryColumns, alignment: .leading) {
             ForEach(0 ..< 5, id: \.self) { index in
                 let item = viewStore.categories[safe: index] ?? .init()
                 CategoryItemCell(
@@ -187,7 +215,7 @@ public struct HomeView: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
             }
-            .padding(.leading, 16)
+            .padding(.horizontal, 16)
             .padding(.vertical, 6)
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -200,7 +228,7 @@ public struct HomeView: View {
             )
             Spacer()
         }
-        .padding(.leading, 16)
+        .padding(.horizontal, 16)
         .padding(.bottom, 10)
     }
 }
