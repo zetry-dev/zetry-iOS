@@ -87,17 +87,12 @@ public struct HomeView: View {
     @ViewBuilder
     private func headerView(viewStore: ViewStoreOf<HomeStore>) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            // TODO: -로고 반영
-            Text("zetry")
-                .fontStyle(
-                    .subtitle1,
-                    foregroundColor:
-                    viewStore.scrollViewOffsetY * 0.002 > 0.5 ?
-                        .grayScale(.gray12) : .primary(.white)
-                )
-                .padding(.leading, 16)
-                .padding(.bottom, 16)
-                .padding(.top, 50)
+            VStack(spacing: 10) {
+                DesignSystemAsset.Icons.zetryLogo.swiftUIImage
+            }
+            .padding(.leading, 16)
+            .padding(.bottom, 16)
+            .padding(.top, 50)
 
             searchNavigationView(viewStore.scrollViewOffsetY * 0.002)
                 .onTapGesture {

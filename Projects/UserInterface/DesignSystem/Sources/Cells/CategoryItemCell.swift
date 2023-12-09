@@ -42,6 +42,11 @@ public struct CategoryItemCell: View {
                 } else {
                     if let icon {
                         icon.swiftUIImage
+                    } else {
+                        Color
+                            .zetry(.grayScale(.gray2))
+                            .frame(width: size, height: size)
+                            .cornerRadius(20)
                     }
                 }
 

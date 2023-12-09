@@ -20,14 +20,20 @@ public struct DetailChip: View {
     public var body: some View {
         HStack(spacing: 4) {
             if let icon {
-                ZetryIcon(icon, foregroundColor: .primary(.white), size: .custom(width: 14, height: 14))
+                ZetryIcon(icon, foregroundColor: .primary(.primary), size: .custom(width: 14, height: 14))
             }
+
+            let fontColor: Color.ZetryColorSystem = icon != nil ? .primary(.primary) : .grayScale(.gray12)
+
             Text(text)
-                .fontStyle(.body3, foregroundColor: .primary(.white))
+                .fontStyle(.body3, foregroundColor: fontColor)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
-        .background(Color.zetry(.grayScale(.gray5)).opacity(0.7))
-        .clipShape(Capsule())
+        .overlay {
+            let strokeColor: Color.ZetryColorSystem = icon != nil ? .primary(.primary) : .grayScale(.gray5)
+            Capsule()
+                .stroke(Color.zetry(strokeColor), lineWidth: 1)
+        }
     }
 }
