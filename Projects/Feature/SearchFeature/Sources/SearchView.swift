@@ -305,7 +305,7 @@ extension SearchView {
 
                 HStack(spacing: 12) {
                     ForEach(Array(viewStore.recommendedProducts), id: \.self) { item in
-                        RecommendItemCell(item.title, imageURL: item.imageURL) {
+                        RecommendItemCell(item.title, imageURL: item.categoryImageURL) {
                             viewStore.send(.routeToDetail(item: item))
                         }
                     }

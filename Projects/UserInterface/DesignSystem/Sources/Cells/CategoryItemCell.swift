@@ -18,13 +18,13 @@ public struct CategoryItemCell: View {
 
     public init(
         _ title: String,
-        imageUrl: String,
+        imageURL: String,
         icon: DesignSystemImages? = nil,
         size: CGFloat,
         action: @escaping () -> Void
     ) {
         self.title = title
-        self.imageUrl = imageUrl
+        self.imageUrl = imageURL
         self.icon = icon
         self.size = size
         self.action = action

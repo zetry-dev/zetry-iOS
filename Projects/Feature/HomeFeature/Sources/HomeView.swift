@@ -163,7 +163,7 @@ public struct HomeView: View {
                 let item = viewStore.categories[safe: index] ?? .init()
                 CategoryItemCell(
                     item.title,
-                    imageUrl: item.imageURL,
+                    imageURL: item.imageURL,
                     icon: index == 4 ? viewStore.cateogryExpandendIcon : nil,
                     size: 58
                 ) {
@@ -183,7 +183,7 @@ public struct HomeView: View {
                     let item = viewStore.categories[safe: index] ?? .init()
                     CategoryItemCell(
                         item.title,
-                        imageUrl: item.imageURL,
+                        imageURL: item.imageURL,
                         size: 58
                     ) {
                         viewStore.send(.routeToCategory(item.title))

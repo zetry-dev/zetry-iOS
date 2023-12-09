@@ -13,7 +13,7 @@ import SwiftUI
 
 public struct CategoryView: View {
     public let store: StoreOf<CategoryStore>
-    private var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
+    private var columns: [GridItem] = Array(repeating: .init(.flexible(), alignment: .top), count: 3)
 
     public init(store: StoreOf<CategoryStore>) {
         self.store = store
@@ -53,7 +53,7 @@ public struct CategoryView: View {
                                 ForEach(viewStore.selectedProducts, id: \.self) { product in
                                     CategoryItemCell(
                                         product.title,
-                                        imageUrl: product.imageURL,
+                                        imageURL: product.categoryImageURL,
                                         size: 62
                                     ) {
                                         viewStore.send(.routeToProductDetail(product))

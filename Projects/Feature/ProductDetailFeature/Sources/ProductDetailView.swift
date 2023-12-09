@@ -31,20 +31,11 @@ public struct ProductDetailView: View {
                     )
                 ) { _ in
                     GeometryReader { proxy in
-                        ZStack(alignment: .top) {
-                            productImageView(
-                                url: product.imageURL,
-                                imageHeight: viewStore.imageHeight,
-                                proxy: proxy
-                            )
-
-                            detailChips(
-                                recyclable: product.recyclable,
-                                isTrash: product.isTrash,
-                                category: product.category,
-                                imageHeight: viewStore.imageHeight
-                            )
-                        }
+                        productImageView(
+                            url: product.imageURL,
+                            imageHeight: viewStore.imageHeight,
+                            proxy: proxy
+                        )
                     }
                     .frame(height: viewStore.imageHeight)
                     detailContentView(viewStore: viewStore)
@@ -105,8 +96,7 @@ public struct ProductDetailView: View {
     private func detailChips(
         recyclable: Bool,
         isTrash: Bool,
-        category: String,
-        imageHeight: CGFloat
+        category: String
     ) -> some View {
         HStack(spacing: 8) {
             DetailChip(
@@ -120,7 +110,8 @@ public struct ProductDetailView: View {
             Spacer()
         }
         .padding(.horizontal, 28)
-        .offset(y: imageHeight - 75)
+        .padding(.top, 5)
+        .padding(.bottom, 10)
     }
 
     @ViewBuilder
@@ -133,6 +124,12 @@ public struct ProductDetailView: View {
                 .padding(.leading, 30)
 
             Divider(color: .primary(.black), opacity: 0.05)
+
+            detailChips(
+                recyclable: product.recyclable,
+                isTrash: product.isTrash,
+                category: product.category
+            )
 
             Text("버리는 방법")
                 .fontStyle(.subtitle1)
@@ -165,7 +162,7 @@ public struct ProductDetailView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top, spacing: 18) {
                         ForEach(recommendItems, id: \.self) { recommendItem in
-                            CategoryItemCell(recommendItem.title, imageUrl: recommendItem.imageURL, size: 72) {
+                            CategoryItemCell(recommendItem.title, imageURL: recommendItem.categoryImageURL, size: 72) {
                                 viewStore.send(.routeToDetail(item: recommendItem))
                             }
                             .frame(width: 72)
