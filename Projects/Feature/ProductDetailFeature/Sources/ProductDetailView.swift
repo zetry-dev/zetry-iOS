@@ -145,7 +145,7 @@ public struct ProductDetailView: View {
                         ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircle,
                                   foregroundColor: .primary(.primary))
                         Text(notice.nonBreakingSpaced())
-                            .fontStyle(.body3, foregroundColor: .grayScale(.gray7))
+                            .fontStyle(.label1, foregroundColor: .grayScale(.gray8))
                     }
                 }
             }

@@ -19,11 +19,11 @@ public struct BulletText: View {
     public var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
             Circle()
-                .foregroundColor(.zetry(.primary(.primary)))
+                .foregroundColor(.zetry(.grayScale(.gray10)))
                 .frame(width: 4, height: 4)
                 .padding(.bottom, 4)
-            MultilineText(text, font: .subtitle3)
-                .fontWithLineHeight(font: Font.zetry(.subtitle3), lineHeight: 26)
+            MultilineText(text, font: .label1, foregroudColor: .grayScale(.gray10))
+                .fontWithLineHeight(font: Font.zetry(.label1), lineHeight: 26)
         }
     }
 }
