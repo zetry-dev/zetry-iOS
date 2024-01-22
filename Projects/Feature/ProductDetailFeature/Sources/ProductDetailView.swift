@@ -142,10 +142,11 @@ public struct ProductDetailView: View {
 
                 if let notice = product.notice {
                     HStack(alignment: .top, spacing: 8) {
-                        ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircle,
-                                  foregroundColor: .primary(.primary))
-                        Text(notice.nonBreakingSpaced())
-                            .fontStyle(.label1, foregroundColor: .grayScale(.gray8))
+                            ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircleSmall,
+                                      foregroundColor: .primary(.primary))
+                            .padding(.top, 4)
+                        MultilineText(notice, font: .label1, foregroudColor: .grayScale(.gray8))
+                            .fontWithLineHeight(font: Font.zetry(.label1), lineHeight: 26)
                     }
                 }
             }
