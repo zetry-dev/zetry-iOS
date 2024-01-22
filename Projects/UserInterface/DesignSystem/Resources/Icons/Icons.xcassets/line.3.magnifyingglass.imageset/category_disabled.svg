@@ -1,16 +1,14 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="&#236;&#185;&#180;&#237;&#133;&#140;&#234;&#179;&#160;&#235;&#166;&#172;_disabled" clip-path="url(#clip0_1474_8881)">
-<g id="Group 3011">
-<path id="Ellipse 5" d="M22.9998 10.1906C22.9998 15.2532 18.8958 19.3572 13.8332 19.3572C8.77056 19.3572 4.6665 15.2532 4.6665 10.1906C4.6665 5.12798 8.77056 1.02393 13.8332 1.02393C18.8958 1.02393 22.9998 5.12798 22.9998 10.1906Z" stroke="#7A8995" stroke-width="1.4"/>
-<path id="Vector 13" d="M21.364 23.1743C21.5936 23.4879 22.0315 23.5582 22.342 23.3313C22.6524 23.1044 22.718 22.6663 22.4884 22.3527L21.364 23.1743ZM17.9749 18.546L21.364 23.1743L22.4884 22.3527L19.0993 17.7245L17.9749 18.546Z" fill="#7A8995"/>
-<path id="Vector 14" d="M1 3.46777H7.11111" stroke="#7A8995" stroke-width="1.4" stroke-linecap="round"/>
-<path id="Vector 15" d="M1 18.1353H4.66666H8.33333" stroke="#7A8995" stroke-width="1.4" stroke-linecap="round"/>
-<path id="Vector 16" d="M1 10.8022H4.66666" stroke="#7A8995" stroke-width="1.4" stroke-linecap="round"/>
-</g>
+<g clip-path="url(#clip0_1986_6388)">
+<path d="M19.49 15.8799L22.78 20.1699" stroke="#7A8995" stroke-width="1.4" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M1.72 12.0098H5.01" stroke="#7A8995" stroke-width="1.4" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M1.72 18.2998H9.61" stroke="#7A8995" stroke-width="1.4" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M15.19 16.7202C19.3377 16.7202 22.7 13.3579 22.7 9.2102C22.7 5.06254 19.3377 1.7002 15.19 1.7002C11.0423 1.7002 7.67999 5.06254 7.67999 9.2102C7.67999 13.3579 11.0423 16.7202 15.19 16.7202Z" stroke="#7A8995" stroke-width="1.4" stroke-miterlimit="10"/>
+<path d="M5.6 5.35018C4.26 5.66018 3.83 6.08018 3.56 7.52018C3.53 7.69018 3.21 7.69018 3.18 7.52018C2.91 6.08018 2.47 5.66018 1.14 5.35018C0.949998 5.31018 0.949998 5.10018 1.14 5.05018C2.48 4.74018 2.91 4.32018 3.18 2.87018C3.21 2.70018 3.52 2.70018 3.56 2.87018C3.83 4.32018 4.26 4.74018 5.6 5.05018C5.79 5.09018 5.79 5.30018 5.6 5.35018Z" fill="#7A8995"/>
 </g>
 <defs>
-<clipPath id="clip0_1474_8881">
-<rect width="24" height="24" fill="white"/>
+<clipPath id="clip0_1986_6388">
+<rect width="22.48" height="19.87" fill="white" transform="translate(1 1)"/>
 </clipPath>
 </defs>
 </svg>
