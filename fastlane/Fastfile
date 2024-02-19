@@ -128,7 +128,7 @@ platform :ios do
   lane :bump_build_number do
     build_number = Time.new.strftime("%Y%m%d.%k%M")
     increment_build_number(
-      xcodeproj: "projects/App/Zetry.xcodeproj",
+      xcodeproj: "Projects/App/Zetry.xcodeproj",
       build_number: build_number
     )
   end
@@ -136,14 +136,14 @@ platform :ios do
   # 버전
   lane :version_number do 
     get_version_number(
-      xcodeproj: "projects/App/Zetry.xcodeproj",
+      xcodeproj: "Projects/App/Zetry.xcodeproj",
       target: "Zetry"
     )
   end
 
   # 빌드넘버
   lane :build_number do
-    get_build_number(xcodeproj: "projects/App/Zetry.xcodeproj")
+    get_build_number(xcodeproj: "Projects/App/Zetry.xcodeproj")
   end
 
 ######################################################################################################################
@@ -153,7 +153,7 @@ platform :ios do
     case options[:configuration]
     when "Release"
       app_identifier = "com.zetry.Zetry"
-      gsp_path = "zetry/projects/App/Support/GoogleService-Info.plist"
+      gsp_path = "zetry/Projects/App/Support/GoogleService-Info.plist"
     end
 
     download_dsyms(
