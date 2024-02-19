@@ -23,7 +23,7 @@ public struct BulletText: View {
                 .frame(width: 4, height: 4)
                 .padding(.bottom, 4)
             MultilineText(text, font: .label1, foregroudColor: .grayScale(.gray10))
-                .fontWithLineHeight(font: Font.zetry(.label1), lineHeight: 26)
+                .fontWithLineHeight(font: Font.zetry(.label1), lineHeight: 24)
         }
     }
 }

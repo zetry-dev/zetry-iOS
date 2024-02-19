@@ -7,6 +7,7 @@
 //
 
 import ComposableArchitecture
+import DesignSystem
 import SwiftUI
 
 public struct LaunchScreenView: View {
@@ -18,11 +19,11 @@ public struct LaunchScreenView: View {
 
     public var body: some View {
         WithViewStore(store) { $0 } content: { viewStore in
-            VStack {
-                // TODO: - Add Launch Screen
-                Text("Zetry")
-                    .foregroundColor(.green)
+            ZStack {
+                Color.zetry(.primary(.primary))
+                DesignSystemAsset.Icons.zetryLaunch.swiftUIImage
             }
+            .ignoresSafeArea()
             .onAppear {
                 viewStore.send(.onAppear)
             }

@@ -23,17 +23,17 @@ public struct DetailChip: View {
                 ZetryIcon(icon, foregroundColor: .primary(.primary), size: .custom(width: 14, height: 14))
             }
 
-            let fontColor: Color.ZetryColorSystem = icon != nil ? .primary(.primary) : .grayScale(.gray12)
+            let fontColor: Color.ZetryColorSystem = icon != nil ? .primary(.primary) : .grayScale(.gray9)
 
             Text(text)
                 .fontStyle(.body3, foregroundColor: fontColor)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
-        .overlay {
-            let strokeColor: Color.ZetryColorSystem = icon != nil ? .primary(.primary) : .grayScale(.gray5)
-            Capsule()
-                .stroke(Color.zetry(strokeColor), lineWidth: 1)
+        .background {
+            let strokeColor: Color.ZetryColorSystem = icon != nil ? .primary(.primary0) : .grayScale(.gray1)
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.zetry(strokeColor))
         }
     }
 }

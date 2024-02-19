@@ -53,7 +53,7 @@ public struct CategoryView: View {
                                 ForEach(viewStore.selectedProducts, id: \.self) { product in
                                     CategoryItemCell(
                                         product.title,
-                                        imageURL: product.categoryImageURL,
+                                        imageURL: product.imageURL,
                                         size: 62
                                     ) {
                                         viewStore.send(.routeToProductDetail(product))

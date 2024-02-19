@@ -95,8 +95,7 @@ public struct ProductDetailView: View {
     @ViewBuilder
     private func detailChips(
         recyclable: Bool,
-        isTrash: Bool,
-        category: String
+        isTrash: Bool
     ) -> some View {
         HStack(spacing: 8) {
             DetailChip(
@@ -106,7 +105,6 @@ public struct ProductDetailView: View {
             if isTrash {
                 DetailChip(text: "일반 쓰레기")
             }
-            DetailChip(text: category)
             Spacer()
         }
         .padding(.horizontal, 28)
@@ -119,34 +117,38 @@ public struct ProductDetailView: View {
         let product = viewStore.item
         let recommendItems = viewStore.recommendedItems
         VStack(alignment: .leading, spacing: 15) {
-            Text(product.title)
-                .fontStyle(.headline1)
-                .padding(.leading, 30)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(product.category)
+                    .fontStyle(.body3)
+                Text(product.title)
+                    .fontStyle(.headline1)
+            }
+            .padding(.leading, 28)
 
             Divider(color: .primary(.black), opacity: 0.05)
 
             detailChips(
                 recyclable: product.recyclable,
-                isTrash: product.isTrash,
-                category: product.category
+                isTrash: product.isTrash
             )
 
             Text("버리는 방법")
                 .fontStyle(.subtitle1)
                 .padding(.leading, 30)
 
-            VStack(alignment: .leading, spacing: 30) {
+            VStack(alignment: .leading, spacing: 18) {
                 ForEach(product.description, id: \.self) { description in
                     BulletText(description)
                 }
 
                 if let notice = product.notice {
                     HStack(alignment: .top, spacing: 8) {
-                            ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircleSmall,
-                                      foregroundColor: .primary(.primary))
+                        ZetryIcon(DesignSystemAsset.Icons.exclamationmarkCircleSmall,
+                                  foregroundColor: .primary(.primary))
                             .padding(.top, 4)
+                            .padding(.leading, -8)
                         MultilineText(notice, font: .label1, foregroudColor: .grayScale(.gray8))
-                            .fontWithLineHeight(font: Font.zetry(.label1), lineHeight: 26)
+                            .fontWithLineHeight(font: Font.zetry(.label1), lineHeight: 28)
                     }
                 }
             }
@@ -159,22 +161,25 @@ public struct ProductDetailView: View {
             VStack(alignment: .leading) {
                 Text("이런 쓰레기는 어떠세요?")
                     .fontStyle(.subtitle2)
+                    .padding(.bottom, 26)
+                    .padding(.horizontal, 30)
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top, spacing: 18) {
                         ForEach(recommendItems, id: \.self) { recommendItem in
-                            CategoryItemCell(recommendItem.title, imageURL: recommendItem.categoryImageURL, size: 72) {
+                            CategoryItemCell(recommendItem.title, imageURL: recommendItem.imageURL, size: 72) {
                                 viewStore.send(.routeToDetail(item: recommendItem))
                             }
                             .frame(width: 72)
                         }
                     }
+                    .padding(.leading, 30)
                 }
             }
-            .padding(.leading, 16)
-            .padding(.top, 13)
+            .padding(.top, 20)
+            
         }
-        .padding(.top, 20)
+        .padding(.top, 26)
         .background(.regularMaterial)
         .border(width: 1, edges: [.top], color: .white.opacity(0.8))
         .cornerRadius(20, corners: [.topLeft, .topRight])

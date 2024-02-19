@@ -37,6 +37,7 @@ public extension KFImage {
             .resizable()
             .fade(duration: 0.2)
             .cancelOnDisappear(true)
+            .centerCropped()
             .scaledToFill()
             .frame(width: width, height: height)
             .clipped()
