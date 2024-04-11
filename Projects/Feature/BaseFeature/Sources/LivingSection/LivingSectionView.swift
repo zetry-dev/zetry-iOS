@@ -59,7 +59,7 @@ public struct LivingSectionView: View {
         items: [LivingEntity]
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewStore.selectedLivingTab == .home {
+            if viewStore.selectedLivingTab == .home, !items.isEmpty {
                 HStack(spacing: 6) {
                     Text("생활정보")
                         .fontStyle(.subtitle1)
@@ -94,8 +94,8 @@ public struct LivingSectionView: View {
         item: LivingEntity?
     ) -> some View {
         if let item {
-            VStack(alignment: .leading, spacing: 0) {
-                if viewStore.selectedLivingTab == .home {
+            if viewStore.selectedLivingTab == .home, !item.title.isEmpty {
+                VStack(alignment: .leading, spacing: viewStore.selectedLivingTab == .home ? 10 : 30) {
                     HStack(spacing: 6) {
                         Text("오늘의 추천상점")
                             .fontStyle(.subtitle1)
@@ -106,16 +106,15 @@ public struct LivingSectionView: View {
                     .onTapGesture {
                         viewStore.send(.routeToLiving(.today))
                     }
-                }
 
-                LivingBannerItemCell(
-                    item.title,
-                    subtitle: item.subtitle,
-                    imageURL: item.imageURL
-                )
-                .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
-                .onTapGesture {
-                    viewStore.send(.routeToWebview(item.linkURL))
+                    LivingBannerItemCell(
+                        item.title,
+                        subtitle: item.subtitle,
+                        imageURL: item.imageURL
+                    )
+                    .onTapGesture {
+                        viewStore.send(.routeToWebview(item.linkURL))
+                    }
                 }
             }
         } else {
@@ -129,7 +128,7 @@ public struct LivingSectionView: View {
         items: [LivingEntity]
     ) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewStore.selectedLivingTab == .home {
+            if viewStore.selectedLivingTab == .home, !items.isEmpty {
                 HStack(spacing: 6) {
                     Text("알면 좋은 꿀팁")
                         .fontStyle(.subtitle1)

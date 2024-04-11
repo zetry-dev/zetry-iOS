@@ -78,19 +78,20 @@ public struct HomeStore: Reducer {
                         .send(.fetchInformation),
                         .send(.animatingList)
                     )
+                
             case .animatingList:
                 state.isAnimated = true
-                return .none
+
             case let .indexChanged(index):
                 state.carouselCurrentIndex = index
-                return .none
+
             case .toggleCategory:
                 state.isCateogryExpandend.toggle()
                 state.categories[4].title = state.isCateogryExpandend ? "접기" : "더보기"
-                return .none
+
             case let .scrollOffsetYChanged(offsetY):
                 state.scrollViewOffsetY = offsetY
-                return .none
+
             case .fetchBanners:
                 return .run { send in
                     let result = await TaskResult {
@@ -105,6 +106,7 @@ public struct HomeStore: Reducer {
                     }
                     await send(.categoryDataLoaded(result))
                 }
+                
             case .fetchInformation:
                 return .concatenate(
                     .run { send in
@@ -116,6 +118,7 @@ public struct HomeStore: Reducer {
                     .send(.fetchToday),
                     .send(.fetchTips)
                 )
+                
             case .fetchToday:
                 return .run { send in
                     let result = await TaskResult {
@@ -123,6 +126,7 @@ public struct HomeStore: Reducer {
                     }
                     await send(.todayDataLoaded(result))
                 }
+                
             case .fetchTips:
                 return .run { send in
                     let result = await TaskResult {
@@ -130,28 +134,34 @@ public struct HomeStore: Reducer {
                     }
                     await send(.tipsDataLoaded(result))
                 }
+                
             case let .bannerDataLoaded(.success(result)):
                 state.banners = result.sorted(by: <)
-                return .none
+
             case let .categoryDataLoaded(.success(result)):
                 var categories = result.sorted(by: <)
                 categories.insert(.init(title: "더보기", image: "", priority: 0), at: 4)
                 state.categories = categories
-                return .none
-                    
+
             case let .informationDataLoaded(.success(result)):
                 return .send(.livingSection(.infoSection(Array(result.prefix(2)))))
+                
             case let .todayDataLoaded(.success(result)):
                 return .send(.livingSection(.todaySection(Array(result.prefix(1)))))
+                
             case let .tipsDataLoaded(.success(result)):
                 return .send(.livingSection(.tipsSection(Array(result.prefix(5)))))
 
             case let .livingSection(.view(.routeToLiving(livingSection))):
                 return .send(.routeToLiving(livingSection))
+                
             case let .livingSection(.view(.routeToWebview(urlString))):
                 return .send(.routeToWebview(urlString))
-            default: return .none
+                
+            default: 
+                return .none
             }
+            return .none
         }
 
         Scope(state: \.livingSectionStore, action: /Action.livingSection, child: {

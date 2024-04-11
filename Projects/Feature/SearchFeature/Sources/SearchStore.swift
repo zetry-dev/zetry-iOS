@@ -64,7 +64,6 @@ public struct SearchStore: Reducer {
             switch action {
             case .fetchSearchKeywords:
                 if !state.query.isEmpty {
-                    debugPrint("keywords :: \(state.query)")
                     return .run { [newState = state] send in
                         let result = await TaskResult {
                             try await productClient.searchItems(newState.query)
@@ -72,13 +71,10 @@ public struct SearchStore: Reducer {
                         await send(.relatedQueryDataLoaded(result))
                     }
                     .cancellable(id: CancellableID.fetchKeywords, cancelInFlight: true)
-                } else {
-                    return .none
                 }
 
             case .view(.removeRelatedKeywords):
                 state.relatedKeywords = []
-                return .none
 
             case .addRecentKeyword:
                 let trimmedQuery = state.query.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -97,7 +93,6 @@ public struct SearchStore: Reducer {
                 }
 
                 UserDefaultsManager.recentKeywords = state.recentKeywords
-                return .none
 
             case .itemDataLoaded(.success(let result)):
                 state.items = result
@@ -110,19 +105,15 @@ public struct SearchStore: Reducer {
 
             case .itemDataLoaded(.failure):
                 state.recommendedKeywords = []
-                return .none
 
             case .addRecommendProducts(let products):
                 state.recommendedProducts = Array(products.shuffled().prefix(3))
-                return .none
 
             case .relatedQueryDataLoaded(.success(let result)):
                 state.relatedKeywords = !result.isEmpty ? result.map(\.title) : []
-                return .none
 
             case .presentSearchFailure:
                 state.isEmptyResult = true
-                return .none
 
             case .storeKeywords(let data):
                 storeRandomKeywordIfNeeded(&UserDefaultsManager.recommendedKeywords, data: data)
@@ -130,18 +121,15 @@ public struct SearchStore: Reducer {
 
                 state.recommendedKeywords = UserDefaultsManager.recommendedKeywords
                 state.topKeywords = UserDefaultsManager.topKeywords
-                return .none
 
             case .updateTimeStamp:
                 let formatter = DateFormatter()
                 formatter.dateFormat = "yyyy.MM.dd 업데이트"
                 state.updatedTimeStamp = formatter.string(from: Date.now)
-                return .none
 
             case .routeToDetail,
                  .view(.routeToDetail):
                 state.query = ""
-                return .none
 
             case .view(.binding(\.$query)):
                 state.isEmptyResult = false
@@ -164,7 +152,6 @@ public struct SearchStore: Reducer {
                 }
 
             case .view(.didTapSearch):
-                debugPrint("query :: \(state.query)")
                 return .concatenate([
                     .send(.addRecentKeyword),
                     .run { [newState = state] send in
@@ -184,15 +171,15 @@ public struct SearchStore: Reducer {
             case .view(.didTapRemoveQuery(let index)):
                 UserDefaultsManager.recentKeywords.remove(at: index)
                 state.recentKeywords.remove(at: index)
-                return .none
 
             case .view(.didTapRemoveAllQueries):
                 UserDefaultsManager.recentKeywords = []
                 state.recentKeywords = []
-                return .none
 
-            default: return .none
+            default:
+                return .none
             }
+            return .none
         }
     }
 

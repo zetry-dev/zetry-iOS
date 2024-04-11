@@ -23,7 +23,7 @@ public struct LivingBannerItemCell: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Image
-                .load(imageURL, height: 220)
+                .load(imageURL, height: 220, centerCropped: false)
                 .background(Color.zetry(.grayScale(.gray2)))
                 .cornerRadius(4)
 

@@ -35,7 +35,7 @@ public struct SettingsView: View {
                 }
             }
             .onLoad {
-                viewStore.send(.didLoad)
+                viewStore.send(.onLoad)
             }
         }
     }

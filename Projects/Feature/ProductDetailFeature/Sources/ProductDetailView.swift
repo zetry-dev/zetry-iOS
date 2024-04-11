@@ -84,12 +84,12 @@ public struct ProductDetailView: View {
         proxy: GeometryProxy
     ) -> some View {
         let offsetY = proxy.frame(in: .global).minY > 0 ? -proxy.frame(in: .global).minY : 0
-        let height = proxy.frame(in: .global).minY > 0 ?imageHeight + proxy.frame(in: .global).minY : imageHeight
+        let height = proxy.frame(in: .global).minY > 0 ? imageHeight + proxy.frame(in: .global).minY : imageHeight
 
         Image
-            .load(url)
+            .load(url, width: UIScreen.main.bounds.width)
             .offset(y: offsetY)
-            .frame(height: height)
+            .frame(height: height, alignment: .center)
     }
 
     @ViewBuilder
@@ -177,7 +177,6 @@ public struct ProductDetailView: View {
                 }
             }
             .padding(.top, 20)
-            
         }
         .padding(.top, 26)
         .background(.regularMaterial)

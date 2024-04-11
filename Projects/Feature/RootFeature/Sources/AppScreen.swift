@@ -42,10 +42,10 @@ public struct AppScreen: Reducer {
             SearchStore()
         }
         Scope(state: /State.detail, action: /Action.detail) {
-            ProductDetailStore()._printChanges()
+            ProductDetailStore()
         }
         Scope(state: /State.webview, action: /Action.webview) {
-            WebviewStore()._printChanges()
+            WebviewStore()
         }
     }
 }

@@ -68,7 +68,7 @@ public struct HomeView: View {
             }
             .ignoresSafeArea(edges: .top)
             .toolbar(.hidden, for: .navigationBar)
-            .onAppear {
+            .onLoad {
                 viewStore.send(.onAppear)
             }
         }
@@ -227,3 +227,4 @@ public struct HomeView: View {
         .padding(.bottom, 10)
     }
 }
+

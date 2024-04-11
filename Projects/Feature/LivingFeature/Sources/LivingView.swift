@@ -48,7 +48,7 @@ public struct LivingView: View {
                         }
                     }
                 )
-                .onChange(of: viewStore.selectedSegment) { _ in
+                .onChange(of: viewStore.selectedSegment) { _, _ in
                     withAnimation {
                         proxy.scrollTo("top", anchor: .top)
                     }

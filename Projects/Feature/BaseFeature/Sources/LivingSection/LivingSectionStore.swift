@@ -42,24 +42,25 @@ public struct LivingSectionStore: Reducer {
                 } else {
                     state.livingSectionItems[LivingSegementedTab.livingInfo] = makeSectionItems(using: items)
                 }
-                return .none
+                
+                
             case let .todaySection(items):
                 if state.selectedLivingTab == .home {
                     state.homeSectionItem.bannerSection = items[safe: 0]
                 } else {
                     state.livingSectionItems[LivingSegementedTab.today] = makeSectionItems(using: items)
                 }
-                return .none
+                
             case let .tipsSection(items):
                 if state.selectedLivingTab == .home {
                     state.homeSectionItem.scrollSection = items
                 } else {
                     state.livingSectionItems[LivingSegementedTab.tips] = makeSectionItems(using: items)
                 }
-                return .none
             default:
                 return .none
             }
+            return .none
         }
     }
 

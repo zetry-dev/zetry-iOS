@@ -31,7 +31,7 @@ public struct SettingsStore: Reducer {
     }
 
     public enum Action: Equatable {
-        case didLoad
+        case onLoad
 
         case updateIfNeeded(comparison: String)
         case appVersionLoaded(TaskResult<String>, comparison: String)
@@ -42,7 +42,7 @@ public struct SettingsStore: Reducer {
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .didLoad:
+            case .onLoad:
                 var items = makeDefaultItem()
                 if let appVersion = UIApplication.shared.appVersion {
                     items.append(.init(title: "버전 정보 \(appVersion)"))
@@ -50,7 +50,7 @@ public struct SettingsStore: Reducer {
                     return .send(.updateIfNeeded(comparison: appVersion))
                 }
                 state.listItems = items
-                return .none
+
             case .updateIfNeeded(let comparison):
                 return .run { send in
                     let result = await TaskResult {
@@ -58,12 +58,14 @@ public struct SettingsStore: Reducer {
                     }
                     await send(.appVersionLoaded(result, comparison: comparison))
                 }
+
             case .appVersionLoaded(.success(let appVersion), let comparison):
                 state.updateNeeded = updateIfNeeded(appStore: appVersion, device: comparison)
-                return .none
+
             default:
                 return .none
             }
+            return .none
         }
     }
 

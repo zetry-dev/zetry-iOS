@@ -27,6 +27,7 @@ public struct LivingStore: Reducer {
 
         public init(selectedLiving: LivingSegementedTab) {
             self.selectedSegment = selectedLiving
+            self.livingSectionStore = .init(selectedLivingTab: selectedLiving)
         }
     }
 
@@ -59,18 +60,21 @@ public struct LivingStore: Reducer {
             case .onLoad:
                 return .concatenate(
                     .send(.fetchBanners),
-                    .send(.fetchInformation)
+                    .send(.fetchInformation),
+                    .send(.fetchToday),
+                    .send(.fetchTips)
                 )
+
             case let .scrollOffsetYChanged(offsetY):
                 state.scrollViewOffsetY = offsetY
-                return .none
+
             case let .selectedSegment(segment):
                 state.selectedSegment = segment
                 state.livingSectionStore.selectedLivingTab = segment
-                return .none
+
             case let .indexChanged(index):
                 state.carouselCurrentIndex = index
-                return .none
+
             case .fetchBanners:
                 return .run { send in
                     let result = await TaskResult {
@@ -78,6 +82,7 @@ public struct LivingStore: Reducer {
                     }
                     await send(.bannerDataLoaded(result))
                 }
+
             case .fetchInformation:
                 return .concatenate(
                     .run { send in
@@ -85,10 +90,9 @@ public struct LivingStore: Reducer {
                             try await livingClient.fetchLivingItems("information")
                         }
                         await send(.informationDataLoaded(result))
-                    },
-                    .send(.fetchToday),
-                    .send(.fetchTips)
+                    }
                 )
+
             case .fetchToday:
                 return .run { send in
                     let result = await TaskResult {
@@ -96,6 +100,7 @@ public struct LivingStore: Reducer {
                     }
                     await send(.todayDataLoaded(result))
                 }
+
             case .fetchTips:
                 return .run { send in
                     let result = await TaskResult {
@@ -106,25 +111,27 @@ public struct LivingStore: Reducer {
 
             case let .bannerDataLoaded(.success(result)):
                 state.banners = result
-                return .none
 
             case let .informationDataLoaded(.success(result)):
-                state.livingSectionStore.selectedLivingTab = .livingInfo
                 return .send(.livingSection(.infoSection(result)))
+
             case let .todayDataLoaded(.success(result)):
                 return .send(.livingSection(.todaySection(result)))
+
             case let .tipsDataLoaded(.success(result)):
                 return .send(.livingSection(.tipsSection(result)))
 
             case let .livingSection(.view(.routeToWebview(urlString))):
                 return .send(.routeToWebview(urlString))
+
             default:
                 return .none
             }
+            return .none
         }
 
         Scope(state: \.livingSectionStore, action: /Action.livingSection, child: {
-            LivingSectionStore()._printChanges()
+            LivingSectionStore()
         })
     }
 }

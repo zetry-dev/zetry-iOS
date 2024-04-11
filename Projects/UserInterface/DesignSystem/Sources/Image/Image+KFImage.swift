@@ -14,10 +14,16 @@ public extension Image {
     static func load(
         _ url: String?,
         width: CGFloat? = nil,
-        height: CGFloat? = nil
+        height: CGFloat? = nil,
+        centerCropped: Bool = true
     ) -> some View {
-        KFImage(url)
-            .addScale(width: width, height: height)
+        if centerCropped {
+            KFImage(url)
+                .addScale(width: width, height: height)
+        }else {
+            KFImage(url)
+                .addScaleNotCropped(width: width, height: height)
+        }
     }
 }
 
@@ -38,6 +44,22 @@ public extension KFImage {
             .fade(duration: 0.2)
             .cancelOnDisappear(true)
             .centerCropped()
+            .scaledToFill()
+            .frame(width: width, height: height)
+            .clipped()
+    }
+
+    @ViewBuilder
+    func addScaleNotCropped(width: CGFloat?, height: CGFloat?) -> some View {
+        self
+            .cacheOriginalImage()
+            .placeholder {
+                Color
+                    .zetry(.grayScale(.gray2))
+            }
+            .resizable()
+            .fade(duration: 0.2)
+            .cancelOnDisappear(true)
             .scaledToFill()
             .frame(width: width, height: height)
             .clipped()

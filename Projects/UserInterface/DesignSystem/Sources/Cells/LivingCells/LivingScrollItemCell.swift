@@ -23,7 +23,7 @@ public struct LivingScrollItemCell: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Image
-                .load(imageURL, width: 180, height: 250)
+                .load(imageURL, width: 180, height: 250, centerCropped: false)
                 .background(Color.zetry(.grayScale(.gray3)))
                 .cornerRadius(4)
 

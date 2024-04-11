@@ -27,13 +27,13 @@ public struct LivingScreen: Reducer {
             state: /State.living,
             action: /Action.living,
             child: {
-                LivingStore()._printChanges()
+                LivingStore()
             })
         Scope(
             state: /State.livingSection,
             action: /Action.livingSection,
             child: {
-                LivingSectionStore()._printChanges()
+                LivingSectionStore()
             })
     }
 }

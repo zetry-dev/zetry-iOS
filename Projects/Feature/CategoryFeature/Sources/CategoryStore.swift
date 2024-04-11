@@ -72,17 +72,20 @@ public struct CategoryStore: Reducer {
             switch action {
             case .binding(\.$selectedSegment):
                 return .send(.filterProducts)
+
             case .onLoad:
                 return .merge(
                     .send(.fetchCategories),
                     .send(.fetchProducts)
                 )
+
             case let .didTapCategory(category):
                 state.selectedCategory = category
                 return .send(.filterProducts)
+
             case .filterProducts:
                 state.selectedProducts = filterProducts(state: state)
-                return .none
+
             case .fetchCategories:
                 return .run { send in
                     let result = await TaskResult {
@@ -90,6 +93,7 @@ public struct CategoryStore: Reducer {
                     }
                     await send(.categoryDataLoaded(result))
                 }
+
             case .fetchProducts:
                 return .run { send in
                     let result = await TaskResult {
@@ -97,14 +101,19 @@ public struct CategoryStore: Reducer {
                     }
                     await send(.productDataLoaded(result))
                 }
+
             case let .categoryDataLoaded(.success(result)):
                 state.categories = result.sorted(by: <)
-                return .none
+
             case let .productDataLoaded(.success(result)):
                 state.products = result
                 return .send(.filterProducts)
-            default: return .none
+
+            default:
+                return .none
             }
+
+            return .none
         }
     }
 

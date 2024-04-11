@@ -21,7 +21,7 @@ public struct CategoryScreen: Reducer {
     public var body: some ReducerOf<Self> {
         EmptyReducer()
         Scope(state: /State.category, action: /Action.category, child: {
-            CategoryStore()._printChanges()
+            CategoryStore()
         })
     }
 }

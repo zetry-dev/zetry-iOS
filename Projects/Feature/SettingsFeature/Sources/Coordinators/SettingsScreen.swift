@@ -21,7 +21,7 @@ public struct SettingsScreen: Reducer {
     public var body: some ReducerOf<Self> {
         EmptyReducer()
         Scope(state: /State.settings, action: /Action.settings, child: {
-            SettingsStore()._printChanges()
+            SettingsStore()
         })
     }
 }

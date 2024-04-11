@@ -26,13 +26,13 @@ public struct HomeScreen: Reducer {
 
     public var body: some ReducerOf<Self> {
         Scope(state: /State.home, action: /Action.home) {
-            HomeStore()._printChanges()
+            HomeStore()
         }
         Scope(state: /State.search, action: /Action.search) {
-            SearchStore()._printChanges()
+            SearchStore()
         }
         Scope(state: /State.livingSection, action: /Action.livingSection) {
-            LivingSectionStore()._printChanges()
+            LivingSectionStore()
         }
     }
 }

@@ -44,9 +44,10 @@ public struct ProductDetailStore: Reducer {
             switch action {
             case .onLoad:
                 return .send(.fetchProduct)
+
             case let .scrollOffsetYChanged(offset):
                 state.scrollViewOffsetY = offset
-                return .none
+
             case .fetchProduct:
                 return .run { send in
                     let result = await TaskResult {
@@ -54,12 +55,14 @@ public struct ProductDetailStore: Reducer {
                     }
                     await send(.productDataLoaded(result))
                 }
+
             case let .productDataLoaded(.success(result)):
                 state.recommendedItems = Array(result.shuffled().prefix(4))
-                return .none
+
             default:
                 return .none
             }
+            return .none
         }
     }
 }

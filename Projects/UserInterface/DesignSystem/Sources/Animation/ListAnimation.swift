@@ -10,10 +10,10 @@ import SwiftUI
 
 public extension View {
     @ViewBuilder
-    func animatedList(_ isAnimated: Bool, index: Int, _ delay: Double = 0.3) -> some View {
+    func animatedList(_ isAnimated: Bool, index: Int, _ delay: Double = 0.25) -> some View {
         self
             .opacity(isAnimated ? 1 : 0)
             .offset(CGSize(width: 0, height: isAnimated ? 0 : 10))
-            .animation(.easeInOut(duration: delay * Double(index + 2)).delay(0.2), value: isAnimated)
+            .animation(.easeInOut(duration: delay * Double(index + 1)), value: isAnimated)
     }
 }
