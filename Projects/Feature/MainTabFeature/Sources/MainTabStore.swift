@@ -24,7 +24,7 @@ public struct MainTabStore: Reducer {
         public var living: LivingCoordinator.State
         public var settings: SettingsCoordinator.State = .init()
 
-        public init(selectedTab: MainTabItem, selectedCategory: String = "종이류", selectedLiving: LivingSegementedTab = .livingInfo) {
+        public init(selectedTab: MainTabItem = .home, selectedCategory: String = "종이류", selectedLiving: LivingSegementedTab = .livingInfo) {
             self.selectedTab = selectedTab
             self.category = .init(
                 routes: [.root(.category(.init(selectedCategory: selectedCategory)))]
@@ -53,7 +53,6 @@ public struct MainTabStore: Reducer {
                         await send(.home(.routeAction(0, action: .home(.onAppear))))
                     }
                 }
-
             default:
                 return .none
             }

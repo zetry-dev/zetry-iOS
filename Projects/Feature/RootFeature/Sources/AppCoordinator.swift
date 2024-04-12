@@ -37,9 +37,11 @@ public struct AppCoordinator: Reducer {
                 }
                 .debounce(id: CancelID.onAppear, for: .seconds(2), scheduler: UIScheduler.shared)
 
-            case .routeAction(_, action: .launch(.onDisappear)),
-                    .routeAction(_, action: .detail(.popToRoot)):
-                state.routes = [.root(.mainTab(.init(selectedTab: .home)), embedInNavigationView: true)]
+            case .routeAction(_, action: .launch(.onDisappear)):
+                state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
+                
+            case .routeAction(_, action: .detail(.popToRoot)):
+                state.routes.popToRoot()
 
             case .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToSearch))))),
                  .routeAction(_, action: .mainTab(.category(.routeAction(_, action: .category(.routeToSearch))))):
