@@ -148,14 +148,23 @@ public struct LivingView: View {
             Image
                 .load(banner.imageURL, width: imageWidth, height: 300)
                 .overlay(alignment: .bottomLeading) {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(banner.title)
-                            .fontStyle(.body3, foregroundColor: .primary(.white))
-                        Text(banner.subtitle)
-                            .fontStyle(.headline3, foregroundColor: .primary(.white))
+                    ZStack(alignment: .bottomLeading) {
+                        LinearGradient(
+                            gradient: Gradient(colors: [.black.opacity(0.3), .black.opacity(0.2), .black.opacity(0.1),
+                                                        .clear, .black.opacity(0.1), .black.opacity(0.2), .black.opacity(0.3)]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(banner.title)
+                                .fontStyle(.body3, foregroundColor: .primary(.white))
+                            Text(banner.subtitle)
+                                .fontStyle(.headline3, foregroundColor: .primary(.white))
+                        }
+                        .padding(.leading, 30)
+                        .padding(.bottom, 30)
                     }
-                    .padding(.leading, 30)
-                    .padding(.bottom, 30)
                 }
                 .onTapGesture {
                     viewStore.send(.routeToWebview(banner.linkURL))

@@ -139,20 +139,29 @@ public struct HomeView: View {
             .containerRelativeFrame([.horizontal, .vertical])
             .clipShape(RoundedRectangle(cornerRadius: 6))
             .overlay(alignment: .leading) {
-                VStack(alignment: .leading, spacing: 0) {
-                    VStack(alignment: .leading) {
-                        Text("#\(index + 1)")
-                        Text(item.subtitle)
-                    }
-                    .fontStyle(.subtitle3, foregroundColor: .primary(.white))
-                    .padding(.leading, 15)
+                ZStack(alignment: .leading) {
+                    LinearGradient(
+                        gradient: Gradient(colors: [.black.opacity(0.3), .black.opacity(0.2), .black.opacity(0.1),
+                                                    .clear, .black.opacity(0.1), .black.opacity(0.2), .black.opacity(0.3)]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
 
-                    Spacer()
-                    Text(item.title)
-                        .fontStyle(.subtitle2, foregroundColor: .primary(.white))
-                        .padding(.leading, 30)
+                    VStack(alignment: .leading, spacing: 0) {
+                        VStack(alignment: .leading) {
+                            Text("#\(index + 1)")
+                            Text(item.subtitle)
+                        }
+                        .fontStyle(.subtitle3, foregroundColor: .primary(.white))
+                        .padding(.leading, 15)
+
+                        Spacer()
+                        Text(item.title)
+                            .fontStyle(.subtitle2, foregroundColor: .primary(.white))
+                            .padding(.leading, 30)
+                    }
+                    .padding(.vertical, 30)
                 }
-                .padding(.vertical, 30)
             }
     }
 
@@ -227,4 +236,3 @@ public struct HomeView: View {
         .padding(.bottom, 10)
     }
 }
-

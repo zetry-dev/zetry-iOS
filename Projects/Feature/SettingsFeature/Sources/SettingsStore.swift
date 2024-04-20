@@ -13,11 +13,11 @@ import SwiftUI
 
 struct SettingItem: Equatable {
     var title: String
-    let url: URL?
+    let urlString: String?
 
-    init(title: String, url: URL? = nil) {
+    init(title: String, urlString: String? = nil) {
         self.title = title
-        self.url = url
+        self.urlString = urlString
     }
 }
 
@@ -51,7 +51,7 @@ public struct SettingsStore: Reducer {
                 }
                 state.listItems = items
 
-            case .updateIfNeeded(let comparison):
+            case let .updateIfNeeded(comparison):
                 return .run { send in
                     let result = await TaskResult {
                         try await settingsClient.fetchAppStoreVersion()
@@ -59,7 +59,7 @@ public struct SettingsStore: Reducer {
                     await send(.appVersionLoaded(result, comparison: comparison))
                 }
 
-            case .appVersionLoaded(.success(let appVersion), let comparison):
+            case let .appVersionLoaded(.success(appVersion), comparison):
                 state.updateNeeded = updateIfNeeded(appStore: appVersion, device: comparison)
 
             default:
@@ -82,8 +82,8 @@ public struct SettingsStore: Reducer {
 
     private func makeDefaultItem() -> [SettingItem] {
         [
-            SettingItem(title: "개인정보 처리 방침", url: URL(string: "https://www.google.com")),
-            SettingItem(title: "서비스 이용 약관", url: URL(string: "https://www.google.com"))
+            SettingItem(title: "개인정보 처리 방침", urlString: "https://animated-flyaway-6de.notion.site/0ae6274c9e4146bdbb285b96b53b2862?pvs=4"),
+            SettingItem(title: "서비스 이용 약관", urlString: "https://animated-flyaway-6de.notion.site/34b89585ada44f8da9877ef1f41919f7?pvs=4")
         ]
     }
 }

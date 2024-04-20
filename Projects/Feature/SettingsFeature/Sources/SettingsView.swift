@@ -21,8 +21,15 @@ public struct SettingsView: View {
     public var body: some View {
         WithViewStore(self.store) { $0 } content: { viewStore in
             VStack(spacing: 0) {
-                List(viewStore.listItems, id: \.title) {
-                    listItemView(with: viewStore, item: $0)
+                List(viewStore.listItems, id: \.title) { item in
+                    listItemView(with: viewStore, item: item)
+                        .onTapGesture {
+                            print("hi!")
+                            if let urlString = item.urlString,
+                               let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            }
+                        }
                 }
                 .listStyle(.plain)
             }
@@ -49,7 +56,7 @@ public struct SettingsView: View {
                     .padding(.vertical, 16)
                 Spacer()
 
-                if let url = item.url {
+                if let _ = item.urlString {
                     ZetryIcon(
                         DesignSystemAsset.Icons.chevronRight,
                         foregroundColor: .grayScale(.gray3)
@@ -57,7 +64,11 @@ public struct SettingsView: View {
                 } else {
                     if viewStore.updateNeeded {
                         Button {
-                            // open app-store
+                            if let url = URL(string: "itms-apps://itunes.apple.com/app/id6472266915"),
+                               UIApplication.shared.canOpenURL(url)
+                            {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            }
                         } label: {
                             Text("업데이트")
                                 .padding(.horizontal, 10)

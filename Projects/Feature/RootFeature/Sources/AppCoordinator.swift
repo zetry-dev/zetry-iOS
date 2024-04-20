@@ -39,7 +39,7 @@ public struct AppCoordinator: Reducer {
 
             case .routeAction(_, action: .launch(.onDisappear)):
                 state.routes = [.root(.mainTab(.init()), embedInNavigationView: true)]
-                
+
             case .routeAction(_, action: .detail(.popToRoot)):
                 state.routes.popToRoot()
 
@@ -73,7 +73,7 @@ public struct AppCoordinator: Reducer {
             case let .routeAction(_, action: .mainTab(.home(.routeAction(_, action: .home(.routeToWebview(urlString)))))),
                  let .routeAction(_, action: .mainTab(.living(.routeAction(_, action: .living(.routeToWebview(urlString)))))):
                 state.routes.push(.webview(.init(urlString: urlString)))
-
+                
             case .routeAction(_, action: .search(.view(.pop))),
                  .routeAction(_, action: .detail(.pop)),
                  .routeAction(_, action: .webview(.pop)):

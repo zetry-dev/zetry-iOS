@@ -58,33 +58,35 @@ public struct LivingSectionView: View {
         viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
         items: [LivingEntity]
     ) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if viewStore.selectedLivingTab == .home, !items.isEmpty {
-                HStack(spacing: 6) {
-                    Text("생활정보")
-                        .fontStyle(.subtitle1)
-                    ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
-                }
-                .padding(.vertical, 16)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    viewStore.send(.routeToLiving(.livingInfo))
-                }
-            }
-
-            VStack(alignment: .leading, spacing: 18) {
-                ForEach(items, id: \.self) { item in
-                    LivingListItemCell(
-                        item.title,
-                        subtitle: item.subtitle,
-                        imageURL: item.imageURL
-                    )
+        if !items.isEmpty {
+            VStack(alignment: .leading, spacing: 0) {
+                if viewStore.selectedLivingTab == .home, !items.isEmpty {
+                    HStack(spacing: 6) {
+                        Text("생활정보")
+                            .fontStyle(.subtitle1)
+                        ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
+                    }
+                    .padding(.vertical, 16)
+                    .contentShape(Rectangle())
                     .onTapGesture {
-                        viewStore.send(.routeToWebview(item.linkURL))
+                        viewStore.send(.routeToLiving(.livingInfo))
                     }
                 }
+
+                VStack(alignment: .leading, spacing: 18) {
+                    ForEach(items, id: \.self) { item in
+                        LivingListItemCell(
+                            item.title,
+                            subtitle: item.subtitle,
+                            imageURL: item.imageURL
+                        )
+                        .onTapGesture {
+                            viewStore.send(.routeToWebview(item.linkURL))
+                        }
+                    }
+                }
+                .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
             }
-            .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
         }
     }
 
@@ -94,17 +96,19 @@ public struct LivingSectionView: View {
         item: LivingEntity?
     ) -> some View {
         if let item {
-            if viewStore.selectedLivingTab == .home, !item.title.isEmpty {
+            if !item.title.isEmpty {
                 VStack(alignment: .leading, spacing: viewStore.selectedLivingTab == .home ? 10 : 30) {
-                    HStack(spacing: 6) {
-                        Text("오늘의 추천상점")
-                            .fontStyle(.subtitle1)
-                        ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
-                    }
-                    .padding(.vertical, 16)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        viewStore.send(.routeToLiving(.today))
+                    if viewStore.selectedLivingTab == .home {
+                        HStack(spacing: 6) {
+                            Text("오늘의 추천상점")
+                                .fontStyle(.subtitle1)
+                            ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
+                        }
+                        .padding(.vertical, 16)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            viewStore.send(.routeToLiving(.today))
+                        }
                     }
 
                     LivingBannerItemCell(
@@ -117,8 +121,6 @@ public struct LivingSectionView: View {
                     }
                 }
             }
-        } else {
-            EmptyView()
         }
     }
 
@@ -127,34 +129,36 @@ public struct LivingSectionView: View {
         viewStore: ViewStore<LivingSectionView.ViewState, LivingSectionStore.Action.View>,
         items: [LivingEntity]
     ) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if viewStore.selectedLivingTab == .home, !items.isEmpty {
-                HStack(spacing: 6) {
-                    Text("알면 좋은 꿀팁")
-                        .fontStyle(.subtitle1)
-                    ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
-                }
-                .padding(.vertical, 16)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    viewStore.send(.routeToLiving(.tips))
-                }
-            }
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(items, id: \.self) { item in
-                        LivingScrollItemCell(
-                            item.title,
-                            subtitle: item.subtitle,
-                            imageURL: item.imageURL
-                        )
-                        .onTapGesture {
-                            viewStore.send(.routeToWebview(item.linkURL))
-                        }
+        if !items.isEmpty {
+            VStack(alignment: .leading, spacing: 0) {
+                if viewStore.selectedLivingTab == .home {
+                    HStack(spacing: 6) {
+                        Text("알면 좋은 꿀팁")
+                            .fontStyle(.subtitle1)
+                        ZetryIcon(DesignSystemAsset.Icons.chevronRightSmall)
+                    }
+                    .padding(.vertical, 16)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        viewStore.send(.routeToLiving(.tips))
                     }
                 }
-                .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
+
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(items, id: \.self) { item in
+                            LivingScrollItemCell(
+                                item.title,
+                                subtitle: item.subtitle,
+                                imageURL: item.imageURL
+                            )
+                            .onTapGesture {
+                                viewStore.send(.routeToWebview(item.linkURL))
+                            }
+                        }
+                    }
+                    .padding(.top, viewStore.selectedLivingTab == .home ? 10 : 30)
+                }
             }
         }
     }

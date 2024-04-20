@@ -20,7 +20,7 @@ public extension Image {
         if centerCropped {
             KFImage(url)
                 .addScale(width: width, height: height)
-        }else {
+        } else {
             KFImage(url)
                 .addScaleNotCropped(width: width, height: height)
         }
