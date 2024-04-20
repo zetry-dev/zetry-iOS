@@ -4,11 +4,11 @@ import ProjectDescription
 
 public struct TargetSpec: Configurable {
     public var name: String
-    public var platform: Platform
+    public var destinations: Destinations
     public var product: Product
     public var productName: String?
     public var bundleId: String?
-    public var deploymentTarget: DeploymentTarget?
+    public var deploymentTarget: DeploymentTargets?
     public var infoPlist: InfoPlist?
     public var sources: SourceFilesList?
     public var resources: ResourceFileElements?
@@ -26,11 +26,11 @@ public struct TargetSpec: Configurable {
 
     public init(
         name: String = "",
-        platform: Platform = env.platform,
+        destinations: Destinations = env.destinations,
         product: Product = .staticLibrary,
         productName: String? = nil,
         bundleId: String? = nil,
-        deploymentTarget: DeploymentTarget? = env.deploymentTarget,
+        deploymentTarget: DeploymentTargets? = env.deploymentTarget,
         infoPlist: InfoPlist = .default,
         sources: SourceFilesList? = .sources,
         resources: ResourceFileElements? = nil,
@@ -47,7 +47,7 @@ public struct TargetSpec: Configurable {
         buildRules: [BuildRule] = []
     ) {
         self.name = name
-        self.platform = platform
+        self.destinations = destinations
         self.product = product
         self.productName = productName
         self.bundleId = bundleId
@@ -73,19 +73,19 @@ public struct TargetSpec: Configurable {
     }
 
     func toTarget(with name: String, product: Product? = nil) -> Target {
-        Target(
+        .target(
             name: name,
-            platform: platform,
+            destinations: destinations,
             product: product ?? self.product,
             productName: productName,
             bundleId: bundleId ?? "\(env.organizationName).\(name)",
-            deploymentTarget: deploymentTarget,
+            deploymentTargets: deploymentTarget,
             infoPlist: infoPlist,
             sources: sources,
             resources: resources,
             copyFiles: copyFiles,
             headers: headers,
-            entitlements: entitlements,
+            entitlements: .file(path: entitlements ?? ""),
             scripts: scripts,
             dependencies: dependencies,
             settings: settings ?? .settings(
@@ -95,7 +95,6 @@ public struct TargetSpec: Configurable {
                 defaultSettings: .recommended
             ),
             coreDataModels: coreDataModels,
-            environment: environment,
             launchArguments: launchArguments,
             additionalFiles: additionalFiles,
             buildRules: buildRules

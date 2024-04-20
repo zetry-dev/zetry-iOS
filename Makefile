@@ -1,9 +1,9 @@
 generate:
-	tuist fetch
+	tuist install
 	tuist generate
 
 ci_generate:
-	tuist fetch
+	tuist install
 	TUIST_CI=1 tuist generate
 
 clean:

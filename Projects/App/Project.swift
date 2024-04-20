@@ -19,15 +19,15 @@ let settings: Settings =
 let scripts: [TargetScript] = [.swiftLint]
 
 let targets: [Target] = [
-    .init(
+    .target(
         name: env.name,
-        platform: env.platform,
+        destinations: env.destinations,
         product: .app,
         bundleId: "\(env.organizationName).\(env.name)",
-        deploymentTarget: env.deploymentTarget,
+        deploymentTargets: env.deploymentTarget,
         infoPlist: .file(path: "Support/Info.plist"),
         sources: ["Sources/**"],
-        resources: ["Resources/**", "Support/GoogleService-Info.plist"],
+        resources: ["Resources/**", "Support/GoogleService-Info.plist", "Support/*.xcprivacy"],
         scripts: scripts,
         dependencies: [
             .SPM.FirebaseAnalytics,
@@ -49,7 +49,7 @@ let targets: [Target] = [
 ]
 
 let schemes: [Scheme] = [
-    .init(
+    .scheme(
         name: "\(env.name)-DEV",
         shared: true,
         buildAction: .buildAction(targets: ["\(env.name)"]),
@@ -58,7 +58,7 @@ let schemes: [Scheme] = [
         profileAction: .profileAction(configuration: .dev),
         analyzeAction: .analyzeAction(configuration: .dev)
     ),
-    .init(
+    .scheme(
         name: "\(env.name)-STAGE",
         shared: true,
         buildAction: .buildAction(targets: ["\(env.name)"]),
@@ -67,7 +67,7 @@ let schemes: [Scheme] = [
         profileAction: .profileAction(configuration: .stage),
         analyzeAction: .analyzeAction(configuration: .stage)
     ),
-    .init(
+    .scheme(
         name: "\(env.name)-PROD",
         shared: true,
         buildAction: .buildAction(targets: ["\(env.name)"]),
